@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SAT Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--card:#fff;--tx:#1b1b1b;--mut:#5f6368;--bd:#cfd3dc;--ac:#324fbe;--ok:#1b7f3b;--bad:#c0392b;--okb:#e3f3e8;--badb:#fbe7e4;--hd:#e9edf8;--ban:#1d2a6b;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121316;--card:#1b1d22;--tx:#e8e8ea;--mut:#9ba0aa;--bd:#3a3e48;--ac:#8ea3ff;--ok:#56c884;--bad:#ff8173;--okb:#14291c;--badb:#33191a;--hd:#1c2030;--ban:#0f1740;color-scheme:dark}
+:root:not([data-theme="light"]) canvas.q{filter:invert(1) hue-rotate(180deg)}}
+:root[data-theme="dark"]{--bg:#121316;--card:#1b1d22;--tx:#e8e8ea;--mut:#9ba0aa;--bd:#3a3e48;--ac:#8ea3ff;--ok:#56c884;--bad:#ff8173;--okb:#14291c;--badb:#33191a;--hd:#1c2030;--ban:#0f1740;color-scheme:dark}
+:root[data-theme="dark"] canvas.q{filter:invert(1) hue-rotate(180deg)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#app{max-width:1100px;margin:0 auto;padding:12px 16px 0}
+h1{font-size:1.5rem;margin:.2em 0}h3{margin:18px 0 8px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:18px;margin-bottom:12px}
+.c{max-width:640px;margin:5vh auto}.m{color:var(--mut)}
+button,select,input[type=number],#sp{font:inherit;color:inherit;background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:9px 14px}
+button{cursor:pointer}button:disabled{opacity:.4;cursor:default}
+button.p{background:var(--ac);border-color:var(--ac);color:var(--bg);font-weight:600}
+button.s,label.s{padding:5px 10px;font-size:.82rem;border-radius:8px;display:inline-flex;gap:5px;align-items:center;border:1px solid var(--bd);cursor:pointer}
+.pill{border-radius:99px;padding:8px 24px}
+.drop{display:block;border:2px dashed var(--bd);border-radius:12px;padding:34px 12px;text-align:center;cursor:pointer;margin:14px 0}.drop.hv{border-color:var(--ac)}
+.bar{height:8px;background:var(--bd);border-radius:5px;overflow:hidden;margin:10px 0}.bar i{display:block;height:100%;width:0;background:var(--ac)}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:14px 0}
+.g label{display:flex;flex-direction:column;gap:4px;font-size:.88rem;color:var(--mut)}.g select,.g input{width:100%}
+.top{position:sticky;top:0;z-index:30}.hd{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--hd);padding:8px max(16px,calc((100vw - 1100px)/2));flex-wrap:wrap}
+.hc{display:flex;align-items:center;gap:10px}.hr{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.tmr{font-size:1.5rem;font-weight:600;font-variant-numeric:tabular-nums;min-width:3.4ch;text-align:center}
+.ban{background:var(--ban);color:#fff;text-align:center;font-size:.7rem;font-weight:700;letter-spacing:.08em;padding:3px}
+.nav{position:relative;display:flex;gap:5px;overflow-x:auto;padding:10px 0 6px}
+.nv{flex:none;width:34px;padding:3px 0;font-size:.8rem;border-radius:8px}
+.nv.an{background:var(--bd)}.nv.fl{outline:2px solid #e0a100}.nv.cur{border:2px solid var(--ac)}
+.nv.ok{background:var(--okb);border-color:var(--ok)}.nv.bad{background:var(--badb);border-color:var(--bad)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 6px}
+.tag{font-size:.76rem;padding:1px 9px;border-radius:99px;border:1px solid var(--bd);color:var(--mut)}
+.tag.Easy{color:var(--ok)}.tag.Medium{color:#b07d00}.tag.Hard{color:var(--bad)}
+.split{display:grid;margin-top:10px}.split.two{grid-template-columns:minmax(0,min(70%,calc(var(--z)*30%))) minmax(0,1fr)}
+.split.two .lp{padding:8px 26px 8px 4px;border-right:2px solid var(--bd)}.split.two .rp{padding-left:26px}
+.split:not(.two) .lp{display:none}.split:not(.two){max-width:calc(760px*var(--z)/1.7);margin-inline:auto;width:100%}
+@media(max-width:760px){.split.two{grid-template-columns:1fr}.split.two .lp{border:0;padding:0 0 14px}.split.two .rp{padding:0}}
+.qh{display:flex;align-items:center;gap:8px;background:var(--hd);border-bottom:2px dashed var(--tx);margin-bottom:14px}
+.qn{background:var(--tx);color:var(--bg);font-weight:700;padding:4px 14px;align-self:stretch;display:grid;place-items:center}
+button.mk{border:0;background:none}button.mk.on{color:var(--ac);font-weight:700}
+.qtx,.tx{font-family:"Noto Serif",Georgia,serif;font-size:1.05rem;line-height:1.7}.tx p{margin:0 0 .9em}.tx p:last-child{margin:0}
+canvas.q{display:block;height:auto}
+.ch{display:flex;align-items:center;gap:14px;border:1.5px solid var(--tx);border-radius:10px;padding:10px 14px;margin:10px 0;cursor:pointer;background:var(--card)}
+.ch .cv{flex:1;min-width:0}
+.ch .lt{flex:none;width:30px;height:30px;border-radius:50%;border:1.8px solid var(--tx);display:grid;place-items:center;font-weight:700;font-family:system-ui,sans-serif}
+.xb{flex:none;width:22px;height:22px;border:1.3px solid var(--mut);border-radius:50%;font-size:.68rem;display:grid;place-items:center;text-decoration:line-through;color:var(--mut)}
+.ch.sel{border-color:var(--ac);box-shadow:0 0 0 1.5px var(--ac)}.ch.sel .lt{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+.ch.ok{border-color:var(--ok);background:var(--okb)}.ch.ok .lt{background:var(--ok);border-color:var(--ok);color:#fff}
+.ch.bad{border-color:var(--bad);background:var(--badb)}.ch.bad .lt{background:var(--bad);border-color:var(--bad);color:#fff}
+.ch.xo .cv{opacity:.3;text-decoration:line-through}
+#sp{width:100%;max-width:300px;font-size:1.2rem;margin-top:6px}
+.bn{border-radius:10px;color:#fff;padding:14px 18px;font-size:1.05rem;margin:16px 0 0}.bn.ok{background:#1b7f3b}.bn.bad{background:#b83a2a}
+.bot{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--bg);border-top:2px dashed var(--bd);padding:10px max(16px,calc((100vw - 1100px)/2)) calc(10px + env(safe-area-inset-bottom,0px))}
+.qc{background:var(--tx);color:var(--bg);border:0;border-radius:8px;padding:8px 16px;font-weight:600;cursor:pointer}
+#mn{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(72px + env(safe-area-inset-bottom,0px));width:min(560px,94vw);max-height:62vh;overflow:auto;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px;box-shadow:0 8px 40px #0007;z-index:40}
+.mh{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;font-weight:700}
+.lg{display:flex;justify-content:center;gap:16px;font-size:.85rem;margin:10px 0;padding:8px 0;border-bottom:1px solid var(--bd);flex-wrap:wrap}
+.mg{display:flex;flex-wrap:wrap;gap:12px 10px;padding-top:6px}
+.nb{position:relative;width:42px;height:34px;padding:0;border:1.5px dashed var(--tx);border-radius:4px;background:none;color:var(--ac);font-weight:700}
+.nb.an{background:var(--ac);border:1.5px solid var(--ac);color:var(--bg)}
+.nb.ok{background:var(--okb);border:1.5px solid var(--ok);color:var(--ok)}.nb.bad{background:var(--badb);border:1.5px solid var(--bad);color:var(--bad)}
+.nb.cur{text-decoration:underline;box-shadow:0 0 0 2px var(--ac)}.nb.fl::after{content:"";position:absolute;top:-6px;right:-4px;width:9px;height:12px;background:#d93025;clip-path:polygon(0 0,100% 0,100% 100%,50% 70%,0 100%)}
+table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:6px 4px;border-bottom:1px solid var(--bd)}.sc{font-size:2.4rem;font-weight:800}
+#th{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));right:12px;z-index:20}body[data-q="1"] #th{display:none}
+#dz{position:fixed;right:16px;bottom:84px;width:680px;height:540px;min-width:280px;min-height:240px;max-width:100vw;max-height:100vh;resize:both;overflow:hidden;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--bd);border-radius:12px;box-shadow:0 10px 40px #0006;z-index:60}
+#dh{cursor:move;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--bd);font-size:.88rem;user-select:none;touch-action:none}
+#dh a{color:var(--ac)}#gb{flex:1;display:flex;min-height:0}#ex{width:270px;flex:none;overflow:auto;border-right:1px solid var(--bd);padding:8px}
+.er{display:flex;align-items:center;gap:6px;margin-bottom:8px;flex-wrap:wrap}.er i{width:10px;height:10px;border-radius:50%;flex:none}.er input{flex:1;min-width:0;padding:6px 8px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font:inherit}.er span{font-size:.85rem;color:var(--mut);width:100%}
+#gc{flex:1;min-width:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+.ttl{max-width:520px;margin:14vh auto 0;text-align:center;display:flex;flex-direction:column;gap:14px;align-items:center}.ttl h1{font-size:2.5rem;margin:0}.ttl p{margin:0}
+.logo{background:var(--ac);color:var(--bg);font-weight:800;font-size:1.3rem;letter-spacing:.12em;padding:12px 22px;border-radius:14px}.big{padding:12px 36px;font-size:1.05rem}.sm{font-size:.8rem}
+body[data-q="1"] #app{max-width:none;padding:0}.qw{max-width:calc(1100px*var(--z)/1.7);margin:0 auto;padding:0 16px 110px}.sm{font-size:.8rem}
+.mw{position:relative}#mo{position:absolute;right:0;top:115%;min-width:210px;background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:6px;display:flex;flex-direction:column;gap:2px;z-index:50;box-shadow:0 8px 30px #0006}
+#mo button,#mo label{text-align:left;border:0;background:none;padding:9px 10px;border-radius:8px;cursor:pointer;display:flex;gap:8px;align-items:center}#mo button:hover,#mo label:hover{background:var(--hd)}
+#qb canvas.q,#lp canvas.q{cursor:zoom-in}#lb{position:fixed;inset:0;z-index:90;background:var(--bg);display:grid;place-items:center;padding:16px;cursor:zoom-out;overflow:auto}#lb canvas{max-width:none}
+.tgbox{width:100%;max-width:440px;text-align:left;display:flex;flex-direction:column;gap:12px}.tgh{display:flex;justify-content:space-between}.tgrow{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.stat{display:flex;gap:30px;justify-content:center}.stat b{display:block;font-size:1.7rem}.stat span{font-size:.8rem;color:var(--mut)}.tgl{display:flex;align-items:center;gap:10px;color:var(--mut)}.tgl input{width:110px;font-size:1.1rem;text-align:center}.btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+#gw{position:relative;flex:1;min-width:0;display:flex}#gz{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:6px}#gz button{width:32px;height:32px;padding:0;justify-content:center}
+.er.tb{display:block}.nm{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;color:#fff;font-size:.75rem;flex:none}.er select{width:100%;margin-top:4px}.er input[type=range]{width:100%;padding:0}
+.tt{width:100%;border-collapse:collapse;margin:6px 0}.tt th{font-size:.8rem;color:var(--mut);text-align:center}.tt td,.tt th{border:1px solid var(--bd);padding:0}.tt input{width:100%;border:0;border-radius:0;padding:5px 6px}
+.rs .lb{display:block;font-size:.68rem;letter-spacing:.06em;margin-top:6px}
+#pz{position:fixed;inset:0;background:var(--bg);z-index:70;display:grid;place-items:center;padding:16px}
+:root{--z:1.7}.qtx,.tx{font-size:calc(.65rem*var(--z))}
+.split.two.stk{grid-template-columns:minmax(0,1fr);max-width:calc(900px*var(--z)/1.7);margin-inline:auto;width:100%}.split.two.stk .lp{border:0;padding:0 0 14px}.split.two.stk .rp{padding:0}
+</style></head>
+<body>
+<button class="s" id="th" data-a="theme">◐ Theme</button>
+<div id="app"></div>
+<div id="dz" hidden><div id="dh"><b>Graphing calculator</b><span><a href="https://www.desmos.com/calculator" target="_blank" rel="noopener">Open Desmos ↗</a> <button class="s" data-a="desx">✕</button></span></div><div id="gb"><div id="ex"></div><div id="gw"><canvas id="gc"></canvas><div id="gz"><button class="s" data-a="gzi">+</button><button class="s" data-a="gzo">−</button><button class="s" data-a="gzh">⌂</button></div></div></div></div>
+<div id="pz" hidden><div class="card c" style="margin:0;text-align:center"><h1>Paused</h1><div id="pp"></div><button class="p pill" data-a="unpause">Resume</button> <button class="pill" data-a="exit">Save &amp; exit</button></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.12.0/math.min.js"></script>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+const SC=2.5,$=s=>document.querySelector(s),app=$('#app'),R=document.documentElement;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const SRC={E:'English',M:'Math'},sec=q=>/Math/i.test(q.test)?'M':/Reading|Writing/i.test(q.test)?'E':q.src;
+const S={rec:{},full:null,fullRes:null,docs:{},qs:[],doc:null,set:[],i:0,ans:{},chk:{},fl:{},xo:{},mode:'practice',tok:0,t0:0,lim:0,tick:null,done:true,paused:0,orig:false,hideT:false,auto:false};
+const ls=(k,v)=>{try{return v===undefined?localStorage.getItem(k):v===null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){return null}};
+let stats={};try{stats=JSON.parse(ls('satstats')||'{}')}catch(e){}
+const saveStats=()=>ls('satstats',JSON.stringify(stats));
+S.auto=ls('satauto')==='1';if(ls('satz'))R.style.setProperty('--z',ls('satz'));if(ls('sattheme'))R.dataset.theme=ls('sattheme');
+function theme(){const c=R.dataset.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');R.dataset.theme=c==='dark'?'light':'dark';ls('sattheme',R.dataset.theme);setTimeout(gdraw,0)}
+const idb=(m,k,v)=>new Promise((res,rej)=>{const r=indexedDB.open('satqb',1);r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onerror=()=>rej(r.error);
+r.onsuccess=()=>{const t=r.result.transaction('kv',m==='get'?'readonly':'readwrite').objectStore('kv');const q=m==='get'?t.get(k):t.put(v,k);q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)}});
+const fmt=s=>{s=Math.max(0,s);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+const el=()=>Math.floor(((S.paused||Date.now())-S.t0)/1000);
+function prog(withSet){const d=new Set(Object.keys(stats));if(withSet)S.set.forEach(q=>{if(S.ans[q.id])d.add(q.id)});return{n:d.size,t:S.qs.length,p:Math.round(d.size/(S.qs.length||1)*100)}}
+
+/* ---------- saved session ---------- */
+function fitSplit(){const sp=document.querySelector('.split.two'),c=document.querySelector('#lp canvas.q'),lp=$('#lp');if(!sp||!c||!lp)return;sp.classList.remove('stk');
+ }
+addEventListener('resize',fitSplit);
+function persist(){if(S.done||!S.set.length||S.full)return;ls('satsess',JSON.stringify({ids:S.set.map(q=>q.id),i:S.i,ans:S.ans,chk:S.chk,fl:S.fl,mode:S.mode,lim:S.lim,el:el()}))}
+addEventListener('pagehide',persist);
+function timer(){clearInterval(S.tick);S.tick=setInterval(()=>{if(S.paused)return;const e=el();if(S.lim&&e>=S.lim)return finish();const t=$('#tm');if(t&&!S.hideT&&S.mode!=='review')t.textContent=fmt(S.lim?S.lim-e:e)},1000)}
+function resume(){try{const s=JSON.parse(ls('satsess')),m=new Map(S.qs.map(q=>[q.id,q]));S.set=s.ids.map(i=>m.get(i)).filter(Boolean);
+ Object.assign(S,{rec:Object.fromEntries(Object.keys(s.chk||{}).map(k=>[k,1])),full:null,i:Math.min(s.i,S.set.length-1),ans:s.ans,chk:s.chk,fl:s.fl,mode:s.mode,lim:s.lim,t0:Date.now()-s.el*1000,done:false,paused:0});timer();show()}catch(e){showSetup()}}
+function pause(){if(S.paused||S.done||S.mode==='review')return;S.paused=Date.now();const g=prog(1),n=Object.keys(S.ans).filter(k=>S.ans[k]).length;
+ $('#pp').innerHTML=`<div class="sc">${g.p}%</div><p class="m">of the whole question bank completed (${g.n} of ${g.t})</p><div class="bar"><i style="width:${g.p}%"></i></div><p>This set: ${n} of ${S.set.length} answered</p>`;$('#pz').hidden=false}
+function unpause(){if(S.paused){S.t0+=Date.now()-S.paused;S.paused=0}$('#pz').hidden=true}
+
+/* ---------- PDF parsing ---------- */
+const jn=a=>{a.sort((p,q)=>p.x-q.x);return a.reduce((t,i,k)=>t+(k&&i.x-(a[k-1].x+a[k-1].w)>.18*i.h?' ':'')+i.s,'')};
+const grp=(a,tol)=>{const L=[];for(const i of[...a].sort((p,q)=>p.y-q.y||p.x-q.x)){let l=L.find(l=>Math.abs(l.y-i.y)<tol);if(!l){l={y:i.y,h:i.h,it:[]};L.push(l)}l.it.push(i)}
+ L.forEach(l=>l.t=jn(l.it).replace(/\s+/g,' ').trim());return L.sort((a,b)=>a.y-b.y)};
+function lay(a){if(!a.length)return'';const hs=a.map(i=>i.h).sort((p,q)=>p-q),mh=hs[hs.length>>1];
+ if(a.some(i=>Math.abs(i.h-mh)>mh*.12))return null;
+ const L=grp(a,2),g=L.slice(1).map((l,k)=>l.y-L[k].y);if(g.some(v=>v<mh*1.05))return null;
+ const st=g.length?[...g].sort((p,q)=>p-q)[g.length>>1]:0;
+ return L.map((l,k)=>(k?(g[k-1]>st*1.3?'\n\n':' '):'')+l.t).join('')}
+function parsePage(n,its,pg){
+ const lines=grp(its,2.5),idm=lines.map(l=>l.t).join('\n').match(/Question ID:\s*([0-9a-f]+)/i);
+ if(!idm)return null;
+ const f=fn=>lines.find(fn),Lh=f(l=>/^Assessment\b/.test(l.t)),Lq=f(l=>/^Question:?$/.test(l.t)),La=f(l=>/^Answer:?$/.test(l.t)),Lr=f(l=>/^Rationale:?$/.test(l.t)),Lc=f(l=>/\bCorrect Answer\b/.test(l.t)&&(!Lr||l.y<Lr.y));
+ const cell={},cols=Lh?Lh.it.map(i=>({k:i.s.trim(),x:i.x})):[];
+ if(Lh&&Lq)for(const l of lines)if(l.y>Lh.y+4&&l.y<Lq.y-8)for(const i of l.it){let c=cols[0];for(const k of cols)if(k.x<=i.x+12)c=k;(cell[c.k]=cell[c.k]||[]).push(i)}
+ const g=k=>grp(cell[k]||[],2.5).map(l=>l.t).join(' '),vt=Object.keys(cell).map(g).join(' ');
+ const Ls=Lc||Lr,nx=La||Ls,bottom=Math.max(...its.map(i=>i.y))+8,topOf=L=>L.y-Math.max(L.h,9)*1.35,end=Ls?topOf(Ls):bottom;
+ const rtx=Lr?grp(its.filter(i=>i.y>Lr.y+1),2.5).map(l=>l.t).join(' '):'';
+ let ca='';if(Lc){ca=Lc.t.replace(/^.*?\bCorrect Answer\b:?\s*/,'').trim();if(!ca){const nl=lines.find(l=>l.y>Lc.y+1&&(!Lr||l.y<Lr.y-1));if(nl)ca=nl.t}}
+ if(!ca){const m=rtx.match(/correct answer is\s+(?:choice\s+)?([^\s.][^\s]*?)\.?(?:\s|$)/i)||rtx.match(/\bChoice\s+([A-D])\s+is\s+(?:the\s+)?correct/i);if(m)ca=m[1]}
+ ca=ca.replace(/\u2212/g,'-');
+ const mcl=La?(ca.match(/\b([A-D])\b/)||[])[1]:(ca.match(/^\(?([A-D])\)?\.?$/)||[])[1];
+ const q={n,id:idm[1],test:g('Test')||(vt.match(/Reading and Writing|Math/)||[''])[0],domain:g('Domain'),skill:g('Skill'),
+  diff:(g('Difficulty').match(/Easy|Medium|Hard/i)||[''])[0].replace(/^./,c=>c.toUpperCase()),mc:!!La||!!mcl,ca:mcl||ca,
+  q:[Lq?Lq.y+3:0,nx?topOf(nx):bottom],qe:end,pg,ch:[],ex:[],r:Lr?[Lr.y+3,bottom]:null,
+  rc:its.map(i=>[+i.x.toFixed(1),+(i.y-i.h*.95).toFixed(1),+i.w.toFixed(1),+(i.h*1.3).toFixed(1)])};
+ q.qt=Lq?lay(its.filter(i=>i.y>Lq.y+1&&i.y<(nx?nx.y-4:bottom))):null;
+ q.rt=Lr?lay(its.filter(i=>i.y>Lr.y+1)):null;
+ if(La){q.ar=[La.y+3,end];const lo=La.y,hi=Ls?Ls.y:bottom,m={},ai=L=>'ABCD'.indexOf(L);
+  for(const l of lines)if(l.y>lo&&l.y<hi){const mm=l.it[0].s.match(/^([A-D])\.(\s|$)/);if(mm&&!m[mm[1]])m[mm[1]]={y:l.y,it:l.it[0]}}
+  const xs=Object.values(m).map(v=>v.it.x).sort((a,b)=>a-b),xr=xs.length?xs[xs.length>>1]:0;
+  for(const L of'ABCD')if(!m[L]&&xs.length){const i=its.find(i=>i.y>lo&&i.y<hi&&Math.abs(i.x-xr)<8&&i.s.length<4&&new RegExp('^'+L+'\\.?\\s*$').test(i.s));if(i)m[L]={y:i.y,it:i}}
+  const have=Object.keys(m).sort();
+  if(have.length>=2){const sp=(m[have[have.length-1]].y-m[have[0]].y)/(ai(have[have.length-1])-ai(have[0]));
+   for(const L of'ABCD')if(!m[L]){const pv=[...have].reverse().find(h=>h<L),n2=have.find(h=>h>L);let y;
+    if(pv&&n2)y=m[pv].y+(m[n2].y-m[pv].y)*(ai(L)-ai(pv))/(ai(n2)-ai(pv));else if(pv)y=m[pv].y+sp*(ai(L)-ai(pv));else y=m[n2].y-sp*(ai(n2)-ai(L));
+    m[L]={y,it:null}}
+   const bd=(a,b)=>{const lo=a+14,hi=b-20;return lo<=hi?(lo+hi)/2:(a+b)/2};
+   const mk='ABCD'.split('').map(L=>({L,...m[L]}));
+   mk.forEach((c,j)=>{const it=c.it,k=it?it.s.match(/^[A-D]\.?\s*/)[0].length:0,y1=j?bd(mk[j-1].y,c.y):La.y+3,y2=j<3?bd(c.y,mk[j+1].y):end;
+    const ci=its.filter(i=>i.y>=y1&&i.y<y2).map(i=>i===it?{...i,s:i.s.replace(/^[A-D]\.?\s*/,'')}:i).filter(i=>i.s.trim());
+    q.ch.push({L:c.L,x0:it?(/^[A-D]\.?\s*$/.test(it.s)?it.x+it.w+2:it.x+it.w*k/it.s.length+2):xr+24,y1,y2,by:c.y,t:lay(ci)})})}}
+ return q}
+
+/* ---------- drawing: real text when it is complete, otherwise a picture from the PDF ---------- */
+const pc=new Map();
+function qCanvas(q){const g=q.pg;if(!g||g.length<2)return pageCanvas(q.n,q.src);const K=q.src+'s'+q.n;
+ if(pc.has(K)){const v=pc.get(K);pc.delete(K);pc.set(K,v);return v}
+ const v=(async()=>{const cs=await Promise.all(g.map(x=>pageCanvas(x.n,q.src))),W=Math.max(...cs.map(c=>c.width)),H=Math.round(g.reduce((a,x)=>a+x.H,0)*SC),c=document.createElement('canvas');c.width=W;c.height=H;const cx=c.getContext('2d');let off=0;g.forEach((x,i)=>{cx.drawImage(cs[i],0,Math.round(off*SC));off+=x.H});return c})();
+ pc.set(K,v);v.catch(()=>pc.delete(K));if(pc.size>6)pc.delete(pc.keys().next().value);return v}
+function pageCanvas(n,s){const K=(s||'')+n;if(pc.has(K)){const v=pc.get(K);pc.delete(K);pc.set(K,v);return v}
+ const v=(async()=>{const p=await(S.docs[s]||S.doc).getPage(n),vp=p.getViewport({scale:SC}),c=document.createElement('canvas');c.width=vp.width;c.height=vp.height;
+  await p.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;return c})();
+ pc.set(K,v);v.catch(()=>pc.delete(K));if(pc.size>5)pc.delete(pc.keys().next().value);return v}
+function crop(src,x0,y0,x1,y1,dd){
+ if(!(y1>y0)||isNaN(y0)||isNaN(y1))throw new Error('bad region');
+ const X=Math.max(0,Math.round(x0*SC)),Y=Math.max(0,Math.round(y0*SC)),W=Math.max(2,Math.min(src.width-X,Math.round((x1-x0)*SC))),H=Math.max(2,Math.min(src.height-Y,Math.round((y1-y0)*SC)));
+ const c=document.createElement('canvas');c.width=W;c.height=H;const g=c.getContext('2d');g.drawImage(src,X,Y,W,H,0,0,W,H);
+ const d=g.getImageData(0,0,W,H).data;let t=1e9,b=-1,l=1e9,r=-1;const cc=new Uint16Array(W);
+ for(let y=0;y<H;y++)for(let x=0;x<W;x++){const k=(y*W+x)*4;if(d[k+3]>40&&d[k]+d[k+1]+d[k+2]<740){if(y<t)t=y;if(y>b)b=y;if(x<l)l=x;if(x>r)r=x;cc[x]++}}
+ if(dd&&r>=0)for(let pass=0;pass<2;pass++){let a=l;while(a<=r&&!cc[a])a++;let e=a,n=0;while(e<=r&&cc[e]){n+=cc[e];e++}let g2=e;while(g2<=r&&!cc[g2])g2++;
+  if(g2>r||e-a>10||g2-e<3||n>60)break;let ya=H,yb=-1;
+  for(let y=0;y<H;y++)for(let x=a;x<e;x++){const k=(y*W+x)*4;if(d[k+3]>40&&d[k]+d[k+1]+d[k+2]<740){if(y<ya)ya=y;if(y>yb)yb=y}}
+  if(yb-ya<=7&&yb>=b-5)l=g2;else break}
+ let o=c;if(b>=0){const m=8;t=Math.max(0,t-m);l=Math.max(0,l-m);b=Math.min(H-1,b+m);r=Math.min(W-1,r+m);o=document.createElement('canvas');o.width=r-l+1;o.height=b-t+1;o.getContext('2d').drawImage(c,l,t,o.width,o.height,0,0,o.width,o.height)}
+ {const og=o.getContext('2d'),im=og.getImageData(0,0,o.width,o.height),p=im.data;
+ for(let i=0;i<p.length;i+=4){const a=255-Math.min(p[i],p[i+1],p[i+2]);if(a<=0){p[i+3]=0;continue}p[i]=Math.max(0,(p[i]-255+a)*255/a);p[i+1]=Math.max(0,(p[i+1]-255+a)*255/a);p[i+2]=Math.max(0,(p[i+2]-255+a)*255/a);p[i+3]=a*p[i+3]/255}
+ og.putImageData(im,0,0)}
+ o.className='q';o.style.setProperty('--zw',(o.width/SC*2)+'px');o.style.width='calc(var(--z) * '+(o.width/SC)+'px)';o.style.maxWidth='100%';return o}
+function splitY(src,x0,ya,yb){
+ const X=Math.round(x0*SC),Y=Math.max(0,Math.round(ya*SC)),H=Math.round((yb-ya)*SC),W=src.width-X;if(H<4||W<2)return(ya+yb)/2;
+ const d=src.getContext('2d').getImageData(X,Y,W,H).data;let best=-1,bs=0,run=0,st=0;
+ for(let y=0;y<=H;y++){let ink=y>=H;if(!ink){const o=y*W*4;for(let x=0;x<W;x++){const k=o+x*4;if(d[k+3]>40&&d[k]+d[k+1]+d[k+2]<600){ink=true;break}}}
+  if(!ink){if(!run)st=y;run++}else{if(run>bs){bs=run;best=st+run/2}run=0}}
+ return best<0?(ya+yb)/2:(Y+best)/SC}
+const txt=t=>{const d=document.createElement('div');d.className='tx';t.split('\n\n').forEach(s=>{const p=document.createElement('p');p.textContent=s;d.append(p)});return d};
+/* true when every dark pixel in the region sits under a text box, i.e. no graphs, figures or math pictures are hiding there */
+async function textOK(q,y1,y2,x0){
+ const src=await qCanvas(q),X=Math.max(0,Math.round(x0*SC)),Y=Math.max(0,Math.round(y1*SC)),W=Math.min(src.width-X,Math.round(1e4)),H=Math.min(src.height-Y,Math.round((y2-y1)*SC));
+ if(W<2||H<2)return false;
+ const c=document.createElement('canvas');c.width=W;c.height=H;const g=c.getContext('2d');g.drawImage(src,X,Y,W,H,0,0,W,H);g.fillStyle='#fff';
+ for(const[a,b,w,h]of q.rc)g.fillRect(a*SC-X-3,b*SC-Y-3,w*SC+6,h*SC+6);
+ const d=g.getImageData(0,0,W,H).data;let n=0;for(let i=0;i<d.length;i+=4)if(d[i+3]>40&&d[i]+d[i+1]+d[i+2]<600)n++;return n<30}
+async function piece(q,t,y1,y2,x0,dd){
+ if(t){try{if(await textOK(q,y1,y2,x0))return txt(t)}catch(e){}}
+ return crop(await qCanvas(q),x0,y1,1e4,y2,dd)}
+
+/* ---------- answer checking ---------- */
+const norm=s=>{s=String(s).replace(/\u2212/g,'-').replace(/[\s,$%]/g,'');const m=s.match(/^(-?\d*\.?\d+)\/(-?\d*\.?\d+)$/);return m?+m[1]/+m[2]:(s!==''&&!isNaN(+s)?+s:s.toLowerCase())};
+function right(q,a){if(!a||!q.ca)return false;if(q.mc)return a===q.ca[0];
+ return q.ca.split(/\s+or\s+|;|,\s+/i).some(c=>{const x=norm(c),y=norm(a);return typeof x==='number'&&typeof y==='number'?Math.abs(x-y)<1e-6:x===y})}
+function paint(){const q=S.set[S.i];if(!q)return;const done=S.mode==='review'||S.chk[q.id];
+ document.querySelectorAll('.ch').forEach(b=>{const L=b.dataset.l,s=S.ans[q.id]===L;b.className='ch'+(done?(L===q.ca[0]?' ok':s?' bad':''):s?' sel':'')+(S.xo[q.id+L]?' xo':'')});
+ const nv=document.querySelector('.nv.cur');if(nv&&!done)nv.classList.toggle('an',!!S.ans[q.id])}
+function check(){const q=S.set[S.i];if(!S.ans[q.id])return;S.chk[q.id]=1;stats[q.id]=right(q,S.ans[q.id])?1:0;rec(q,stats[q.id]);saveStats();show()}
+function pick(L){const q=S.set[S.i];if(S.mode==='review'||S.chk[q.id])return;S.ans[q.id]=L;persist();paint();if(S.auto&&S.mode==='practice')check()}
+
+/* ---------- screens ---------- */
+function showUpload(note=''){document.body.dataset.q='';
+ const slot=k=>{const n=S.qs.filter(q=>q.src===k).length;return`<div class="card" style="margin:10px 0"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><b>${SRC[k]} document</b>${n?`<span class="m sm">${n} questions loaded <button class="s" data-a="clr" data-k="${k}">Remove</button></span>`:'<span class="m sm">not loaded</span>'}</div>
+  <label class="drop" data-k="${k}" style="padding:22px 12px"><input type="file" class="fi" data-k="${k}" accept="application/pdf" hidden><b>${n?'Replace':'Choose'} ${SRC[k]} PDF</b> or drop it here</label><div class="m st" data-k="${k}"></div><div class="bar"><i class="pb" data-k="${k}"></i></div></div>`};
+ app.innerHTML=`<div class="card c"><h1>SAT Practice</h1><p class="m">Upload an English PDF, a Math PDF, or both. You can then practice from either one or mix them. Everything runs in your browser; the files never leave your device.</p>
+ ${slot('E')}${slot('M')}<div class="m" id="st">${esc(note)}</div>
+ <div class="btns" style="margin-top:12px">${S.qs.length?'<button class="p pill" data-a="setup">Continue</button>':''}<button class="pill" data-a="home">Back</button></div></div>`;
+ document.querySelectorAll('.drop').forEach(d=>{const k=d.dataset.k;d.ondragover=e=>{e.preventDefault();d.classList.add('hv')};d.ondragleave=()=>d.classList.remove('hv');
+  d.ondrop=e=>{e.preventDefault();d.classList.remove('hv');if(e.dataTransfer.files[0])load(e.dataTransfer.files[0],k)}});
+ document.querySelectorAll('.fi').forEach(f=>f.onchange=e=>e.target.files[0]&&load(e.target.files[0],f.dataset.k))}
+async function parseBuf(buf,st,pb){
+ const doc=await pdfjsLib.getDocument({data:new Uint8Array(buf.slice(0))}).promise,qs=[],cache=new Map();
+ /* questions that run onto the next page are stitched into one tall page so choices, answer key and rationale are never cut */
+ const gi=async n=>{if(cache.has(n))return cache.get(n);const p=await doc.getPage(n),vp=p.getViewport({scale:1}),tc=await p.getTextContent();p.cleanup();
+  const its=tc.items.filter(i=>i.str.trim()).map(i=>{const t=pdfjsLib.Util.transform(vp.transform,i.transform);return{s:i.str,x:t[4],y:t[5],h:Math.hypot(t[2],t[3])||10,w:i.width*vp.scale}});
+  const r={its,H:vp.height,q:/Question ID:\s*[0-9a-f]+/i.test(grp(its,2.5).map(l=>l.t).join('\n'))};cache.set(n,r);cache.delete(n-4);return r};
+ for(let n=1;n<=doc.numPages;n++){const a=await gi(n);
+  if(a.q){let its=a.its.slice(),off=a.H;const pg=[{n,H:a.H}];
+   while(n+1<=doc.numPages){const b=await gi(n+1);if(b.q)break;its=its.concat(b.its.map(i=>({...i,y:i.y+off})));off+=b.H;pg.push({n:n+1,H:b.H});n++}
+   const q=parsePage(pg[0].n,its,pg);if(q)qs.push(q)}
+  if(n%8===0||n===doc.numPages){st(`Reading page ${n} of ${doc.numPages}…`);if(pb)pb.style.width=(n/doc.numPages*100)+'%';await new Promise(r=>setTimeout(r))}}
+ return{doc,qs}}
+async function load(file,k){
+ const st=t=>{const e=document.querySelector(`.st[data-k="${k}"]`);if(e)e.textContent=t},pb=document.querySelector(`.pb[data-k="${k}"]`);
+ try{st('Opening PDF…');const buf=await file.arrayBuffer(),{doc,qs}=await parseBuf(buf,st,pb);
+  if(!qs.length){st('No questions were found. This site expects pages that start with “Question ID:”.');return}
+  qs.forEach(q=>q.src=k);for(const c of[...pc.keys()])if(c[0]===k)pc.delete(c);
+  S.docs[k]=doc;S.qs=S.qs.filter(q=>q.src!==k).concat(qs);
+  try{await idb('put','pdf_'+k,buf);await idb('put','index_'+k,{v:9,qs})}catch(e){}
+  showUpload(`${SRC[k]} document loaded: ${qs.length} questions.`)
+ }catch(e){st('Could not read that file: '+(e&&e.message||e))}}
+async function removeBank(k){delete S.docs[k];S.qs=S.qs.filter(q=>q.src!==k);for(const c of[...pc.keys()])if(c[0]===k)pc.delete(c);
+ try{await idb('put','pdf_'+k,null);await idb('put','index_'+k,null)}catch(e){}showUpload(SRC[k]+' document removed.')}
+
+const tgv=k=>+ls(k)||0,TG=()=>tgv('sattge')+tgv('sattgm');
+const pLog=(s,b)=>1/(1+Math.exp(-((s-500)/100-b))),DIFF={Easy:-1,Medium:.3,Hard:1.5},dv=q=>DIFF[q.diff]??.3,KF=5;
+let satlog=[];try{satlog=JSON.parse(ls('satlog')||'[]')}catch(e){}
+function rec(q,ok){if(S.rec[q.id])return;S.rec[q.id]=1;satlog.push([q.id,ok?1:0,Date.now()]);if(satlog.length>6000)satlog.splice(0,satlog.length-6000);ls('satlog',JSON.stringify(satlog))}
+/* rough ability estimate from a list of {b: difficulty, ok: 0|1}; a weak pull toward the middle keeps tiny sets from jumping to 200 or 800 */
+function estScore(items){if(!items.length)return null;const f=s=>items.reduce((a,x)=>a+(x.ok-pLog(s,x.b)),0)+2*(.5-pLog(s,.3));
+ if(f(800)>=0)return 800;if(f(200)<=0)return 200;let lo=200,hi=800;for(let i=0;i<40;i++){const m=(lo+hi)/2;f(m)>0?lo=m:hi=m}return Math.round((lo+hi)/20)*10}
+/* your score starts at what you entered and moves a little with every question, by how hard it was */
+function track(k){const S0=tgv(k==='E'?'sattse':'sattsm');if(!S0)return null;const base=+ls('satbase')||0,m=new Map(S.qs.map(q=>[q.id,q]));let s=S0,n=0,c=0;
+ for(const[id,ok,ts]of satlog){if(ts<base)continue;const q=m.get(id);if(!q||sec(q)!==k)continue;s=Math.max(200,Math.min(800,s+KF*(ok-pLog(s,dv(q)))));n++;c+=ok}
+ return{S0,cur:Math.round(s),n}}
+function tgHTML(){
+ const bar=(nm,cur,S0,T,n,lo)=>{const pct=Math.max(0,Math.min(100,Math.round((cur-lo)/(T-lo)*100))),d=cur-S0;
+  return`<div><div class="tgh"><b>${nm}</b><span>${cur} / ${T}</span></div><div class="bar"><i style="width:${pct}%"></i></div><div class="m sm">${cur>=T?'You\'re at your target.':(T-cur)+' points to go.'} ${n?(d>=0?'+':'')+d+' since you started ('+n+' questions answered).':'Starting from '+S0+'. Answer questions and this updates.'}</div></div>`};
+ const E=track('E'),M=track('M'),tE=tgv('sattge')||800,tM=tgv('sattgm')||800;let h='';
+ if(E)h+=bar('English',E.cur,E.S0,tE,E.n,200);if(M)h+=bar('Math',M.cur,M.S0,tM,M.n,200);
+ if(E&&M)h+=bar('Total',E.cur+M.cur,E.S0+M.S0,tE+tM,E.n+M.n,400);
+ return h?h+'<div class="m sm">Estimates only, not exact SAT scoring.</div>':''}
+
+const nameOf=()=>ls('satname')||'',hi=()=>esc(nameOf());
+const fld=(id,lb,key,ph)=>`<label class="tgl">${lb} <input id="${id}" type="number" min="200" max="800" placeholder="${ph}" value="${tgv(key)||''}"></label>`;
+const nameFld=()=>`<label class="tgl">Your name <input id="sn" type="text" style="width:200px" placeholder="Name" autocomplete="given-name" value="${esc(nameOf())}"></label>`;
+const SV=[
+ ()=>`<h1>Welcome! What should I call you?</h1><p class="m" style="margin:0">A few quick questions so I can track your progress. You can change any of this later in Settings.</p>${nameFld()}`,
+ ()=>`<h1>Where are you now${nameOf()?', '+hi():''}?</h1><p class="m" style="margin:0">Enter your latest score for each section (200 to 800). Your progress builds from these numbers.</p><div class="tgrow">${fld('tse','English','sattse','690')}${fld('tsm','Math','sattsm','610')}</div>`,
+ ()=>`<h1>What score are you aiming for?</h1><p class="m" style="margin:0">Pick a target for each section (up to 800). You can leave these blank and it will track toward 800.</p><div class="tgrow">${fld('tge','English target','sattge','800')}${fld('tgm','Math target','sattgm','800')}</div>`];
+function saveSv(){const g=id=>{const e=$('#'+id);return e?e.value:null},nm=g('sn');if(nm!==null)ls('satname',nm.trim()||null);
+ for(const[id,K]of[['tse','sattse'],['tsm','sattsm'],['tge','sattge'],['tgm','sattgm']]){const v=g(id);if(v===null)continue;let x=Math.round(+v);x=x?Math.min(800,Math.max(200,x)):0;const old=+ls(K)||0;ls(K,x?String(x):null);if((K==='sattse'||K==='sattsm')&&x!==old)ls('satbase',String(Date.now()))}}
+function showSurvey(step=0){clearInterval(S.tick);S.done=true;S.sv=step;document.body.dataset.q='';
+ app.innerHTML=`<div class="ttl"><div class="logo">SAT</div><div class="card" style="width:100%;text-align:left;display:flex;flex-direction:column;gap:14px;margin:0">${SV[step]()}<div class="m sm">Step ${step+1} of 3</div><div class="btns" style="justify-content:flex-start">${step?'<button class="pill" data-a="svb">Back</button>':''}<button class="p pill" data-a="svn">${step<2?'Next':'Finish'}</button></div></div></div>`;
+ const i=$('#sn,#tse,#tge');if(i)i.focus()}
+function showSettings(){clearInterval(S.tick);S.done=true;document.body.dataset.q='';
+ app.innerHTML=`<div class="card c"><h1>Settings</h1><div style="display:flex;flex-direction:column;gap:14px">${nameFld()}<div class="tgrow">${fld('tse','English start','sattse','690')}${fld('tsm','Math start','sattsm','610')}</div><div class="tgrow">${fld('tge','English target','sattge','800')}${fld('tgm','Math target','sattgm','800')}</div>
+ <p class="m sm" style="margin:0">Changing a starting score restarts your progress tracker from that score. Use A− / A+ while practicing to change the text size.</p></div><div class="btns" style="margin-top:14px"><button class="p pill" data-a="svs">Save</button><button class="pill" data-a="home">Back</button></div></div>`}
+
+function showTitle(){
+ clearInterval(S.tick);clearInterval(S.itv);S.done=true;S.full=null;S.fullRes=null;document.body.dataset.q='';const has=S.qs.length,g=prog(0),nE=S.qs.filter(q=>sec(q)==='E').length,nM=S.qs.filter(q=>sec(q)==='M').length;let ss=null;try{ss=JSON.parse(ls('satsess'))}catch(e){}
+ const tg=has?tgHTML():'';
+ app.innerHTML=`<div class="ttl"><div class="logo">SAT</div><h1>${nameOf()?'Hey, '+hi():'SAT Practice'}</h1><p class="m">${nameOf()?'Ready to practice?':'Bluebook-style practice from your own question bank.'}</p>
+ ${has?`<div class="stat"><div><b>${S.qs.length}</b><span>questions</span></div><div><b>${g.p}%</b><span>completed</span></div></div><p class="m sm" style="margin:0">English: ${nE} · Math: ${nM}</p>`:''}
+ ${tg?`<div class="tgbox" id="tgt">${tg}</div>`:''}
+ <div class="btns"><button class="p pill big" data-a="begin">${has?(ss?'Continue':'Start practicing'):'Upload question bank'}</button>${has?'<button class="pill big" data-a="fullsetup">Full practice test</button>':''}</div>
+ <div class="btns"><button class="pill" data-a="settings">Settings</button><button class="pill" data-a="newfile">English / Math PDFs</button></div>
+ <p class="m sm">Runs entirely in your browser. Your PDFs never leave your device.</p></div>`}
+
+function showSetup(){
+ clearInterval(S.tick);S.done=true;document.body.dataset.q='';let ss=null;try{ss=JSON.parse(ls('satsess'))}catch(e){}
+ const o=a=>a.map(v=>`<option>${esc(v)}</option>`).join(''),g=prog(0);
+ app.innerHTML=`<div class="card c">${ss?`<div class="card" style="background:var(--okb)"><b>Unfinished session</b><p class="m">Question ${ss.i+1} of ${ss.ids.length} · ${ss.mode} mode</p><button class="p pill" data-a="resume">Resume where I stopped</button> <button class="pill" data-a="discard">Discard</button></div>`:''}
+ <h1>Build a practice set</h1><p class="m">${g.n} of ${g.t} questions completed (${g.p}%)</p><div class="bar"><i style="width:${g.p}%"></i></div><div class="g">
+ ${S.qs.some(q=>q.src==='E')&&S.qs.some(q=>q.src==='M')?'<label>Practice from<select id="fk"><option value="">English + Math (mixed)</option><option value="E">English only</option><option value="M">Math only</option></select></label>':`<input type="hidden" id="fk" value="${S.qs[0].src}">`}
+ <label>Section<select id="ft"><option value="">All</option></select></label>
+ <label>Domain<select id="fd"></select></label><label>Skill<select id="fs"></select></label>
+ <label>Difficulty<select id="fx"><option value="">All</option><option>Easy</option><option>Medium</option><option>Hard</option></select></label>
+ <label>Show<select id="fw"><option value="">All questions</option><option value="new">Not yet answered</option><option value="miss">Previously missed</option></select></label>
+ <label>Mode<select id="fm"><option value="practice">Practice (feedback after each)</option><option value="test">Test (review at the end)</option></select></label>
+ <label>Number of questions<input id="fc" type="number" min="1" value="20"></label>
+ <label>Time limit in minutes (0 = none)<input id="fl" type="number" min="0" value="0"></label></div>
+ <label><input type="checkbox" id="fr" checked> Shuffle questions</label>
+ <p class="m" id="av"></p><button class="p pill" data-a="go">Start</button> <button class="p pill" data-a="goall">Start all</button> <button class="pill" data-a="newfile">Manage PDFs</button> <button class="pill" data-a="fullsetup">Full practice test</button> <button class="pill" data-a="home">Home</button></div>`;
+ upd();$('.card').onchange=upd}
+const val=id=>$('#'+id).value;
+const pool=()=>S.qs.filter(q=>(!val('fk')||q.src===val('fk'))&&(!val('ft')||q.test===val('ft'))&&(!val('fd')||q.domain===val('fd'))&&(!val('fs')||q.skill===val('fs'))&&(!val('fx')||q.diff===val('fx'))&&(!val('fw')||(val('fw')==='new'?!(q.id in stats):stats[q.id]===0)));
+function fill(id,key,base){const cur=val(id),v=[...new Set(base.map(q=>q[key]).filter(Boolean))].sort();
+ $('#'+id).innerHTML='<option value="">All</option>'+v.map(x=>`<option>${esc(x)}</option>`).join('');if(v.includes(cur))$('#'+id).value=cur}
+function upd(){fill('ft','test',S.qs.filter(q=>!val('fk')||q.src===val('fk')));const t=val('ft'),b=S.qs.filter(q=>(!val('fk')||q.src===val('fk'))&&(!t||q.test===t));fill('fd','domain',b);const d=val('fd');fill('fs','skill',b.filter(q=>!d||q.domain===d));
+ const n=pool().length;$('#av').textContent=n+' questions match these filters';$('[data-a=goall]').textContent='Start all '+n}
+function start(all){
+ const set=pool();if(!set.length)return;if($('#fr').checked)set.sort(()=>Math.random()-.5);
+ S.set=all?set:set.slice(0,Math.max(1,+val('fc')||20));S.mode=val('fm');S.lim=(+val('fl')||0)*60;
+ Object.assign(S,{rec:{},full:null,fullRes:null,i:0,ans:{},chk:{},fl:{},xo:{},t0:Date.now(),done:false,paused:0,orig:false});timer();show()}
+
+const chEl=(L,body)=>{const d=document.createElement('div');d.className='ch';d.dataset.l=L;d.tabIndex=0;
+ d.innerHTML=`<span class="lt">${L}</span><span class="cv"></span><span class="xb" data-x="${L}" title="Eliminate">${L}</span>`;if(body)d.querySelector('.cv').append(body);return d};
+async function show(){
+ const q=S.set[S.i],tok=++S.tok,rev=S.mode==='review',done=rev||!!S.chk[q.id],two=/Reading/i.test(q.test),e=el();persist();document.body.dataset.q=1;
+ if(sec(q)==='E'){const z=$('#dz');if(z)z.hidden=true}
+ const cls=x=>(rev||S.chk[x.id])?(right(x,S.ans[x.id])?'ok':'bad'):S.ans[x.id]?'an':'';
+ app.innerHTML=`<div class="top"><div class="hd"><div><b>${esc(q.test||'SAT')}</b><div class="m sm">${rev?'Review':S.full?'Full test · module '+S.full.mod+' of 2':S.mode==='test'?'Test mode':'Practice mode'}</div></div>
+ <div class="hc"><div class="tmr" id="tm">${S.hideT||rev?'':fmt(S.lim?S.lim-e:e)}</div>${rev?'':`<button class="s" data-a="hide" title="Show or hide the timer">${S.hideT?'🕒':'Hide'}</button>`}</div>
+ <div class="hr">${rev||S.full?'':'<button class="s" data-a="pause">⏸ Pause</button>'}${sec(q)==='E'?'':'<button class="s" data-a="des">Calculator</button>'}<button class="s" data-a="zm-" title="Smaller">A−</button><button class="s" data-a="zm+" title="Bigger">A+</button>
+ <div class="mw"><button class="s" data-a="more">⋯ More</button><div id="mo" hidden>${!rev&&S.mode==='practice'?`<label><input type="checkbox" data-a="auto" ${S.auto?'checked':''}> Instant check</label>`:''}<button data-a="orig">${S.orig?'Hide original page':'Original page'}</button><button data-a="theme">◐ Theme</button>${rev?'':S.full?'<button data-a="quitfull">Quit test (ends it)</button>':'<button data-a="exit">Save &amp; exit</button>'}</div></div></div></div><div class="ban">THIS IS A PRACTICE TEST</div></div>
+ <div class="qw"><div class="tags"><span class="tag">${esc(q.domain)}</span><span class="tag">${esc(q.skill)}</span><span class="tag ${q.diff}">${esc(q.diff||'—')}</span></div>
+ <div class="split${two?' two':''}"><div class="lp qtx" id="lp"></div><div class="rp"><div class="qh"><span class="qn">${S.i+1}</span><button class="s mk ${S.fl[q.id]?'on':''}" data-a="flag">⚑ Mark for Review</button></div>
+ <div id="qb" class="qtx m">Loading question…</div><div id="ch"></div></div></div><div id="og"></div><div id="fb"></div></div>
+ <div class="bot"><span>${rev?'<button class="pill" data-a="results">Back to results</button>':'<span class="m">SAT Practice</span>'}</span><button class="qc" data-a="menu">Question ${S.i+1} of ${S.set.length} ⌄</button><div id="mn" hidden>${menu()}</div>
+ <span><button class="pill" data-a="prev" ${S.i?'':'disabled'}>Back</button> ${!done&&S.mode==='practice'?'<button class="p pill" data-a="check">Check answer</button> ':''}${S.i<S.set.length-1?'<button class="p pill" data-a="next">Next</button>':rev?'':`<button class="p pill" data-a="fin">${S.full?'Submit module':S.mode==='test'?'Submit test':'Finish'}</button>`}</span></div>`;
+ const qb=$('#qb'),lp=$('#lp'),box=$('#ch'),fb=$('#fb');
+ const letters=()=>'ABCD'.split('').forEach(L=>box.append(chEl(L,null))),spr=()=>{box.innerHTML=`<p class="m">Student-produced response. Enter your answer:</p><input id="sp" autocomplete="off" value="${esc(S.ans[q.id]||'')}" ${done?'disabled':''}>`;
+  const sp=$('#sp');sp.oninput=()=>{S.ans[q.id]=sp.value.trim();persist();paint()};sp.onkeydown=ev=>{if(ev.key==='Enter'&&!done&&S.mode==='practice'&&(S.auto||ev.ctrlKey))check()}};
+ const els={};if(q.mc)'ABCD'.split('').forEach(L=>{const e=chEl(L,document.createTextNode('Loading…'));els[L]=e;box.append(e)});
+ try{
+  const st=await piece(q,q.qt,q.q[0],q.q[1],0);if(tok!==S.tok)return;qb.textContent='';qb.classList.remove('m');
+  const ps=st.className==='tx'?[...st.children]:[];
+  if(two){if(ps.length>1)qb.append(ps.pop());lp.append(st);fitSplit()}else qb.append(st);
+  if(q.mc){
+   if(q.ch.length>=2){const cy=q.ch.map(c=>[c.y1,c.y2]),lastJ=q.ch.length-1;
+    if(q.ch.every(c=>c.by>0))try{const pg=await qCanvas(q),xm=Math.min(...q.ch.map(c=>c.x0));if(tok!==S.tok)return;for(let j=1;j<q.ch.length;j++){const m=splitY(pg,xm,q.ch[j-1].by+2,q.ch[j].by-1);cy[j-1][1]=m;cy[j][0]=m}}catch(err){}
+    await Promise.all(q.ch.map(async(c,j)=>{let b=null;
+     try{b=await piece(q,c.t,cy[j][0],cy[j][1],c.x0,1)}catch(err){}
+     if(tok!==S.tok)return;const cv=els[c.L]&&els[c.L].querySelector('.cv');if(cv){cv.textContent='';cv.append(b||document.createTextNode('(see original page)'))}}));
+    if(tok!==S.tok)return}
+   else{if(q.ar){try{const b=await piece(q,null,q.ar[0],q.ar[1],0);if(tok!==S.tok)return;box.prepend(b)}catch(err){}}box.querySelectorAll('.cv').forEach(z=>z.textContent='')}
+  }else spr();
+  paint();
+  if(done){const ok=right(q,S.ans[q.id]),a=S.ans[q.id];
+   fb.innerHTML=`<div class="bn ${ok?'ok':'bad'}">${!q.ca?'I couldn’t read the answer key for this one. Press “Original page” to check it.':a?(ok?`Correct. The answer is ${esc(q.ca)}.`:`You ${q.mc?'selected answer':'entered'} ${esc(a)}. The correct answer is ${esc(q.ca)}`):`You didn’t answer this one. The correct answer is ${esc(q.ca)}`}</div>${q.r?'<h3>Rationale</h3><div id="rb" class="qtx"></div>':''}`;
+   if(q.r){const re=await piece(q,q.rt,q.r[0],q.r[1],0);if(tok!==S.tok)return;const rb=$('#rb');rb.append(re);
+    for(const n of q.ex){const c=await pageCanvas(n,q.src);if(tok!==S.tok)return;rb.append(crop(c,0,0,1e4,c.height/SC))}}}
+  if(S.orig){const c=await qCanvas(q);if(tok!==S.tok)return;$('#og').innerHTML='<h3>Original page</h3>';$('#og').append(crop(c,0,Math.max(0,q.q[0]-18),1e4,q.qe))}
+ }catch(err){if(tok===S.tok){qb.classList.add('m');qb.textContent='This question could not be drawn here. Press “Original page” to view it straight from the PDF.';box.querySelectorAll('.cv').forEach(z=>{if(z.textContent==='Loading…')z.textContent=''});if(!box.children.length)spr()}}
+ setTimeout(()=>{const nx=S.set[S.i+1];if(nx&&tok===S.tok){qCanvas(nx).catch(()=>{})}},60)}
+const TEST={E:{n:27,min:32},M:{n:22,min:35},brk:10};
+const shuf=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+function pickMod(k,r,n,used){
+ const pool=shuf(S.qs.filter(q=>sec(q)===k&&!used.has(q.id))).sort((a,b)=>(a.id in stats)-(b.id in stats));
+ const cnt=[Math.round(n*r[0]),Math.round(n*r[1])];cnt.push(n-cnt[0]-cnt[1]);const out=[];
+ ['Easy','Medium','Hard'].forEach((d,i)=>{let c=cnt[i];for(const q of pool){if(c<=0)break;if(!out.includes(q)&&(q.diff||'Medium')===d){out.push(q);c--}}});
+ for(const q of pool){if(out.length>=n)break;if(!out.includes(q))out.push(q)}
+ return shuf(out)}
+const fullSecs=()=>['E','M'].filter(k=>S.qs.filter(q=>sec(q)===k).length>=TEST[k].n);
+function showFullSetup(){clearInterval(S.tick);S.done=true;document.body.dataset.q='';const ks=fullSecs();
+ const tm=ks.reduce((a,k)=>a+2*TEST[k].min,0)+(ks.length>1?TEST.brk:0),row=k=>`<tr><td><b>${SRC[k]}</b></td><td>2 modules × ${TEST[k].n} questions</td><td>${TEST[k].min} min each</td></tr>`;
+ app.innerHTML=`<div class="card c"><h1>Full practice test</h1>${ks.length?`<p class="m">Modeled on the digital SAT.</p><table>${ks.map(row).join('')}${ks.length>1?`<tr><td><b>Break</b></td><td>between English and Math</td><td>${TEST.brk} min</td></tr>`:''}</table>
+ <p>Total time: ${Math.floor(tm/60)} h ${tm%60} min${ks.length>1?' including the break':''}.</p>
+ <p class="m sm">Module 2 adapts to how you did in module 1. Do well and you get harder questions, which raises the highest score you can reach. There is no pause, the calculator is Math only, and leaving ends the test. Your score is an estimate and is not entirely accurate.</p>
+ ${ks.length<2?'<p class="m sm">Load both an English and a Math PDF (English / Math PDFs) to take the whole test.</p>':''}
+ <button class="p pill" data-a="fullgo">Start test</button> <button class="pill" data-a="home">Back</button>`:`<p class="m">Not enough questions loaded. Upload an English and/or Math PDF first.</p><button class="pill" data-a="newfile">English / Math PDFs</button> <button class="pill" data-a="home">Back</button>`}</div>`}
+function startFull(){const secs=fullSecs();if(!secs.length)return;ls('satsess',null);
+ S.full={secs,si:0,mod:1,items:{E:[],M:[]},used:new Set(),acc:{},route:{},all:[],ans:{},done:false};S.fullRes=null;startMod()}
+function startMod(){clearInterval(S.itv);const F=S.full,k=F.secs[F.si],T=TEST[k];let r=[.3,.45,.25];
+ if(F.mod===2){const hard=(F.acc[k]||0)>=.65;F.route[k]=hard?'harder':'easier';r=hard?[.1,.35,.55]:[.45,.45,.1]}
+ const set=pickMod(k,r,T.n,F.used);set.forEach(q=>F.used.add(q.id));
+ Object.assign(S,{set,i:0,ans:{},chk:{},fl:{},xo:{},mode:'test',lim:T.min*60,t0:Date.now(),done:false,paused:0,orig:false,rec:{}});timer();show()}
+function showInter(t,m,b,cb,secs){clearInterval(S.tick);clearInterval(S.itv);S.done=true;S.interCb=cb;document.body.dataset.q='';let left=secs||0;
+ app.innerHTML=`<div class="ttl"><div class="card" style="width:100%;margin:0"><h1>${t}</h1><p class="m">${m}</p>${secs?`<div class="sc" id="bk">${fmt(left)}</div>`:''}<button class="p pill big" data-a="inter">${b}</button></div></div>`;
+ if(secs)S.itv=setInterval(()=>{left--;const e=$('#bk');if(e)e.textContent=fmt(left);if(left<=0){clearInterval(S.itv);cb()}},1000)}
+function modEnd(){const F=S.full,k=F.secs[F.si];clearInterval(S.tick);
+ S.set.forEach(q=>{const ok=right(q,S.ans[q.id])?1:0;stats[q.id]=ok;rec(q,ok);F.items[k].push({q,ok,mod:F.mod})});
+ saveStats();F.all.push(...S.set);Object.assign(F.ans,S.ans);
+ if(F.mod===1){F.acc[k]=F.items[k].filter(x=>x.mod===1&&x.ok).length/Math.max(1,S.set.length);F.mod=2;
+  return showInter(`${SRC[k]} module 1 complete`,'Module 2 is next. The timer starts when you press the button.','Start module 2',startMod)}
+ F.si++;F.mod=1;
+ if(F.si<F.secs.length)return showInter(nameOf()?'Nice work, '+hi()+'. Break time':'Break time',`Take up to ${TEST.brk} minutes. ${SRC[F.secs[F.si]]} starts on its own when the timer ends, or start it now.`,'Start now',startMod,TEST.brk*60);
+ fullResults()}
+function fullResults(){const F=S.full;F.done=true;clearInterval(S.tick);clearInterval(S.itv);const sc={},det={};let tot=0;
+ F.secs.forEach(k=>{const it=F.items[k];sc[k]=estScore(it.map(x=>({b:dv(x.q),ok:x.ok})));tot+=sc[k];det[k]=[1,2].map(m=>{const a=it.filter(x=>x.mod===m);return{c:a.filter(x=>x.ok).length,n:a.length}})});
+ S.fullRes={secs:F.secs,sc,det,route:F.route,tot:F.secs.length===2?tot:null};Object.assign(S,{set:F.all,ans:F.ans});results()}
+
+function finish(){if(S.full&&S.mode==='test'&&!S.full.done)return modEnd();clearInterval(S.tick);unpause();
+ S.set.forEach(q=>{if(S.ans[q.id]){const ok=right(q,S.ans[q.id])?1:0;stats[q.id]=ok;rec(q,ok)}});saveStats();S.fullRes=null;results()}
+function results(){
+ S.mode='review';S.tok++;S.done=true;ls('satsess',null);document.body.dataset.q='';
+ const n=S.set.length,ok=S.set.filter(q=>right(q,S.ans[q.id])).length,dm={},g=prog(0),F=S.fullRes,nm=nameOf();
+ S.set.forEach(q=>{const d=dm[q.domain||'Other']??={r:0,t:0};d.t++;if(right(q,S.ans[q.id]))d.r++});
+ const NOTE='<p class="m sm">This is only an estimate and is not entirely accurate. The real SAT uses a different, adaptive scoring method.</p>';let est='';
+ if(F){est=`<div class="card"><h1 style="margin:0 0 4px">${nm?hi()+', your':'Your'} test score</h1>${F.tot!=null?`<div class="sc">${F.tot} <span class="m" style="font-size:1rem;font-weight:400">/ 1600</span></div>`:''}
+  <table>${F.secs.map(k=>`<tr><td><b>${SRC[k]}</b></td><td>${F.sc[k]} / 800</td><td class="m sm">Module 1: ${F.det[k][0].c}/${F.det[k][0].n} · Module 2 (${F.route[k]}): ${F.det[k][1].c}/${F.det[k][1].n}</td></tr>`).join('')}</table>${NOTE}</div>`}
+ else{const rows=['E','M'].map(k=>{const qs=S.set.filter(q=>sec(q)===k);return qs.length?{k,n:qs.length,c:qs.filter(q=>right(q,S.ans[q.id])).length,sc:estScore(qs.map(q=>({b:dv(q),ok:right(q,S.ans[q.id])?1:0})))}:null}).filter(Boolean);
+  if(rows.length)est=`<div class="card"><b>Estimated score from this set</b>${rows.length===2?`<div class="sc">${rows[0].sc+rows[1].sc} <span class="m" style="font-size:1rem;font-weight:400">/ 1600</span></div>`:''}
+  <table>${rows.map(r=>`<tr><td><b>${SRC[r.k]}</b></td><td>${r.sc} / 800</td><td class="m sm">${r.c} of ${r.n} correct</td></tr>`).join('')}</table>${NOTE}</div>`}
+ app.innerHTML=`<div class="card"><h1>${F?'Test results':nm?hi()+', here are your results':'Results'}</h1><div class="sc">${ok} / ${n}</div><p class="m">${Math.round(ok/n*100)}% correct · ${Object.keys(S.ans).length} answered · ${g.p}% of the whole bank completed</p>${tgHTML()?`<div class="tgbox" style="margin:10px 0">${tgHTML()}</div>`:''}
+ <table><tr><th>Domain</th><th>Score</th></tr>${Object.entries(dm).map(([k,v])=>`<tr><td>${esc(k)}</td><td>${v.r} / ${v.t}</td></tr>`).join('')}</table></div>${est}
+ <div class="card"><b>Review questions</b><div class="nav" style="flex-wrap:wrap;margin-top:10px">${S.set.map((x,j)=>`<button data-a="nav" data-j="${j}" class="nv ${right(x,S.ans[x.id])?'ok':'bad'}">${j+1}</button>`).join('')}</div></div>
+ <button class="p pill" data-a="${F?'home':'setup'}">${F?'Done':'New practice set'}</button>`}
+
+document.addEventListener('click',ev=>{
+ const mm=$('#mn');if(mm&&!mm.hidden&&!ev.target.closest('#mn,[data-a=menu]'))mm.hidden=true;
+ const mo=$('#mo');if(mo&&!mo.hidden&&!ev.target.closest('#mo,[data-a=more]'))mo.hidden=true;
+ const x=ev.target.closest('.xb');if(x){const q=S.set[S.i];S.xo[q.id+x.dataset.x]=!S.xo[q.id+x.dataset.x];paint();return}
+ if($('#lb')){$('#lb').remove();return}
+ const zc=ev.target.closest('#qb canvas.q,#lp canvas.q');if(zc){const d=document.createElement('div'),n=document.createElement('canvas');d.id='lb';n.width=zc.width;n.height=zc.height;n.getContext('2d').drawImage(zc,0,0);n.className='q';const z=Math.min(4,innerWidth*.94/(zc.width/SC),innerHeight*.88/(zc.height/SC));n.style.width=(zc.width/SC*z)+'px';d.append(n);document.body.append(d);return}
+ const c=ev.target.closest('.ch');if(c&&c.dataset.l)return pick(c.dataset.l);
+ const b=ev.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,q=S.set[S.i];if(a!=='auto'&&a!=='more'&&b.closest('#mo'))$('#mo').hidden=true;
+ if(a==='begin')(S.qs.length?showSetup():showUpload());else if(a==='home')showTitle();else if(a==='go')start(false);else if(a==='goall')start(true);else if(a==='newfile')showUpload();else if(a==='setup')showSetup();else if(a==='clr')removeBank(b.dataset.k);
+ else if(a==='settings')showSettings();else if(a==='svn'){saveSv();if(S.sv<2)showSurvey(S.sv+1);else{ls('satdone','1');showTitle()}}
+ else if(a==='svb'){saveSv();showSurvey(S.sv-1)}else if(a==='svs'){saveSv();ls('satdone','1');showTitle()}
+ else if(a==='fullsetup')showFullSetup();else if(a==='fullgo')startFull();else if(a==='inter'){clearInterval(S.itv);S.interCb&&S.interCb()}
+ else if(a==='quitfull'){clearInterval(S.tick);S.full=null;S.done=true;showTitle()}
+ else if(a==='resume')resume();else if(a==='discard'){ls('satsess',null);showSetup()}
+ else if(a==='exit'){persist();S.paused=0;$('#pz').hidden=true;showSetup()}
+ else if(a==='nav'){S.i=+b.dataset.j;show()}else if(a==='prev'){S.i--;show()}else if(a==='next'){S.i++;show()}
+ else if(a==='flag'){S.fl[q.id]=!S.fl[q.id];b.classList.toggle('on',S.fl[q.id]);const nv=document.querySelector('.nv.cur');if(nv)nv.classList.toggle('fl',S.fl[q.id]);persist()}
+ else if(a==='check')check();else if(a==='fin')finish();else if(a==='results')results();
+ else if(a==='zm-'||a==='zm+'){const z=Math.min(3.2,Math.max(.9,(+getComputedStyle(R).getPropertyValue('--z')||1.7)+(a==='zm+'?.2:-.2)));R.style.setProperty('--z',z.toFixed(2));ls('satz',z.toFixed(2));fitSplit()}
+ else if(a==='theme')theme();else if(a==='pause')pause();else if(a==='unpause')unpause();
+ else if(a==='hide'){S.hideT=!S.hideT;b.textContent=S.hideT?'🕒':'Hide';$('#tm').textContent=S.hideT?'':fmt(S.lim?S.lim-el():el())}
+ else if(a==='auto'){S.auto=b.checked;ls('satauto',S.auto?'1':'0')}
+ else if(a==='orig'){S.orig=!S.orig;show()}
+ else if(a==='des'){const z=$('#dz');z.hidden=!z.hidden;if(!z.hidden)gopen()}
+ else if(a==='menu'){const m=$('#mn');m.hidden=!m.hidden;if(!m.hidden){const cb=$('#mn .cur');if(cb)m.scrollTop=cb.offsetTop-90}}else if(a==='menux')$('#mn').hidden=true
+ else if(a==='desx')$('#dz').hidden=true
+ else if(a==='more'){const m=$('#mo');m.hidden=!m.hidden}
+ else if(a==='gzi'){G.s=Math.min(2000,G.s*1.3);gdraw()}else if(a==='gzo'){G.s=Math.max(2,G.s/1.3);gdraw()}else if(a==='gzh'){G.cx=G.cy=0;G.s=40;gdraw()}});
+
+/* draggable Desmos window (resize with the bottom-right corner) */
+(()=>{const z=$('#dz'),h=$('#dh');let ox=0,oy=0;
+ h.onpointerdown=e=>{if(e.target.closest('a,button'))return;const r=z.getBoundingClientRect();ox=e.clientX-r.left;oy=e.clientY-r.top;z.classList.add('drag');h.setPointerCapture(e.pointerId);
+  h.onpointermove=ev=>{z.style.left=Math.max(0,Math.min(innerWidth-80,ev.clientX-ox))+'px';z.style.top=Math.max(0,Math.min(innerHeight-40,ev.clientY-oy))+'px';z.style.right='auto';z.style.bottom='auto'}};
+ h.onpointerup=()=>{z.classList.remove('drag');h.onpointermove=null};
+ z.addEventListener('pointerdown',e=>{const r=z.getBoundingClientRect();if(e.clientX>r.right-28&&e.clientY>r.bottom-28)z.classList.add('drag')});
+ addEventListener('pointerup',()=>z.classList.remove('drag'));addEventListener('blur',()=>z.classList.remove('drag'))})();
+
+/* question menu (Bluebook-style popup) */
+const menu=()=>`<div class="mh"><span style="flex:1;text-align:center">${esc(S.set[S.i].test||'SAT')} Questions</span><button class="s" data-a="menux">✕</button></div>
+<div class="lg"><span>▁ Current</span><span>▢ Unanswered</span><span style="color:#d93025">⚑ For Review</span></div>
+<div class="mg">${S.set.map((x,j)=>{const k=(S.mode==='review'||S.chk[x.id])?(right(x,S.ans[x.id])?'ok':'bad'):S.ans[x.id]?'an':'';return`<button class="nb ${j===S.i?'cur':''} ${k} ${S.fl[x.id]?'fl':''}" data-a="nav" data-j="${j}">${j+1}</button>`}).join('')}</div>`;
+
+/* built-in graphing calculator (Desmos cannot be embedded here) */
+const GC=['#c74440','#2d70b3','#388c46','#6042a6','#000000','#fa7e19'],VR=/^([a-wz])\s*=\s*(-?\d*\.?\d+)$/i,SB='₀₁₂₃₄₅₆₇₈₉',sb=n=>String(n).replace(/\d/g,d=>SB[d]),gfm=v=>String(+(+v).toPrecision(4));
+const newT=()=>({k:'t',d:Array.from({length:6},()=>['',''])});
+const G={cx:0,cy:0,s:40,it:[{k:'e',v:''},{k:'e',v:''}],f:[],v:[],p:[]};
+function prep(s){return s.replace(/[₀-₉]/g,c=>SB.indexOf(c)).replace(/\u2212/g,'-').replace(/[×·]/g,'*').replace(/π/g,'pi').replace(/([xye])_\{?(\d+)\}?/g,'$1$2').replace(/\blog\(/g,'log10(').replace(/\bln\(/g,'log(')
+ .replace(/[A-Za-z]+\d*/g,t=>{if(/^[xye]\d+$/.test(t)||t in math)return t;const m=t.match(/[xy]\d+|[A-Za-z]|\d+/g);return m.length>1?'('+m.join('*')+')':t})}
+function gcond(s){const p=s.split(/(<=|>=|<|>|=)/).map(z=>z.trim());if(p.length<3)throw 0;const e=[];for(let i=1;i<p.length;i+=2)e.push(`(${prep(p[i-1])}) ${p[i]==='='?'==':p[i]} (${prep(p[i+1])})`);return math.compile(e.join(' and '))}
+function nlfit(rf,np){let p=Array(np).fill(1),lam=.01;const sse=q=>rf(q).reduce((a,r)=>a+r*r,0);let e=sse(p);if(!isFinite(e))throw 0;
+ for(let it=0;it<400;it++){const r0=rf(p),J=r0.map(()=>p.map(()=>0));
+  p.forEach((_,k)=>{const h=1e-6*Math.max(1,Math.abs(p[k])),q=[...p];q[k]+=h;rf(q).forEach((v,i)=>J[i][k]=(v-r0[i])/h)});
+  const Jt=math.transpose(J),A=math.multiply(Jt,J),g=math.multiply(Jt,r0).map(v=>-v);let ok=false;
+  for(let t=0;t<12&&!ok;t++){let d;try{d=math.lusolve(A.map((row,i)=>row.map((v,j)=>i===j?v+lam*(v||1):v)),g).flat()}catch(_){lam*=10;continue}
+   const q=p.map((v,k)=>v+d[k]),e2=sse(q);if(isFinite(e2)&&e2<=e){ok=true;const fin=e-e2<=1e-13*(1+e);p=q;e=e2;lam=Math.max(lam/5,1e-9);if(fin)return{p,e}}else lam*=10}
+  if(!ok)break}
+ return{p,e}}
+function gparse(){
+ const sc={};G.f=[];G.v=[];G.p=[];let tn=0;
+ G.it.forEach(it=>{it.rs='';if(it.k==='e'){it.v=it.v.replace(/≈/g,'~');const m=it.v.trim().match(VR);if(m)sc[m[1]]=+m[2]}else{it.n=++tn;it.P=it.d.map(r=>[parseFloat(r[0]),parseFloat(r[1])]).filter(q=>isFinite(q[0])&&isFinite(q[1]));sc['x'+it.n]=it.P.map(q=>q[0]);sc['y'+it.n]=it.P.map(q=>q[1])}});
+ let rn=0;
+ G.it.forEach((it,k)=>{if(it.k!=='e'||!it.v.includes('~'))return;const col=GC[k%GC.length];rn++;
+  try{const i0=it.v.indexOf('~');let A=it.v.slice(0,i0),B=it.v.slice(i0+1),cd=null;const rm=B.match(/^(.*?)\s*\{([^}]*)\}\s*$/);if(rm){B=rm[1];cd=gcond(rm[2])}
+   const tcol=z=>{const m=prep(z.trim()).match(/^y(\d+)$/);return m&&G.it.find(t=>t.k==='t'&&t.n===+m[1])};
+   const syms=ns=>{const nm=new Set();ns.forEach(n0=>n0.traverse((n,path,par)=>{if(n.isSymbolNode&&!(par&&par.isFunctionNode&&path==='fn'))nm.add(n.name)}));return[...nm]};
+   const toL=v=>{if(v&&v.toArray)v=v.toArray();return(Array.isArray(v)?v.flat(9):[v]).map(Number)};
+   const T=tcol(A)||tcol(B),M=tcol(A)?B:A;let ps,rf,pv,r2=null;
+   if(T){const xn='x'+T.n,node=math.parse(prep(tcol(A)?B:A)),c=node.compile();ps=syms([node]).filter(z=>z!==xn&&z!=='x'&&!(z in sc)&&!(z in math)&&!/^[xy]\d+$/.test(z));
+    let P=T.P;if(cd)P=P.filter(([x,y])=>cd.evaluate({...sc,x,[xn]:x,['y'+T.n]:y}));if(P.length<Math.max(2,ps.length))throw'n';
+    const fy=(q,x)=>{const s2={...sc,x,[xn]:x};ps.forEach((z,i)=>s2[z]=q[i]);const v=c.evaluate(s2);return typeof v==='number'?v:NaN};
+    rf=q=>P.map(([x,y])=>y-fy(q,x));pv=ps.length?nlfit(rf,ps.length).p:[];ps.forEach((z,i)=>sc[z]=pv[i]);
+    const my=P.reduce((a,q)=>a+q[1],0)/P.length,sst=P.reduce((a,q)=>a+(q[1]-my)**2,0),sse=rf(pv).reduce((a,v)=>a+v*v,0);r2=sst?1-sse/sst:1;
+    const s3={...sc};G.f.push({ev:x=>{s3.x=x;s3[xn]=x;const v=c.evaluate(s3);return typeof v==='number'?v:NaN},col})}
+   else{const nA=math.parse(prep(A)),nB=math.parse(prep(B)),cA=nA.compile(),cB=nB.compile();ps=syms([nA,nB]).filter(z=>!(z in sc)&&!(z in math));
+    rf=q=>{const s2={...sc};ps.forEach((z,i)=>s2[z]=q[i]);const a=toL(cA.evaluate(s2)),b=toL(cB.evaluate(s2));return Array.from({length:Math.max(a.length,b.length)},(_,i)=>a[a.length>1?i:0]-b[b.length>1?i:0])};
+    pv=ps.length?nlfit(rf,ps.length).p:[];ps.forEach((z,i)=>sc[z]=pv[i])}
+   const res=rf(pv);if(!res.length||res.some(v=>!isFinite(v)))throw 0;sc['e'+rn]=res;
+   const dn=z=>esc(z.replace(/([A-Za-z])(\d+)$/,(_,a,d)=>a+sb(d)));
+   it.rs=(ps.length?'<span class="lb">REGRESSION PARAMETERS</span>'+ps.map((z,i)=>`${dn(z)} = ${gfm(pv[i])}`).join(',  '):'')+'<span class="lb">STATISTICS</span>RMSE = '+gfm(Math.sqrt(res.reduce((a,v)=>a+v*v,0)/res.length))+(r2!=null?'   r² = '+gfm(r2):'')+`<span class="lb">RESIDUALS</span>e${sb(rn)} = [${res.slice(0,8).map(gfm).join(', ')}${res.length>8?', …':''}]`}
+  catch(e){it.rs=e==='n'?'Need more data points':'Can’t fit that'}});
+ G.it.forEach((it,k)=>{if(it.k!=='e'||it.v.includes('~'))return;const col=GC[k%GC.length],t=it.v.trim();if(!t||VR.test(t))return;
+  try{let s0=t,cd=null;const rm=s0.match(/^(.*?)\s*\{([^}]*)\}\s*$/);if(rm){s0=rm[1];cd=gcond(rm[2])}
+   s0=s0.replace(/^(y|f\(x\))\s*=\s*/i,'');const xm=s0.match(/^x\s*=\s*(.+)$/);
+   if(xm){G.v.push({x:math.evaluate(prep(xm[1]),sc),col});return}
+   const node=math.parse(prep(s0)),c=node.compile();
+   if(node.filter(z=>z.isSymbolNode&&z.name==='x').length)G.f.push({ev:x=>{sc.x=x;return cd&&!cd.evaluate(sc)?NaN:c.evaluate(sc)},col});
+   else{const v=c.evaluate(sc);it.rs='= '+(typeof v==='number'?+v.toPrecision(10):math.format(v,{precision:8}))}}catch(e){it.rs='?'}});
+ G.it.forEach((it,k)=>{if(it.k==='t')it.P.forEach(q=>G.p.push({x:q[0],y:q[1],col:GC[k%GC.length]}))});
+ G.it.forEach((it,k)=>{const e=document.querySelector(`#ex [data-i="${k}"] .rs`);if(e)e.innerHTML=it.rs||''})}
+function grender(){
+ let tn=0;$('#ex').innerHTML=G.it.map((it,k)=>{if(it.k==='t')it.n=++tn;const c=GC[k%GC.length],nm=`<b class="nm" style="background:${c}">${k+1}</b>`,x='<button class="s" data-g="del" title="Delete">✕</button>';
+  if(it.k==='e'){const vm=it.v.trim().match(VR);return `<div class="er" data-i="${k}">${nm}<input data-f="v" value="${esc(it.v)}" placeholder="${k?'':'y = 2x + 1'}" autocomplete="off" spellcheck="false">${x}${vm?`<input type="range" data-sl data-n="${vm[1]}" min="-10" max="10" step=".1" value="${vm[2]}">`:''}<span class="rs"></span></div>`}
+  return `<div class="er tb" data-i="${k}">${nm} <b>Table</b> ${x}<table class="tt"><tr><th>x${sb(it.n)}</th><th>y${sb(it.n)}</th></tr>${it.d.map((r,j)=>`<tr><td><input data-r="${j}" data-c="0" value="${esc(r[0])}"></td><td><input data-r="${j}" data-c="1" value="${esc(r[1])}"></td></tr>`).join('')}</table><select data-f="addreg"><option value="">Add regression…</option><option value="linear">Linear</option><option value="quadratic">Quadratic</option><option value="cubic">Cubic</option><option value="exponential">Exponential</option><option value="power">Power</option><option value="log">Logarithmic</option></select><div class="m sm">Adds a fitted row below. You can also type your own, like <b>y${sb(it.n)} ~ m x${sb(it.n)} + b</b></div><span class="rs"></span></div>`}).join('')
+  +'<div class="er"><button class="s" data-g="ae">+ Expression</button><button class="s" data-g="at">+ Table</button></div><div class="m sm">Type an expression in x, x = 3, or a = 2 (adds a slider). Tables plot points; fit them with y₁ ~ m x₁ + b (add {x₁>5} to limit which points). Lists work too: <b>[3, x₁] ~ [3, 9]</b> solves x₁ = 9. Drag to pan, scroll to zoom.</div>';
+ gparse();gdraw()}
+function gopen(){const ex=$('#ex');if(!ex.dataset.on){ex.dataset.on=1;
+ ex.oninput=e=>{const t=e.target,row=t.closest('[data-i]');if(!row)return;const it=G.it[+row.dataset.i];
+  if(t.dataset.sl!==undefined){it.v=t.dataset.n+' = '+t.value;row.querySelector('[data-f=v]').value=it.v}
+  else if(t.dataset.f==='v')it.v=t.value;
+  else if(t.dataset.c!==undefined){it.d[+t.dataset.r][+t.dataset.c]=t.value;const L=it.d[it.d.length-1];if(L[0]!==''||L[1]!==''){const n=it.d.push(['',''])-1;row.querySelector('table').insertAdjacentHTML('beforeend',`<tr><td><input data-r="${n}" data-c="0"></td><td><input data-r="${n}" data-c="1"></td></tr>`)}}
+  gparse();gdraw()};
+ ex.onchange=e=>{const t=e.target,row=t.closest('[data-i]');if(!row)return;const it=G.it[+row.dataset.i];
+  if(t.dataset.f==='addreg'){if(!t.value)return;const X='x'+sb(it.n),Y='y'+sb(it.n),T={linear:`${Y} ~ m ${X} + b`,quadratic:`${Y} ~ a ${X}^2 + b ${X} + c`,cubic:`${Y} ~ a ${X}^3 + b ${X}^2 + c ${X} + d`,exponential:`${Y} ~ a b^${X}`,power:`${Y} ~ a ${X}^b`,log:`${Y} ~ a + b ln(${X})`}[t.value];G.it.splice(+row.dataset.i+1,0,{k:'e',v:T});grender();return}
+  if(t.dataset.f==='v'&&!!VR.test(it.v.trim())!==!!row.querySelector('[data-sl]'))grender()};
+ ex.onclick=e=>{const b=e.target.closest('[data-g]');if(!b)return;const g=b.dataset.g;
+  if(g==='ae')G.it.push({k:'e',v:''});else if(g==='at')G.it.push(newT());else if(g==='del'){G.it.splice(+b.closest('[data-i]').dataset.i,1);if(!G.it.length)G.it.push({k:'e',v:''})}grender()};
+ ex.onkeydown=e=>{if(e.key==='Enter'&&e.target.dataset.f==='v'&&+e.target.closest('[data-i]').dataset.i===G.it.length-1){G.it.push({k:'e',v:''});grender();const a=ex.querySelectorAll('[data-f=v]');a[a.length-1].focus()}};
+ const c=$('#gc');let dr=null;
+ c.onpointerdown=e=>{dr={x:e.clientX,y:e.clientY};c.setPointerCapture(e.pointerId)};
+ c.onpointermove=e=>{if(!dr)return;G.cx-=(e.clientX-dr.x)/G.s;G.cy+=(e.clientY-dr.y)/G.s;dr={x:e.clientX,y:e.clientY};gdraw()};c.onpointerup=()=>dr=null;
+ c.onwheel=e=>{e.preventDefault();const r=c.getBoundingClientRect(),mx=e.clientX-r.left-r.width/2,my=e.clientY-r.top-r.height/2,wx=G.cx+mx/G.s,wy=G.cy-my/G.s;G.s=Math.min(2000,Math.max(2,G.s*Math.exp(-e.deltaY*.0015)));G.cx=wx-mx/G.s;G.cy=wy+my/G.s;gdraw()};
+ new ResizeObserver(gdraw).observe(c);grender()}gdraw()}
+function gdraw(){const c=$('#gc');if(!c||!c.clientWidth)return;const w=c.clientWidth,h=c.clientHeight,d=devicePixelRatio||1;if(c.width!==Math.round(w*d)||c.height!==Math.round(h*d)){c.width=Math.round(w*d);c.height=Math.round(h*d)}
+ const g=c.getContext('2d'),cs=getComputedStyle(R),bd=cs.getPropertyValue('--bd'),tx=cs.getPropertyValue('--tx'),mu=cs.getPropertyValue('--mut');g.setTransform(d,0,0,d,0,0);g.clearRect(0,0,w,h);
+ const ox=w/2-G.cx*G.s,oy=h/2+G.cy*G.s,pw=Math.pow(10,Math.floor(Math.log10(45/G.s))),st=[1,2,5,10].map(k=>k*pw).find(v=>v*G.s>=45);g.font='11px system-ui';g.lineWidth=1;
+ for(let x=Math.ceil(-ox/G.s/st)*st;x*G.s+ox<w;x+=st){const px=ox+x*G.s;g.strokeStyle=bd;g.beginPath();g.moveTo(px,0);g.lineTo(px,h);g.stroke();if(Math.abs(x)>1e-9){g.fillStyle=mu;g.fillText(String(+x.toFixed(6)),px+3,Math.min(h-4,Math.max(12,oy+12)))}}
+ for(let y=Math.ceil((oy-h)/G.s/st)*st;oy-y*G.s>0;y+=st){const py=oy-y*G.s;g.strokeStyle=bd;g.beginPath();g.moveTo(0,py);g.lineTo(w,py);g.stroke();if(Math.abs(y)>1e-9){g.fillStyle=mu;g.fillText(String(+y.toFixed(6)),Math.min(w-30,Math.max(4,ox+4)),py-3)}}
+ g.strokeStyle=tx;g.lineWidth=1.5;g.beginPath();g.moveTo(ox,0);g.lineTo(ox,h);g.moveTo(0,oy);g.lineTo(w,oy);g.stroke();
+ g.lineWidth=2.2;for(const f of G.f){g.strokeStyle=f.col;g.beginPath();let pen=false,p0=0;for(let px=0;px<=w;px+=2){let y;try{y=f.ev((px-ox)/G.s)}catch(e){y=NaN}
+  if(typeof y!=='number'||!isFinite(y)){pen=false;continue}const py=oy-y*G.s;if(Math.abs(py)>1e5){pen=false;continue}if(pen&&Math.abs(py-p0)<h*3)g.lineTo(px,py);else g.moveTo(px,py);pen=true;p0=py}g.stroke()}
+ for(const v of G.v){const px=ox+v.x*G.s;g.strokeStyle=v.col;g.beginPath();g.moveTo(px,0);g.lineTo(px,h);g.stroke()}
+ for(const q of G.p){g.beginPath();g.arc(ox+q.x*G.s,oy-q.y*G.s,5,0,7);g.fillStyle=q.col;g.fill();g.strokeStyle='#fff';g.lineWidth=1.5;g.stroke()}}
+
+(async()=>{app.innerHTML='<div class="ttl m">Loading your saved question banks…</div>';
+ const get=async k=>{try{const n=k?'_'+k:'',[b,ix]=await Promise.all([idb('get','pdf'+n),idb('get','index'+n)]);return b&&ix&&ix.qs?{b,ix}:null}catch(e){return null}};
+ const add=async(k,b,ix,mig)=>{try{const doc=await pdfjsLib.getDocument({data:new Uint8Array(b.slice(0))}).promise;let qs=ix.qs;
+   if(ix.v<9){const r=await parseBuf(b,t=>{app.innerHTML=`<div class="ttl m">Updating your saved question bank… ${esc(t)}</div>`});qs=r.qs}
+   qs.forEach(q=>q.src=k);S.docs[k]=doc;S.qs=S.qs.concat(qs);
+   if(mig||ix.v!==9){try{await idb('put','pdf_'+k,b);await idb('put','index_'+k,{v:9,qs});if(mig){await idb('put','pdf',null);await idb('put','index',null)}}catch(e){}}
+  }catch(e){}};
+ for(const k of['E','M']){const r=await get(k);if(r)await add(k,r.b,r.ix,false)}
+ if(!S.qs.length){const r=await get('');if(r){const L=r.ix.qs,m=L.filter(q=>/Math/i.test(q.test)).length>L.length/2?'M':'E';await add(m,r.b,r.ix,true)}}
+ if(ls('satdone')!=='1')showSurvey();else showTitle()})();
+</script></body></html>
