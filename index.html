@@ -296,7 +296,7 @@ function showTitle(){
  clearInterval(S.tick);clearInterval(S.itv);S.done=true;S.full=null;S.fullRes=null;document.body.dataset.q='';const has=S.qs.length,g=prog(0),nE=S.qs.filter(q=>sec(q)==='E').length,nM=S.qs.filter(q=>sec(q)==='M').length;let ss=null;try{ss=JSON.parse(ls('satsess'))}catch(e){}
  const tg=has?tgHTML():'';
  app.innerHTML=`<div class="ttl"><div class="logo">SAT</div><h1>${nameOf()?'Hey, '+hi():'SAT Practice'}</h1><p class="m">${nameOf()?'Ready to practice?':'Bluebook-style practice from your own question bank.'}</p>
- ${has?`<div class="stat"><div><b>${S.qs.length}</b><span>questions</span></div><div><b>${g.p}%</b><span>completed</span></div></div><p class="m sm" style="margin:0">English: ${nE} · Math: ${nM}</p>`:''}
+ ${has?`<div class="stat"><div><b>${S.qs.length}</b><span>questions</span></div><div><b>${g.p}%</b><span>completed</span></div></div><p class="m sm" style="margin:0"></p>`:''}
  ${tg?`<div class="tgbox" id="tgt">${tg}</div>`:''}
  <div class="btns"><button class="p pill big" data-a="begin">${has?(ss?'Continue':'Start practicing'):'Upload question bank'}</button>${has?'<button class="pill big" data-a="fullsetup">Full practice test</button>':''}</div>
  <div class="btns"><button class="pill" data-a="settings">Settings</button><button class="pill" data-a="newfile">English / Math PDFs</button></div>
