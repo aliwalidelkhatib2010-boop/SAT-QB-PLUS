@@ -118,6 +118,7 @@ body:not([data-q="1"]) #dz.dk{display:none!important}
 #dz.stk .hgrip{display:flex}
 body.dragh,body.dragh *{user-select:none;cursor:row-resize!important}
 body.dragw,body.dragw *{transition:none!important;user-select:none;cursor:col-resize}
+.rtry{position:relative;margin-right:10px}.rbd{position:absolute;top:-9px;right:-10px;background:var(--bad);color:#fff;border-radius:99px;font-size:.72rem;font-weight:700;padding:1px 7px;line-height:1.5}
 </style></head>
 <body>
 <button class="s" id="th" data-a="theme">◐ Theme</button>
@@ -219,6 +220,11 @@ addEventListener('resize',fitSplit);
 function persist(){if(S.done||!S.set.length||S.full)return;ls('satsess',JSON.stringify({ids:S.set.map(q=>q.id),i:S.i,ans:S.ans,chk:S.chk,fl:S.fl,mode:S.mode,lim:S.lim,el:el()}))}
 addEventListener('pagehide',persist);
 function timer(){clearInterval(S.tick);S.tick=setInterval(()=>{if(S.paused)return;const e=el();if(S.lim&&e>=S.lim)return finish();const t=$('#tm');if(t&&!S.hideT&&S.mode!=='review')t.textContent=fmt(S.lim?S.lim-e:e)},1000)}
+function finishSaved(){try{const s=JSON.parse(ls('satsess')),m=new Map(S.qs.map(q=>[q.id,q]));
+ Object.assign(S,{set:s.ids.map(i=>m.get(i)).filter(Boolean),ans:s.ans||{},chk:s.chk||{},fl:s.fl||{},xo:{},mode:s.mode,lim:s.lim||0,full:null,rec:Object.fromEntries(Object.keys(s.chk||{}).map(k=>[k,1])),i:0,done:false,paused:0});
+ if(!S.set.length)throw 0;finish()}catch(e){ls('satsess',null);showSetup()}}
+function startRetry(){const set=shuf(S.qs.filter(q=>stats[q.id]===0));if(!set.length)return;
+ Object.assign(S,{set,mode:'practice',lim:0,rec:{},full:null,fullRes:null,i:0,ans:{},chk:{},fl:{},xo:{},t0:Date.now(),done:false,paused:0,orig:false});timer();show()}
 function resume(){try{const s=JSON.parse(ls('satsess')),m=new Map(S.qs.map(q=>[q.id,q]));S.set=s.ids.map(i=>m.get(i)).filter(Boolean);
  Object.assign(S,{rec:Object.fromEntries(Object.keys(s.chk||{}).map(k=>[k,1])),full:null,i:Math.min(s.i,S.set.length-1),ans:s.ans,chk:s.chk,fl:s.fl,mode:s.mode,lim:s.lim,t0:Date.now()-s.el*1000,done:false,paused:0});timer();show()}catch(e){showSetup()}}
 function pause(){if(S.paused||S.done||S.mode==='review')return;S.paused=Date.now();const g=prog(1),n=Object.keys(S.ans).filter(k=>S.ans[k]).length;
@@ -405,7 +411,7 @@ function showTitle(){
 function showSetup(){
  clearInterval(S.tick);S.done=true;document.body.dataset.q='';let ss=null;try{ss=JSON.parse(ls('satsess'))}catch(e){}
  const o=a=>a.map(v=>`<option>${esc(v)}</option>`).join(''),g=prog(0);
- app.innerHTML=`<div class="card c">${ss?`<div class="card" style="background:var(--okb)"><b>Unfinished session</b><p class="m">Question ${ss.i+1} of ${ss.ids.length} · ${ss.mode} mode</p><button class="p pill" data-a="resume">Resume where I stopped</button> <button class="pill" data-a="discard">Discard</button></div>`:''}
+ app.innerHTML=`<div class="card c">${ss?`<div class="card" style="background:var(--okb)"><b>Unfinished session</b><p class="m">Question ${ss.i+1} of ${ss.ids.length} · ${ss.mode} mode</p><button class="p pill" data-a="resume">Resume where I stopped</button> <button class="pill" data-a="finsess" title="End this session and count the questions you answered as done">Finish session</button> <button class="pill" data-a="discard">Discard</button></div>`:''}
  <h1>Build a practice set</h1><p class="m">${g.n} of ${g.t} questions completed (${g.p}%)</p><div class="bar"><i style="width:${g.p}%"></i></div><div class="g">
  ${S.qs.some(q=>q.src==='E')&&S.qs.some(q=>q.src==='M')?'<label>Practice from<select id="fk"><option value="">English + Math (mixed)</option><option value="E">English only</option><option value="M">Math only</option></select></label>':`<input type="hidden" id="fk" value="${S.qs[0].src}">`}
  <label>Section<select id="ft"><option value="">All</option></select></label>
@@ -416,7 +422,7 @@ function showSetup(){
  <label>Number of questions<input id="fc" type="number" min="1" value="20"></label>
  <label>Time limit in minutes (0 = none)<input id="fl" type="number" min="0" value="0"></label></div>
  <label><input type="checkbox" id="fr" checked> Shuffle questions</label>
- <p class="m" id="av"></p><button class="p pill" data-a="go">Start</button> <button class="p pill" data-a="goall">Start all</button> <button class="pill" data-a="newfile">Manage PDFs</button> <button class="pill" data-a="fullsetup">Full practice test</button> <button class="pill" data-a="home">Home</button></div>`;
+ <p class="m" id="av"></p><button class="p pill" data-a="go">Start</button> <button class="p pill" data-a="goall">Start all</button> ${S.qs.some(q=>stats[q.id]===0)?`<button class="pill rtry" data-a="retry" title="Redo every question you have missed. Each one drops off this list once you get it right.">Retry missed<span class="rbd">✕ ${S.qs.filter(q=>stats[q.id]===0).length}</span></button>`:''} <button class="pill" data-a="newfile">Manage PDFs</button> <button class="pill" data-a="fullsetup">Full practice test</button> <button class="pill" data-a="home">Home</button></div>`;
  upd();$('.card').onchange=upd}
 const val=id=>$('#'+id).value;
 const pool=()=>S.qs.filter(q=>(!val('fk')||q.src===val('fk'))&&(!val('ft')||q.test===val('ft'))&&(!val('fd')||q.domain===val('fd'))&&(!val('fs')||q.skill===val('fs'))&&(!val('fx')||q.diff===val('fx'))&&(!val('fw')||(val('fw')==='new'?!(q.id in stats):stats[q.id]===0)));
@@ -536,7 +542,7 @@ document.addEventListener('click',ev=>{
  else if(a==='svb'){saveSv();showSurvey(S.sv-1)}else if(a==='svs'){saveSv();ls('satdone','1');showTitle()}
  else if(a==='fullsetup')showFullSetup();else if(a==='fullgo')startFull();else if(a==='inter'){clearInterval(S.itv);S.interCb&&S.interCb()}
  else if(a==='quitfull'){clearInterval(S.tick);S.full=null;S.done=true;showTitle()}
- else if(a==='resume')resume();else if(a==='discard'){ls('satsess',null);showSetup()}
+ else if(a==='resume')resume();else if(a==='finsess')finishSaved();else if(a==='retry')startRetry();else if(a==='discard'){ls('satsess',null);showSetup()}
  else if(a==='exit'){persist();S.paused=0;$('#pz').hidden=true;showSetup()}
  else if(a==='nav'){S.i=+b.dataset.j;show()}else if(a==='prev'){S.i--;show()}else if(a==='next'){S.i++;show()}
  else if(a==='flag'){S.fl[q.id]=!S.fl[q.id];b.classList.toggle('on',S.fl[q.id]);const nv=document.querySelector('.nv.cur');if(nv)nv.classList.toggle('fl',S.fl[q.id]);persist()}
