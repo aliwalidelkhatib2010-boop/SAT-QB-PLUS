@@ -251,6 +251,10 @@ body[data-q="auth"] #app{padding-top:0}
 .acr .l{min-width:0}.acr .l b{display:block}.acr .m{font-size:.85rem}
 .acr button.danger{color:var(--bad);border-color:var(--bad)}.acr button.armed{background:var(--bad);border-color:var(--bad);color:#fff}
 @media(max-width:520px){.acr{flex-wrap:wrap}}
+.c.left{text-align:left}
+.c.left .wl{align-items:flex-start;text-align:left}
+.c.left .wl select,.c.left .wl input{text-align:left;text-align-last:left;max-width:none}
+.c.left .btns,.c.left .acts{justify-content:flex-start}
 </style></head>
 <body>
 <div id="tbar"><button class="s" id="pdfb" data-a="newfile">English / Math PDFs</button><span id="tr"><button class="s gbtn" id="gbtn" data-a="gin" hidden></button><button class="s" id="th" data-a="theme">◐ Theme</button><div class="mw"><button class="av" id="pfp" data-a="pfp" title="Account" aria-label="Account"></button><div id="pm" hidden></div></div></span></div>
@@ -553,16 +557,16 @@ function pfpUpdate(){const b=$('#pfp');if(!b)return;const n=nameOf().trim(),u=wi
 function pmHTML(){const n=nameOf().trim(),g=prog(0),tg=tgHTML();
  return `<div class="pmh"><span class="av big" style="${window.FB?avStyle():''}">${window.FB&&FB.user&&FB.user.photoURL?'':esc(n?n[0].toUpperCase():'👤')}</span><div><b>${n?esc(n):'Your account'}</b><div class="m sm">${g.t?g.n+' of '+g.t+' questions done':'No questions loaded yet'}</div></div></div>
  <div class="pmb">${tg||'<p class="m sm" style="margin:0">No scores yet. Add your starting scores in Edit profile to track your progress.</p>'}</div>
- <div class="pmb"><div class="m sm">${window.FB&&FB.user?'Signed in as <b>'+esc(FB.user.email||FB.user.displayName||'')+'</b>':'Not signed in. Sign in to sync across devices.'}</div></div><div class="pmf">${window.FB&&FB.user?'<button class="p s" data-a="acct">Account</button>':'<button class="p s" data-a="gin">Sign in</button>'}<button class="s" data-a="profile">Edit profile</button><button class="s" data-a="settings">Settings</button></div>`}
+ <div class="pmb"><div class="m sm">${window.FB&&FB.user?'Signed in as <b>'+esc(FB.user.email||FB.user.displayName||'')+'</b>':'Not signed in. Sign in to sync across devices.'}</div></div><div class="pmf">${window.FB&&FB.user?'<button class="p s" data-a="acct">Account</button>':'<button class="p s" data-a="gin">Sign in</button>'}<button class="s" data-a="settings">Settings</button></div>`}
 function showProfile(){clearInterval(S.tick);S.done=true;document.body.dataset.q='';
- app.innerHTML=`<div class="card c"><h1>Edit profile</h1><div style="display:flex;flex-direction:column;gap:14px">${nameFld()}<div class="tgrow">${fld('tse','English start','sattse','690')}${fld('tsm','Math start','sattsm','610')}</div><div class="tgrow">${fld('tge','English target','sattge','800')}${fld('tgm','Math target','sattgm','800')}</div><p class="m sm" style="margin:0">Changing a starting score restarts your progress tracker from that score.</p></div><div class="btns" style="margin-top:14px"><button class="p pill" data-a="svs">Save</button><button class="pill" data-a="home">Back</button></div></div>`}
+ app.innerHTML=`<div class="card c"><h1>Edit profile</h1><div style="display:flex;flex-direction:column;gap:14px">${nameFld()}<div class="tgrow">${fld('tse','English start','sattse','690')}${fld('tsm','Math start','sattsm','610')}</div><div class="tgrow">${fld('tge','English target','sattge','800')}${fld('tgm','Math target','sattgm','800')}</div><p class="m sm" style="margin:0">Changing a starting score restarts your progress tracker from that score.</p></div><div class="btns" style="margin-top:14px"><button class="p pill" data-a="svs">Save</button><button class="pill" data-a="navback">Back</button></div></div>`}
 function showSettings(){clearInterval(S.tick);S.done=true;document.body.dataset.q='';
- app.innerHTML=`<div class="card c"><h1>Settings</h1><div style="display:flex;flex-direction:column;gap:18px">
+ app.innerHTML=`<div class="card c left"><h1>Settings</h1><div style="display:flex;flex-direction:column;gap:18px">
  <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer"><input type="checkbox" id="stwz" ${ls('satwiz')!=='0'?'checked':''} style="margin-top:4px"><span>Guided setup<br><span class="m sm">Ask a few quick questions to build your practice set, then show the full menu to confirm. Turn off to go straight to the full menu.</span></span></label>
  <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer"><input type="checkbox" id="sten" ${ls('satenter')!=='0'?'checked':''} style="margin-top:4px"><span>Press <b>Enter</b> to check my answer<br><span class="m sm">Practice mode only, and only once you've picked or typed an answer.</span></span></label>
  <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer"><input type="checkbox" id="stsa" ${ls('satstartall')==='1'?'checked':''} style="margin-top:4px"><span>Show the &ldquo;Start all&rdquo; button<br><span class="m sm">Adds a button to the practice setup screen that starts every question matching your filters at once.</span></span></label>
  <label class="wl">Practice from / Section<span class="hint">These two filters ask almost the same thing. Choose which one to show when you build a practice set.</span><select id="stdup"><option value="nobank">Show Section only</option><option value="nosec">Show Practice from only</option><option value="both">Show both</option></select></label>
- <p class="m sm" style="margin:0">Tip: use A− / A+ while practicing to change the text size.</p></div><div class="btns" style="margin-top:16px"><button class="p pill" data-a="svs">Save</button><button class="pill" data-a="home">Back</button></div></div>`;
+ <p class="m sm" style="margin:0">Tip: use A− / A+ while practicing to change the text size.</p></div><div class="btns" style="margin-top:16px"><button class="p pill" data-a="svs">Save</button><button class="pill" data-a="navback">Back</button></div></div>`;
  $('#stdup').value=ls('satdup')||'nobank'}
 document.addEventListener('change',e=>{if(e.target.id==='stdup')ls('satdup',e.target.value)});
 new MutationObserver(pfpUpdate).observe(app,{childList:true});pfpUpdate();
@@ -749,7 +753,7 @@ document.addEventListener('click',ev=>{
  const b=ev.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,q=S.set[S.i];if(a!=='auto'&&a!=='more'&&b.closest('#mo'))$('#mo').hidden=true;if(a!=='pfp'&&b.closest('#pm'))$('#pm').hidden=true;
  if(a==='begin')(S.qs.length?goSetup():showUpload());else if(a==='home')showTitle();else if(a==='go')start(false);else if(a==='goall')start(true);else if(a==='newfile')showUpload();else if(a==='setup')goSetup();else if(a==='clr')removeBank(b.dataset.k);
  else if(a==='settings')showSettings();else if(a==='svn'){saveSv();if(S.sv<2)showSurvey(S.sv+1);else{ls('satdone','1');showTitle()}}
- else if(a==='svb'){saveSv();showSurvey(S.sv-1)}else if(a==='svs'){saveSv();ls('satdone','1');showTitle()}
+ else if(a==='svb'){saveSv();showSurvey(S.sv-1)}else if(a==='svs'){saveSv();ls('satdone','1');navBack()}
  else if(a==='fullsetup')showFullSetup();else if(a==='fullgo')startFull();else if(a==='inter'){clearInterval(S.itv);S.interCb&&S.interCb()}
  else if(a==='quitfull'){clearInterval(S.tick);S.full=null;S.done=true;showTitle()}
  else if(a==='resume')resume();else if(a==='finsess')finishSaved();else if(a==='retry')startRetry();else if(a==='discard'){ls('satsess',null);showSetup()}
@@ -997,7 +1001,7 @@ async function authReset(){if(!FB.ready)return;const em=($('#ae').value||'').tri
  try{await FB.m.Au.sendPasswordResetEmail(FB.auth,em);authMsg('Password reset email sent. Check your inbox.',1)}catch(e){authMsg(AUTHERR[e.code]||('Could not send: '+(e.code||e.message)))}}
 document.addEventListener('click',ev=>{const b=ev.target.closest('[data-a]');if(!b)return;const a=b.dataset.a;
  if(a==='atab')showAuth(b.dataset.m);else if(a==='agoogle')fbSignIn();else if(a==='areset')authReset();
- else if(a==='aback'){S.authpage=false;S.authback=false;showTitle()}
+ else if(a==='aback'){S.authpage=false;navBack()}
  else if(a==='askip'){S.authpage=false;ls('satauthseen','1');ls('satdone')==='1'?showTitle():showSurvey()}});
 
 /* ---------- account page ---------- */
@@ -1025,9 +1029,10 @@ function showAccount(msg){clearInterval(S.tick);S.done=true;S.authpage=false;doc
  ${row('Download my data','Save your progress as a file you can keep as a backup','<button class="s" data-a="export">Download</button>')}
  ${pw?row('Password','We will email you a link to choose a new one','<button class="s" data-a="pwreset">Reset password</button>'):''}
  ${row('Reset progress','Erase your answers, history and saved practices'+(u?' here and in the cloud':'')+'. Your name and score goals stay.','<button class="s danger" data-a="resetprog">Reset…</button>')}
+ ${u?row('Delete account','Permanently deletes your account and its cloud data. Progress saved on this device stays.','<button class="s danger" data-a="delacct">Delete…</button>'):''}
  ${u?row('Sign out','Your progress stays saved to your account','<button class="s" data-a="gout">Sign out</button>'):''}
  <div class="m sm" id="acm" style="margin-top:8px">${esc(msg||'')}</div></div>
- <div style="text-align:center"><button class="pill" data-a="home">Back</button></div></div>`}
+ <div style="text-align:center"><button class="pill" data-a="navback">Back</button></div></div>`}
 document.addEventListener('click',async ev=>{const b=ev.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,say=t=>{const e=$('#acm');if(e)e.textContent=t};
  if(a==='syncnow'){if(!FB.user)return;b.disabled=true;b.textContent='Syncing…';await cloudPull();showAccount('Synced just now.')}
  else if(a==='export'){const o={exported:new Date().toISOString()};SYNC.forEach(k=>{const v=ls(k);if(v!=null)o[k]=v});
@@ -1035,6 +1040,25 @@ document.addEventListener('click',async ev=>{const b=ev.target.closest('[data-a]
  else if(a==='pwreset'){try{await FB.m.Au.sendPasswordResetEmail(FB.auth,FB.user.email);say('Password reset email sent to '+FB.user.email+'.')}catch(e){say('Could not send: '+(e.code||e.message))}}
  else if(a==='resetprog'){if(b.dataset.armed){stats={};satlog=[];saved=[];S.rec={};saveStats();saveSaved();ls('satlog','[]');ls('satsess',null);ls('satbase',String(Date.now()));if(FB.user)await cloudPush();showAccount('Progress reset.')}
   else{b.dataset.armed='1';b.textContent='Really erase?';b.classList.add('armed');setTimeout(()=>{if(b.isConnected){delete b.dataset.armed;b.textContent='Reset…';b.classList.remove('armed')}},4000)}}});
+
+/* ---------- delete account + back-to-previous-page ---------- */
+document.addEventListener('click',async ev=>{const b=ev.target.closest('[data-a]');if(!b)return;const a=b.dataset.a;
+ if(a==='navback'){navBack();return}
+ if(a!=='delacct')return;
+ if(!b.dataset.armed){b.dataset.armed='1';b.textContent='Really delete?';b.classList.add('armed');setTimeout(()=>{if(b.isConnected){delete b.dataset.armed;b.textContent='Delete…';b.classList.remove('armed')}},4000);return}
+ const say=t=>{const e=$('#acm');if(e)e.textContent=t};b.disabled=true;say('Deleting…');
+ try{const{Au,Db}=FB.m,u=FB.user;
+  if(u.providerData.some(p=>p.providerId==='password')){const pw=prompt('Enter your password to confirm deleting your account:');if(!pw){showAccount();return}await Au.reauthenticateWithCredential(u,Au.EmailAuthProvider.credential(u.email,pw))}
+  else await Au.reauthenticateWithPopup(u,new Au.GoogleAuthProvider());
+  clearTimeout(FB.t);FB.t=0;await Db.remove(Db.ref(FB.db,'users/'+u.uid));await Au.deleteUser(u);
+  FB.user=null;FB.sync='';fbUI();showTitle()}
+ catch(e){showAccount(e.code==='auth/popup-closed-by-user'?'Cancelled.':(AUTHERR[e.code]||'Could not delete: '+(e.code||e.message)))}});
+const GRP=['showAccount','showProfile','showSettings','showAuth'],TRK=['showTitle','showSetup','showReady','showWiz','showUpload','showFullSetup','results','showSurvey'];
+let CUR=null,BACK=null,GS=[],NAVING=false;
+[...GRP,...TRK].forEach(n=>{const f=window[n],g=GRP.includes(n);window[n]=function(...a){
+ if(!NAVING){if(g){if(CUR&&GRP.includes(CUR.n)){if(CUR.n!==n)GS.push(CUR)}else{GS=[];BACK=CUR}}else GS=[]}
+ CUR={n,a:n==='showAccount'?[]:a};return f.apply(this,a)}});
+function navBack(){NAVING=true;try{const t=GS.pop();if(t)window[t.n](...t.a);else{const o=BACK&&!GRP.includes(BACK.n)?BACK:{n:'showTitle',a:[]};window[o.n](...o.a)}}finally{NAVING=false}}
 
 fbInit();
 document.getElementById('gbtn').innerHTML=GSVG+' Sign in';
