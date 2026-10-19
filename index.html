@@ -90,7 +90,7 @@ body[data-q="1"] #app{max-width:none;padding:0}.qw{max-width:calc(1100px*var(--z
 .qw{position:relative}#app{position:relative}body[data-q] #app{min-height:100vh}
 canvas.ink{position:absolute;left:0;top:0;width:100%;height:100%;z-index:20;pointer-events:none;touch-action:none;background:none}
 #pbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:35;display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:8px 12px;max-width:94vw;flex-wrap:wrap;justify-content:center;box-shadow:0 6px 28px #0006}
-#pbar[hidden]{display:none}.pcs,.pts{display:flex;gap:6px}.pt{min-width:34px;font-size:1rem}
+#pbar[hidden]{display:none}.pcs,.pts{display:flex;gap:6px}.psz{display:flex;align-items:center;gap:6px}.psz input{width:90px}.pdw{width:20px;height:20px;display:grid;place-items:center;flex:none}.pdot{border-radius:50%;display:block}.pt{min-width:34px;font-size:1rem}
 .ptxt{position:absolute;z-index:25;font:20px/25px system-ui,-apple-system,Segoe UI,sans-serif;background:transparent;border:1.5px dashed var(--ac);border-radius:4px;padding:0;margin:-1.5px 0 0 -1.5px;resize:none;outline:none;min-width:120px;overflow:hidden}
 .pc{width:26px;height:26px;border-radius:50%;border:2px solid var(--bd);padding:0;cursor:pointer}.pc.on{outline:3px solid var(--ac);outline-offset:2px}
 button.s.on{background:var(--ac);color:var(--bg);border-color:var(--ac)}
@@ -163,6 +163,7 @@ function penDraw(){const P=PC;if(!P||!P.cv.isConnected)return;const cv=P.cv,g=cv
 function penUI(){if(!PC)return;const d=isDark()?1:0;
  PC.bar.querySelectorAll('.pc').forEach(b=>{b.style.background=PEN[b.dataset.c][d];b.classList.toggle('on',(S.penc||'k')===b.dataset.c)});
  PC.bar.querySelectorAll('.pt').forEach(b=>b.classList.toggle('on',(S.pent||'pen')===b.dataset.t));
+ const dot=PC.bar.querySelector('#pdot');if(dot){const w=S.penw||3;dot.style.width=dot.style.height=Math.min(w,18)+'px';dot.style.background=PEN[S.penc||'k'][d]}
  PC.cv.style.cursor=S.pen?(S.pent==='text'?'text':'crosshair'):''}
 const REDO={};
 document.addEventListener('change',e=>{if(e.target.id==='sten')ls('satenter',e.target.checked?'1':'0')});
@@ -174,25 +175,25 @@ function penUndo(){penCommit();const L=PC&&INK[PC.q.id];if(!L)return;(REDO[PC.q.
 function penRedo(){penCommit();if(!PC)return;const L=REDO[PC.q.id];if(!L||!L.length)return;(INK[PC.q.id]=INK[PC.q.id]||[]).push(L.pop());penSave();penDraw()}
 document.addEventListener('keydown',e=>{if(!PC||!PC.cv.isConnected)return;const t=e.target;if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable))return;
  const k=e.key.toLowerCase(),c=e.ctrlKey||e.metaKey;
- if(c&&k==='z'){e.preventDefault();e.shiftKey?penRedo():penUndo()}else if(c&&k==='y'){e.preventDefault();penRedo()}else if(!c&&!e.altKey&&k==='p'){e.preventDefault();togglePen()}});
+ if(c&&k==='z'){e.preventDefault();e.shiftKey?penRedo():penUndo()}else if(c&&k==='y'){e.preventDefault();penRedo()}else if(!c&&!e.altKey&&k==='p'){e.preventDefault();togglePen()}else if(!c&&(k==='['||k===']')){S.penw=Math.max(1,Math.min(16,(S.penw||3)+(k===']'?1:-1)));ls('satpenw',S.penw);PC.bar.querySelector('#penw').value=S.penw;penUI()}});
 function penCommit(){const E=PC&&PC.ed;if(!E)return;PC.ed=null;const v=E.ta.value.replace(/\s+$/,'');E.ta.remove();
- if(v){(INK[PC.q.id]=INK[PC.q.id]||[]).push({c:E.c,t:'text',f:20,s:v,p:[E.pt]});REDO[PC.q.id]=[];penSave();penDraw()}}
+ if(v){(INK[PC.q.id]=INK[PC.q.id]||[]).push({c:E.c,t:'text',f:E.f||20,s:v,p:[E.pt]});REDO[PC.q.id]=[];penSave();penDraw()}}
 function penText(pt){const W=PC.cv.clientWidth,ta=document.createElement('textarea');ta.className='ptxt';ta.rows=1;ta.placeholder='Type…';
- ta.style.cssText=`left:${pt[0]*W}px;top:${pt[1]}px;color:${PEN[S.penc||'k'][isDark()?1:0]}`;app.append(ta);PC.ed={ta,pt,c:S.penc||'k'};
+ const f=12+(S.penw||3)*3;ta.style.cssText=`font-size:${f}px;line-height:${f*1.25}px;left:${pt[0]*W}px;top:${pt[1]}px;color:${PEN[S.penc||'k'][isDark()?1:0]}`;app.append(ta);PC.ed={ta,pt,f,c:S.penc||'k'};
  const grow=()=>{ta.style.height='auto';ta.style.height=ta.scrollHeight+'px';ta.style.width=Math.max(120,Math.min(ta.scrollWidth,W-pt[0]*W-8))+'px'};
  ta.oninput=grow;ta.onkeydown=ev=>{if(ev.key==='Enter'&&!ev.shiftKey){ev.preventDefault();penCommit()}else if(ev.key==='Escape'){PC.ed=null;ta.remove()}ev.stopPropagation()};
  ta.onblur=()=>{if(PC&&PC.ed&&PC.ed.ta===ta)penCommit()};setTimeout(()=>ta.focus(),0)}
 function togglePen(on){if(!PC)return;penCommit();S.pen=on===undefined?!S.pen:on;PC.cv.style.pointerEvents=S.pen?'auto':'none';PC.bar.hidden=!S.pen;const b=$('#penb');if(b)b.classList.toggle('on',S.pen);penUI()}
-function inkInit(q){const qw=$('.qw');if(!qw)return;if(PC&&PC.ro)PC.ro.disconnect();S.pen=false;S.penc=S.penc||ls('satpenc')||'k';S.pent=S.pent||ls('satpent')||'pen';
+function inkInit(q){const qw=$('.qw');if(!qw)return;if(PC&&PC.ro)PC.ro.disconnect();S.pen=false;S.penc=S.penc||ls('satpenc')||'k';S.pent=S.pent||ls('satpent')||'pen';S.penw=S.penw||+ls('satpenw')||3;
  const cv=document.createElement('canvas');cv.className='ink';app.append(cv);
  const bar=document.createElement('div');bar.id='pbar';bar.hidden=true;
- bar.innerHTML=`<span class="pts">${TOOLS.map(([t,i,n])=>`<button class="s pt" data-a="pent" data-t="${t}" title="${n}">${i}</button>`).join('')}</span><span class="pcs">${['k','b','g','r'].map(c=>`<button class="pc" data-a="penc" data-c="${c}" title="${{k:'Black (white in dark mode)',b:'Blue',g:'Green',r:'Red'}[c]}"></button>`).join('')}</span><button class="s" data-a="penu" title="Ctrl+Z">Undo</button><button class="s" data-a="penr" title="Ctrl+Y">Redo</button><button class="s" data-a="penx">Clear</button><button class="p s" data-a="pen">Done</button>`;app.append(bar);
- PC={cv,bar,q};let cur=null;
+ bar.innerHTML=`<span class="pts">${TOOLS.map(([t,i,n])=>`<button class="s pt" data-a="pent" data-t="${t}" title="${n}">${i}</button>`).join('')}</span><span class="pcs">${['k','b','g','r'].map(c=>`<button class="pc" data-a="penc" data-c="${c}" title="${{k:'Black (white in dark mode)',b:'Blue',g:'Green',r:'Red'}[c]}"></button>`).join('')}</span><label class="psz" title="Pen size ( [ and ] )"><span class="pdw"><i class="pdot" id="pdot"></i></span><input type="range" id="penw" min="1" max="16" step="1"></label><button class="s" data-a="penu" title="Ctrl+Z">Undo</button><button class="s" data-a="penr" title="Ctrl+Y">Redo</button><button class="s" data-a="penx">Clear</button><button class="p s" data-a="pen">Done</button>`;app.append(bar);
+ PC={cv,bar,q};let cur=null;const rg=bar.querySelector('#penw');rg.value=S.penw;rg.oninput=e=>{S.penw=+e.target.value;ls('satpenw',S.penw);penUI()};
  cv.onpointerdown=e=>{if(!S.pen||(e.pointerType==='mouse'&&e.button!==0))return;e.preventDefault();penCommit();
   const r=cv.getBoundingClientRect(),pt=[+((e.clientX-r.left)/r.width).toFixed(4),+(e.clientY-r.top).toFixed(1)],t=S.pent||'pen';
   if(t==='text'){penText(pt);return}
   try{cv.setPointerCapture(e.pointerId)}catch(err){}
-  cur={c:S.penc||'k',w:3,p:t==='pen'?[pt]:[pt,pt.slice()]};if(t!=='pen')cur.t=t;(INK[q.id]=INK[q.id]||[]).push(cur);REDO[q.id]=[];penDraw()};
+  cur={c:S.penc||'k',w:S.penw||3,p:t==='pen'?[pt]:[pt,pt.slice()]};if(t!=='pen')cur.t=t;(INK[q.id]=INK[q.id]||[]).push(cur);REDO[q.id]=[];penDraw()};
  cv.onpointermove=e=>{if(!cur)return;const r=cv.getBoundingClientRect(),x=+((e.clientX-r.left)/r.width).toFixed(4),y=+(e.clientY-r.top).toFixed(1);
   if(cur.t){cur.p[1]=[x,y];penDraw();return}
   const l=cur.p[cur.p.length-1];if(Math.hypot((x-l[0])*r.width,y-l[1])<1.5)return;cur.p.push([x,y]);penDraw()};
