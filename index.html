@@ -235,6 +235,22 @@ input[type=text],input[type=search]{font:inherit;color:inherit;background:var(--
 .auth .err{color:var(--bad);font-size:.88rem;min-height:1.2em}.auth .ok{color:var(--ok);font-size:.88rem}
 .auth .perk{background:var(--hd);border-radius:12px;padding:10px 14px;font-size:.88rem;color:var(--mut);text-align:left}
 .auth .skip{border:0;background:none;color:var(--mut);text-decoration:underline;font-size:.9rem;cursor:pointer}.auth .skip:hover{color:var(--tx)}
+.sw.rdy{min-height:calc(100vh - 90px);align-items:center;margin:0 auto}
+.sw.rdy .side{position:static}
+body[data-q="auth"] #tbar{display:none}
+body[data-q="auth"] #app{padding-top:0}
+.auth{min-height:100vh;margin:0 auto;justify-content:center;padding:28px 0;position:relative}
+.auth .back{position:absolute;left:0;top:18px;border:0;background:none;color:var(--mut);font:inherit;cursor:pointer}.auth .back:hover{color:var(--tx)}
+.pmf{flex-wrap:wrap}
+.acct{max-width:820px;margin:2vh auto 24px;display:flex;flex-direction:column;gap:14px;text-align:left}
+.acct .card{margin:0}.acct h2{margin:0 0 6px;font-size:1.1rem}
+.acct .who{display:flex;align-items:center;gap:16px}.acct .who b{font-size:1.3rem}
+.acs{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
+.acs>div{background:var(--hd);border-radius:14px;padding:14px;text-align:center}.acs b{display:block;font-size:1.7rem;line-height:1.2}.acs span{font-size:.8rem;color:var(--mut)}
+.acr{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--bd)}.acr:first-of-type{border-top:0}
+.acr .l{min-width:0}.acr .l b{display:block}.acr .m{font-size:.85rem}
+.acr button.danger{color:var(--bad);border-color:var(--bad)}.acr button.armed{background:var(--bad);border-color:var(--bad);color:#fff}
+@media(max-width:520px){.acr{flex-wrap:wrap}}
 </style></head>
 <body>
 <div id="tbar"><button class="s" id="pdfb" data-a="newfile">English / Math PDFs</button><span id="tr"><button class="s gbtn" id="gbtn" data-a="gin" hidden></button><button class="s" id="th" data-a="theme">◐ Theme</button><div class="mw"><button class="av" id="pfp" data-a="pfp" title="Account" aria-label="Account"></button><div id="pm" hidden></div></div></span></div>
@@ -537,7 +553,7 @@ function pfpUpdate(){const b=$('#pfp');if(!b)return;const n=nameOf().trim(),u=wi
 function pmHTML(){const n=nameOf().trim(),g=prog(0),tg=tgHTML();
  return `<div class="pmh"><span class="av big" style="${window.FB?avStyle():''}">${window.FB&&FB.user&&FB.user.photoURL?'':esc(n?n[0].toUpperCase():'👤')}</span><div><b>${n?esc(n):'Your account'}</b><div class="m sm">${g.t?g.n+' of '+g.t+' questions done':'No questions loaded yet'}</div></div></div>
  <div class="pmb">${tg||'<p class="m sm" style="margin:0">No scores yet. Add your starting scores in Edit profile to track your progress.</p>'}</div>
- ${window.FB?fbBlock():''}<div class="pmf"><button class="s" data-a="profile">Edit profile</button><button class="s" data-a="settings">Settings</button></div>`}
+ <div class="pmb"><div class="m sm">${window.FB&&FB.user?'Signed in as <b>'+esc(FB.user.email||FB.user.displayName||'')+'</b>':'Not signed in. Sign in to sync across devices.'}</div></div><div class="pmf">${window.FB&&FB.user?'<button class="p s" data-a="acct">Account</button>':'<button class="p s" data-a="gin">Sign in</button>'}<button class="s" data-a="profile">Edit profile</button><button class="s" data-a="settings">Settings</button></div>`}
 function showProfile(){clearInterval(S.tick);S.done=true;document.body.dataset.q='';
  app.innerHTML=`<div class="card c"><h1>Edit profile</h1><div style="display:flex;flex-direction:column;gap:14px">${nameFld()}<div class="tgrow">${fld('tse','English start','sattse','690')}${fld('tsm','Math start','sattsm','610')}</div><div class="tgrow">${fld('tge','English target','sattge','800')}${fld('tgm','Math target','sattgm','800')}</div><p class="m sm" style="margin:0">Changing a starting score restarts your progress tracker from that score.</p></div><div class="btns" style="margin-top:14px"><button class="p pill" data-a="svs">Save</button><button class="pill" data-a="home">Back</button></div></div>`}
 function showSettings(){clearInterval(S.tick);S.done=true;document.body.dataset.q='';
@@ -562,7 +578,7 @@ const wpool=o=>{const w={...W,...o};return S.qs.filter(q=>(!w.fk||q.src===w.fk)&
 const wvals=(key,o)=>[...new Set(wpool(o).map(q=>q[key]).filter(Boolean))].sort();
 function showReady(){clearInterval(S.tick);S.done=true;document.body.dataset.q='';let ss=null;try{ss=JSON.parse(ls('satsess'))}catch(e){}
  const side=sideHTML(ss),nm=nameOf();
- app.innerHTML=`<div class="sw${side?'':' one'}"><div class="card c" style="text-align:center"><div class="logo" style="display:inline-block">SAT</div><h1 style="margin-top:14px">Are you ready to practice${nm?', '+hi():''}?</h1><p class="m">Answer a few quick questions and I will build your practice set. You can review and change everything before you start.</p><div class="acts" style="justify-content:center"><button class="p pill big" data-a="wzgo">Yes, let&rsquo;s go</button><button class="pill big" data-a="wzskip">Skip to full setup</button></div><div class="acts" style="justify-content:center;margin-top:8px"><button class="pill" data-a="home">Back</button></div></div>${side}</div>`}
+ app.innerHTML=`<div class="sw rdy${side?'':' one'}"><div class="card c" style="text-align:center"><div class="logo" style="display:inline-block">SAT</div><h1 style="margin-top:14px">Are you ready to practice${nm?', '+hi():''}?</h1><p class="m">Answer a few quick questions and I will build your practice set. You can review and change everything before you start.</p><div class="acts" style="justify-content:center"><button class="p pill big" data-a="wzgo">Yes, let&rsquo;s go</button><button class="pill big" data-a="wzskip">Skip to full setup</button></div><div class="acts" style="justify-content:center;margin-top:8px"><button class="pill" data-a="home">Back</button></div></div>${side}</div>`}
 function showWiz(){clearInterval(S.tick);S.done=true;document.body.dataset.q='';const st=W.step,two=S.qs.some(q=>q.src==='E')&&S.qs.some(q=>q.src==='M');
  const sel=(k,lb,hint,opts)=>`<label class="wl">${lb}<span class="hint">${hint}</span><select data-w="${k}">${opts.map(([v,t])=>`<option value="${esc(v)}"${String(v)===String(W[k])?' selected':''}>${esc(t)}</option>`).join('')}</select></label>`;
  const all=(t,a)=>[['',t],...a.map(v=>[v,v])],m=wpool({}).length;
@@ -738,7 +754,7 @@ document.addEventListener('click',ev=>{
  else if(a==='quitfull'){clearInterval(S.tick);S.full=null;S.done=true;showTitle()}
  else if(a==='resume')resume();else if(a==='finsess')finishSaved();else if(a==='retry')startRetry();else if(a==='discard'){ls('satsess',null);showSetup()}
  else if(a==='profile')showProfile();
- else if(a==='gin')showAuth();else if(a==='gout')fbSignOut();else if(a==='pfp'){const m=$('#pm');if(m.hidden){m.innerHTML=pmHTML();m.hidden=false}else m.hidden=true}
+ else if(a==='gin')showAuth('in',true);else if(a==='acct')showAccount();else if(a==='gout')fbSignOut();else if(a==='pfp'){const m=$('#pm');if(m.hidden){m.innerHTML=pmHTML();m.hidden=false}else m.hidden=true}
  else if(a==='wzgo'){W.fk=W.ft=W.fd=W.fs=W.fx=W.fw='';W.step=0;showWiz()}
  else if(a==='wzskip')showSetup();
  else if(a==='wzb'){if(W.step>0){W.step--;showWiz()}else showReady()}
@@ -903,7 +919,7 @@ function gdraw(){const c=$('#gc');if(!c||!c.clientWidth)return;const w=c.clientW
  if(!S.qs.length){const r=await get('');if(r){const L=r.ix.qs,m=L.filter(q=>/Math/i.test(q.test)).length>L.length/2?'M':'E';await add(m,r.b,r.ix,true)}}
  await Promise.race([FB.first,new Promise(r=>setTimeout(r,4000))]);
  if(S.authpage)return;
- if(FB.ready&&!FB.user&&ls('satauthseen')!=='1')showAuth('up');
+ if(FB.ready&&!FB.user&&ls('satauthseen')!=='1')showAuth('up',false);
  else if(ls('satdone')!=='1')showSurvey();else showTitle()})();
 /* ===== Firebase: Google sign-in + progress sync (needs your own hosting; see FIREBASE_CONFIG at the top) ===== */
 var FBres,FB={cfg:!!FIREBASE_CONFIG.apiKey,ready:false,user:null,err:null,m:null,sync:'',t:0,pulling:false,first:new Promise(r=>FBres=r)};
@@ -932,7 +948,7 @@ async function fbSignIn(){
   if(e.code==='auth/popup-blocked'){try{await Au.signInWithRedirect(FB.auth,p)}catch(e2){alert('Sign-in failed: '+(e2.code||e2.message))}}
   else if(e.code==='auth/unauthorized-domain')alert('This domain is not authorised yet. In Firebase, open Authentication, then Settings, then Authorized domains, and add this site’s domain.');
   else if(e.code!=='auth/popup-closed-by-user'&&e.code!=='auth/cancelled-popup-request')alert('Sign-in failed: '+(e.code||e.message))}}
-async function fbSignOut(){try{await cloudPush();await FB.m.Au.signOut(FB.auth)}catch(e){}FB.user=null;FB.sync='';fbUI()}
+async function fbSignOut(){try{await cloudPush();await FB.m.Au.signOut(FB.auth)}catch(e){}FB.user=null;FB.sync='';fbUI();showTitle()}
 function cloudSoon(k){if(!FB||!FB.user||FB.pulling||!SYNC.includes(k))return;clearTimeout(FB.t);FB.t=setTimeout(cloudPush,2500)}
 async function cloudPush(){
  if(!FB||!FB.user)return;clearTimeout(FB.t);FB.t=0;
@@ -961,8 +977,8 @@ addEventListener('pagehide',()=>{if(FB.t)cloudPush()});
 
 /* ---------- sign in / sign up page (optional) ---------- */
 const AUTHERR={'auth/invalid-email':'That email address doesn’t look right.','auth/missing-password':'Please enter your password.','auth/weak-password':'Password must be at least 6 characters.','auth/email-already-in-use':'That email already has an account. Try signing in instead.','auth/invalid-credential':'Wrong email or password.','auth/wrong-password':'Wrong email or password.','auth/user-not-found':'No account with that email. Try signing up.','auth/too-many-requests':'Too many tries. Wait a bit and try again.','auth/network-request-failed':'Network problem. Check your connection.','auth/operation-not-allowed':'Email sign-in isn’t switched on yet. In Firebase, open Authentication, then Sign-in method, and enable Email/Password.','auth/unauthorized-domain':'This domain isn’t authorised yet. In Firebase, open Authentication, then Settings, then Authorized domains, and add it.'};
-function showAuth(mode){clearInterval(S.tick);S.done=true;S.authpage=true;S.am=mode||S.am||'in';document.body.dataset.q='';const up=S.am==='up';
- app.innerHTML=`<div class="auth"><div class="logo">SAT</div><h1 style="margin:0">${up?'Create your account':'Welcome back'}</h1><p class="m" style="margin:0">${up?'Sign up to save your progress and pick it up on any device.':'Sign in to load your progress from any device.'}</p>
+function showAuth(mode,back){clearInterval(S.tick);S.done=true;S.authpage=true;S.am=mode||S.am||'in';if(back!==undefined)S.authback=back;document.body.dataset.q='auth';window.scrollTo(0,0);const up=S.am==='up';
+ app.innerHTML=`<div class="auth">${S.authback?'<button class="back" data-a="aback">← Back</button>':''}<div class="logo">SAT</div><h1 style="margin:0">${up?'Create your account':'Welcome back'}</h1><p class="m" style="margin:0">${up?'Sign up to save your progress and pick it up on any device.':'Sign in to load your progress from any device.'}</p>
  <div class="card"><div class="tabs"><button data-a="atab" data-m="in" class="${up?'':'on'}">Sign in</button><button data-a="atab" data-m="up" class="${up?'on':''}">Sign up</button></div>
  <button class="gbtn s" data-a="agoogle">${GSVG} Continue with Google</button><div class="or">or use email</div>
  <form id="af" style="display:flex;flex-direction:column;gap:10px" novalidate>${up?'<input id="an" type="text" placeholder="First name" autocomplete="given-name">':''}<input id="ae" type="email" placeholder="Email" autocomplete="email"><input id="ap" type="password" placeholder="Password${up?' (6+ characters)':''}" autocomplete="${up?'new-password':'current-password'}">
@@ -981,7 +997,44 @@ async function authReset(){if(!FB.ready)return;const em=($('#ae').value||'').tri
  try{await FB.m.Au.sendPasswordResetEmail(FB.auth,em);authMsg('Password reset email sent. Check your inbox.',1)}catch(e){authMsg(AUTHERR[e.code]||('Could not send: '+(e.code||e.message)))}}
 document.addEventListener('click',ev=>{const b=ev.target.closest('[data-a]');if(!b)return;const a=b.dataset.a;
  if(a==='atab')showAuth(b.dataset.m);else if(a==='agoogle')fbSignIn();else if(a==='areset')authReset();
+ else if(a==='aback'){S.authpage=false;S.authback=false;showTitle()}
  else if(a==='askip'){S.authpage=false;ls('satauthseen','1');ls('satdone')==='1'?showTitle():showSurvey()}});
+
+/* ---------- account page ---------- */
+function acctStats(){const days=[...new Set(satlog.map(x=>{const d=new Date(x[2]);return d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate()}))],ds=new Set(days);
+ let streak=0;const d=new Date();if(!ds.has(d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate()))d.setDate(d.getDate()-1);
+ while(ds.has(d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate())){streak++;d.setDate(d.getDate()-1)}
+ const tot=satlog.length,ok=satlog.reduce((a,x)=>a+x[1],0),g=prog(0),dm={};
+ S.qs.forEach(q=>{if(q.id in stats){const k=q.domain||'Other',o=dm[k]??={r:0,t:0};o.t++;o.r+=stats[q.id]?1:0}});
+ const rows=Object.entries(dm).filter(([k,v])=>v.t>=3).map(([k,v])=>[k,v.r/v.t,v.t]).sort((a,b)=>a[1]-b[1]);
+ return{g,streak,days:days.length,tot,acc:tot?Math.round(ok/tot*100):null,weak:rows[0],strong:rows.length>1?rows[rows.length-1]:null}}
+function showAccount(msg){clearInterval(S.tick);S.done=true;S.authpage=false;document.body.dataset.q='';window.scrollTo(0,0);
+ const u=FB&&FB.user,n=nameOf().trim(),A=acctStats(),pw=u&&u.providerData&&u.providerData.some(p=>p.providerId==='password'),
+ prov=u?(u.providerData||[]).map(p=>p.providerId==='google.com'?'Google':p.providerId==='password'?'Email':p.providerId).join(', '):'',
+ av=`<span class="av big" style="${avStyle()}">${u&&u.photoURL?'':esc(n?n[0].toUpperCase():(u&&u.email?u.email[0].toUpperCase():'👤'))}</span>`,
+ row=(t,d,b)=>`<div class="acr"><div class="l"><b>${t}</b><span class="m">${d}</span></div>${b}</div>`,tg=tgHTML();
+ app.innerHTML=`<div class="acct"><div class="card"><div class="who">${av}<div><b>${n?esc(n):'Your account'}</b><div class="m">${u?esc(u.email||'')+(prov?' · '+esc(prov):''):'Not signed in'}</div></div></div></div>
+ ${u?'':`<div class="card"><h2>Sign in to sync</h2><p class="m" style="margin:0 0 12px">You&rsquo;re using SAT Practice without an account, so your progress only lives on this device.</p><button class="p pill" data-a="gin">Sign in or sign up</button></div>`}
+ <div class="card"><h2>Your progress</h2><div class="acs"><div><b>${A.g.n}</b><span>of ${A.g.t} questions done</span></div><div><b>${A.acc==null?'—':A.acc+'%'}</b><span>accuracy (${A.tot} attempts)</span></div><div><b>${A.streak}</b><span>day streak</span></div><div><b>${A.days}</b><span>days practiced</span></div></div>
+ ${A.weak?`<p class="m" style="margin:12px 0 0">Weakest domain: <b>${esc(A.weak[0])}</b> (${Math.round(A.weak[1]*100)}% of ${A.weak[2]}).${A.strong?` Strongest: <b>${esc(A.strong[0])}</b> (${Math.round(A.strong[1]*100)}%).`:''}</p>`:''}</div>
+ ${tg?`<div class="card"><h2>Score tracker</h2><div class="tgbox" style="max-width:none">${tg}</div></div>`:''}
+ <div class="card"><h2>Account</h2>
+ ${u?row('Cloud sync',FB.err?'Sync problem: '+esc(FB.err.code||FB.err.message||'unknown'):FB.sync?'Last synced at '+esc(FB.sync):'Syncing…','<button class="s" data-a="syncnow">Sync now</button>'):''}
+ ${row('Profile and goals','Your name, current scores and targets','<button class="s" data-a="profile">Edit profile</button>')}
+ ${row('Settings','Guided setup, Enter to check, Start all button','<button class="s" data-a="settings">Settings</button>')}
+ ${row('Download my data','Save your progress as a file you can keep as a backup','<button class="s" data-a="export">Download</button>')}
+ ${pw?row('Password','We will email you a link to choose a new one','<button class="s" data-a="pwreset">Reset password</button>'):''}
+ ${row('Reset progress','Erase your answers, history and saved practices'+(u?' here and in the cloud':'')+'. Your name and score goals stay.','<button class="s danger" data-a="resetprog">Reset…</button>')}
+ ${u?row('Sign out','Your progress stays saved to your account','<button class="s" data-a="gout">Sign out</button>'):''}
+ <div class="m sm" id="acm" style="margin-top:8px">${esc(msg||'')}</div></div>
+ <div style="text-align:center"><button class="pill" data-a="home">Back</button></div></div>`}
+document.addEventListener('click',async ev=>{const b=ev.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,say=t=>{const e=$('#acm');if(e)e.textContent=t};
+ if(a==='syncnow'){if(!FB.user)return;b.disabled=true;b.textContent='Syncing…';await cloudPull();showAccount('Synced just now.')}
+ else if(a==='export'){const o={exported:new Date().toISOString()};SYNC.forEach(k=>{const v=ls(k);if(v!=null)o[k]=v});
+  const u=URL.createObjectURL(new Blob([JSON.stringify(o,null,1)],{type:'application/json'})),l=document.createElement('a');l.href=u;l.download='sat-practice-progress.json';l.click();setTimeout(()=>URL.revokeObjectURL(u),2000);say('Downloaded.')}
+ else if(a==='pwreset'){try{await FB.m.Au.sendPasswordResetEmail(FB.auth,FB.user.email);say('Password reset email sent to '+FB.user.email+'.')}catch(e){say('Could not send: '+(e.code||e.message))}}
+ else if(a==='resetprog'){if(b.dataset.armed){stats={};satlog=[];saved=[];S.rec={};saveStats();saveSaved();ls('satlog','[]');ls('satsess',null);ls('satbase',String(Date.now()));if(FB.user)await cloudPush();showAccount('Progress reset.')}
+  else{b.dataset.armed='1';b.textContent='Really erase?';b.classList.add('armed');setTimeout(()=>{if(b.isConnected){delete b.dataset.armed;b.textContent='Reset…';b.classList.remove('armed')}},4000)}}});
 
 fbInit();
 document.getElementById('gbtn').innerHTML=GSVG+' Sign in';
