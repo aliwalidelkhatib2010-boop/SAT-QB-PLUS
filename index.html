@@ -301,6 +301,35 @@ body[data-q="1"] #bgc{display:none}
 .set input[type=range]{width:190px;padding:0;border:0;background:none;accent-color:var(--ac);cursor:pointer}
 .set output{min-width:3.4ch;text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
 @media(max-width:560px){.set input[type=range]{width:120px}}
+
+/* ===== English answers bigger + stopwatch ===== */
+.ch .cv{font-size:calc(.65rem*var(--z)*var(--cz,1))}.ch .tx{font-size:inherit}
+body:not(.one) .ch{padding:.8rem 1.3rem;gap:1rem;margin:.8rem 0}
+body:not(.one) .ch .lt{width:2.4rem;height:2.4rem;font-size:1.15rem}
+body:not(.one) .ch .cv canvas.q{max-width:100%;image-rendering:auto}
+body:not(.one) .ch{--cz:calc(1.05*var(--as,1))}
+body:not(.one) .ch .tx{line-height:1.45}
+body:not(.one) .split.two{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr)}
+.hc{flex-wrap:nowrap;justify-content:center;gap:6px;white-space:nowrap}.hc .s,.hc button{padding-inline:.7rem;white-space:nowrap}.hd{grid-template-columns:minmax(0,1fr) auto auto}.hr{flex-wrap:nowrap;white-space:nowrap;gap:4px}.hr .s,.hr button{padding-inline:.6rem;white-space:nowrap}
+.stw{position:relative;display:flex;align-items:center;gap:6px;padding-left:10px;margin-left:4px;border-left:1px solid var(--bd)}
+.stw .stv{font-variant-numeric:tabular-nums;font-weight:600;font-size:1.05rem;min-width:6.6ch;border:0;background:none}.stw .stv small{color:var(--mut);font-weight:400}
+.stw button.s{min-width:3.6rem;justify-content:center}
+.stl{position:absolute;top:calc(100% + 8px);left:0;min-width:270px;max-height:45vh;overflow:auto;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:6px 14px;box-shadow:0 8px 30px #0006;z-index:50;font-variant-numeric:tabular-nums}
+.stl>div{display:grid;grid-template-columns:1fr auto auto;gap:14px;padding:6px 0;border-top:1px solid var(--bd);font-size:.9rem}.stl>div:first-child{border-top:0}
+
+/* ===== separate question / answer size + preview window ===== */
+.qtx,.tx{font-size:calc(.65rem*var(--z)*var(--qs,1))}
+#qb,#lp{--cz:var(--qs,1)}
+.ch{--cz:var(--as,1)}
+#pvm{position:fixed;inset:0;z-index:95;background:#000a;display:grid;place-items:center;padding:14px}
+.pvc{background:var(--bg);color:var(--tx);width:min(1000px,100%);max-height:94vh;overflow:auto;border-radius:16px;border:1.5px solid var(--bd);box-shadow:0 20px 60px #0009;display:flex;flex-direction:column}
+.pvbar{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:var(--hd);position:sticky;top:0;z-index:2}
+.pvc .pvbg{position:relative;height:56px;background:var(--bg);flex:none}.pvc .pvbg canvas{position:absolute;inset:0;width:100%;height:100%}
+.pvc .pvbg span{position:absolute;left:12px;bottom:6px;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--card);padding:2px 8px;border-radius:99px;border:1px solid var(--bd)}
+.pvc .split.two{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);padding:0 16px;flex:1}
+.pvc .ch{cursor:default}
+.pvsl{position:sticky;bottom:0;background:var(--card);border-top:1px solid var(--bd);padding:4px 16px}
+@media(max-width:760px){.pvc .split.two{grid-template-columns:1fr}}
 </style></head>
 <body>
 <div id="tbar"><button class="s" id="pdfb" data-a="newfile">English / Math PDFs</button><span id="tr"><button class="s gbtn" id="gbtn" data-a="gin" hidden></button><button class="s" id="th" data-a="theme" title="Toggle light / dark" aria-label="Toggle light / dark theme">◐</button><div class="mw"><button class="av" id="pfp" data-a="pfp" title="Account" aria-label="Account"></button><div id="pm" hidden></div></div></span></div>
@@ -333,7 +362,28 @@ function resumeSaved(id){const s=saved.find(x=>String(x.id)===String(id));if(!s)
  saved=saved.filter(x=>x!==s);if(cur&&cur.ids)saved.unshift({...cur,id:Date.now()+1,at:Date.now()});saveSaved();
  Object.assign(S,{set,rec:Object.fromEntries(Object.keys(s.chk||{}).map(k=>[k,1])),full:null,fullRes:null,i:Math.min(s.i,set.length-1),ans:s.ans||{},chk:s.chk||{},fl:s.fl||{},xo:{},mode:s.mode,lim:s.lim||0,t0:Date.now()-s.el*1000,done:false,paused:0,orig:false});
  timer();show()}
-S.auto=ls('satauto')==='1';if(ls('satz'))R.style.setProperty('--z',ls('satz'));if(ls('sattheme'))R.dataset.theme=ls('sattheme');
+/* page images are sized in px but text in rem; --rs lets the images grow with the text on big screens (English only, math keeps its sizing) */
+const rsSet=()=>R.style.setProperty('--rs',(parseFloat(getComputedStyle(R).fontSize)/16||1).toFixed(3));rsSet();addEventListener('resize',rsSet);
+S.auto=ls('satauto')==='1';if(ls('satz'))R.style.setProperty('--z',ls('satz'));if(ls('satqs'))R.style.setProperty('--qs',ls('satqs'));if(ls('sataS'))R.style.setProperty('--as',ls('sataS'));if(ls('sattheme'))R.dataset.theme=ls('sattheme');
+
+/* ---------- stopwatch (Settings > Stopwatch) ---------- */
+const SW={run:0,t0:0,acc:0,lt:0,laps:[],open:0,q:null,qi:0,pr:0};
+const swOn=()=>ls('satsw')==='1',swAuto=()=>ls('satswa')==='1';
+const swEl=()=>SW.acc+(SW.run?performance.now()-SW.t0:0);
+function swFmt(ms){ms=Math.max(0,ms);const p=n=>String(n).padStart(2,'0'),h=Math.floor(ms/36e5);return(h?h+':':'')+p(Math.floor(ms/6e4)%60)+':'+p(Math.floor(ms/1e3)%60)+'.'+p(Math.floor(ms/10)%100)}
+function swWipe(){Object.assign(SW,{run:0,t0:0,acc:0,lt:0,laps:[],open:0,q:null,qi:0,pr:0})}
+function swHTML(rev){if(!swOn()||rev)return'';const L=SW.laps.slice().reverse();
+ return`<div class="stw" id="stw"><button class="s stv" data-a="swv" title="Show or hide laps"><span id="swd">${swFmt(swEl())}</span>${SW.laps.length?` <small>▾ ${SW.laps.length}</small>`:''}</button><button class="s ${SW.run?'':'p'}" data-a="swt">${SW.run?'Stop':'Start'}</button><button class="s" data-a="swl" ${!SW.run&&!SW.acc?'disabled':''}>${SW.run?'Lap':'Reset'}</button>${SW.open&&L.length?`<div class="stl">${L.map(x=>`<div><span>${esc(x.l)}</span><b>${swFmt(x.d)}</b><span class="m">${swFmt(x.t)}</span></div>`).join('')}</div>`:''}</div>`}
+function swUI(){const e=$('#stw');if(e)e.outerHTML=swHTML(0)}
+function swToggle(){if(SW.run){SW.acc=swEl();SW.run=0}else{SW.t0=performance.now();SW.run=1}swUI()}
+function swLap(){if(SW.run){const t=swEl();SW.laps.push({l:'Lap '+(SW.laps.length+1),d:t-SW.lt,t});SW.lt=t}else{SW.acc=0;SW.lt=0;SW.laps=[];SW.open=0}swUI()}
+function swPause(){if(SW.run){SW.acc=swEl();SW.run=0;SW.pr=1;swUI()}}
+function swResume(){if(SW.pr){SW.pr=0;SW.t0=performance.now();SW.run=1;swUI()}}
+function swSync(q){if(!swOn())return;
+ if(swAuto()&&S.mode!=='review'){if(SW.q!==null&&SW.q!==q.id){const t=swEl();if(t>0)SW.laps.push({l:'Q'+(SW.qi+1),d:t,t});SW.acc=0;SW.lt=0;SW.t0=performance.now();SW.run=1}
+  else if(SW.q===null&&!SW.run&&!SW.acc){SW.t0=performance.now();SW.run=1}}
+ SW.q=q.id;SW.qi=S.i;swUI()}
+setInterval(()=>{if(!SW.run)return;const d=$('#swd');if(d)d.textContent=swFmt(swEl())},40);
 
 /* ---------- pen: draw, shapes and text on top of the page; saved per question and recolored with the theme ---------- */
 const PEN={k:['#111','#fff'],b:['#1a5fd4','#6ea0ff'],g:['#188a3a','#4cd37f'],r:['#d62d20','#ff6b5e']};
@@ -415,7 +465,7 @@ function fitSplit(){const sp=document.querySelector('.split.two'),c=document.que
 addEventListener('resize',fitSplit);
 function persist(){if(S.done||!S.set.length||S.full)return;ls('satsess',JSON.stringify({ids:S.set.map(q=>q.id),i:S.i,ans:S.ans,chk:S.chk,fl:S.fl,mode:S.mode,lim:S.lim,el:el()}))}
 addEventListener('pagehide',persist);
-function timer(){clearInterval(S.tick);S.tick=setInterval(()=>{if(S.paused)return;const e=el();if(S.lim&&e>=S.lim)return finish();const t=$('#tm');if(t&&!S.hideT&&S.mode!=='review')t.textContent=fmt(S.lim?S.lim-e:e)},1000)}
+function timer(){clearInterval(S.tick);swWipe();S.tick=setInterval(()=>{if(S.paused)return;const e=el();if(S.lim&&e>=S.lim)return finish();const t=$('#tm');if(t&&!S.hideT&&S.mode!=='review')t.textContent=fmt(S.lim?S.lim-e:e)},1000)}
 function finishSaved(){try{const s=JSON.parse(ls('satsess')),m=new Map(S.qs.map(q=>[q.id,q]));
  Object.assign(S,{set:s.ids.map(i=>m.get(i)).filter(Boolean),ans:s.ans||{},chk:s.chk||{},fl:s.fl||{},xo:{},mode:s.mode,lim:s.lim||0,full:null,rec:Object.fromEntries(Object.keys(s.chk||{}).map(k=>[k,1])),i:0,done:false,paused:0});
  if(!S.set.length)throw 0;finish()}catch(e){ls('satsess',null);showSetup()}}
@@ -423,9 +473,9 @@ function startRetry(){const set=shuf(S.qs.filter(q=>stats[q.id]===0));if(!set.le
  Object.assign(S,{set,mode:'practice',lim:0,rec:{},full:null,fullRes:null,i:0,ans:{},chk:{},fl:{},xo:{},t0:Date.now(),done:false,paused:0,orig:false});timer();show()}
 function resume(){try{const s=JSON.parse(ls('satsess')),m=new Map(S.qs.map(q=>[q.id,q]));S.set=s.ids.map(i=>m.get(i)).filter(Boolean);
  Object.assign(S,{rec:Object.fromEntries(Object.keys(s.chk||{}).map(k=>[k,1])),full:null,i:Math.min(s.i,S.set.length-1),ans:s.ans,chk:s.chk,fl:s.fl,mode:s.mode,lim:s.lim,t0:Date.now()-s.el*1000,done:false,paused:0});timer();show()}catch(e){showSetup()}}
-function pause(){if(S.paused||S.done||S.mode==='review')return;S.paused=Date.now();const g=prog(1),n=Object.keys(S.ans).filter(k=>S.ans[k]).length;
+function pause(){if(S.paused||S.done||S.mode==='review')return;S.paused=Date.now();swPause();const g=prog(1),n=Object.keys(S.ans).filter(k=>S.ans[k]).length;
  $('#pp').innerHTML=`<div class="sc">${g.p}%</div><p class="m">of the whole question bank completed (${g.n} of ${g.t})</p><div class="bar"><i style="width:${g.p}%"></i></div><p>This set: ${n} of ${S.set.length} answered</p>`;$('#pz').hidden=false}
-function unpause(){if(S.paused){S.t0+=Date.now()-S.paused;S.paused=0}$('#pz').hidden=true}
+function unpause(){if(S.paused){S.t0+=Date.now()-S.paused;S.paused=0;swResume()}$('#pz').hidden=true}
 
 /* ---------- PDF parsing ---------- */
 const jn=a=>{a.sort((p,q)=>p.x-q.x);return a.reduce((t,i,k)=>t+(k&&i.x-(a[k-1].x+a[k-1].w)>.18*i.h?' ':'')+i.s,'')};
@@ -495,7 +545,7 @@ function crop(src,x0,y0,x1,y1,dd){
  {const og=o.getContext('2d'),im=og.getImageData(0,0,o.width,o.height),p=im.data;
  for(let i=0;i<p.length;i+=4){const a=255-Math.min(p[i],p[i+1],p[i+2]);if(a<=0){p[i+3]=0;continue}p[i]=Math.max(0,(p[i]-255+a)*255/a);p[i+1]=Math.max(0,(p[i+1]-255+a)*255/a);p[i+2]=Math.max(0,(p[i+2]-255+a)*255/a);p[i+3]=a*p[i+3]/255}
  og.putImageData(im,0,0)}
- o.className='q';o.style.setProperty('--zw',(o.width/SC*2)+'px');o.style.width='calc(var(--z) * '+(o.width/SC)+'px)';o.style.maxWidth='100%';return o}
+ o.className='q';o.style.setProperty('--zw',(o.width/SC*2)+'px');o.style.width='calc(var(--z) * var(--rs,1) * var(--cz,1) * '+(o.width/SC)+'px)';o.style.maxWidth='100%';return o}
 function splitY(src,x0,ya,yb){
  const X=Math.round(x0*SC),Y=Math.max(0,Math.round(ya*SC)),H=Math.round((yb-ya)*SC),W=src.width-X;if(H<4||W<2)return(ya+yb)/2;
  const d=src.getContext('2d').getImageData(X,Y,W,H).data;let best=-1,bs=0,run=0,st=0;
@@ -504,15 +554,35 @@ function splitY(src,x0,ya,yb){
  return best<0?(ya+yb)/2:(Y+best)/SC}
 const txt=t=>{const d=document.createElement('div');d.className='tx';t.split('\n\n').forEach(s=>{const p=document.createElement('p');p.textContent=s;d.append(p)});return d};
 /* true when every dark pixel in the region sits under a text box, i.e. no graphs, figures or math pictures are hiding there */
-async function textOK(q,y1,y2,x0){
+async function textOK(q,y1,y2,x0,thr){
  const src=await qCanvas(q),X=Math.max(0,Math.round(x0*SC)),Y=Math.max(0,Math.round(y1*SC)),W=Math.min(src.width-X,Math.round(1e4)),H=Math.min(src.height-Y,Math.round((y2-y1)*SC));
  if(W<2||H<2)return false;
  const c=document.createElement('canvas');c.width=W;c.height=H;const g=c.getContext('2d');g.drawImage(src,X,Y,W,H,0,0,W,H);g.fillStyle='#fff';
  for(const[a,b,w,h]of q.rc)g.fillRect(a*SC-X-3,b*SC-Y-3,w*SC+6,h*SC+6);
- const d=g.getImageData(0,0,W,H).data;let n=0;for(let i=0;i<d.length;i+=4)if(d[i+3]>40&&d[i]+d[i+1]+d[i+2]<600)n++;return n<30}
+ const d=g.getImageData(0,0,W,H).data;let n=0;for(let i=0;i<d.length;i+=4)if(d[i+3]>40&&d[i]+d[i+1]+d[i+2]<600)n++;return n<(thr||30)}
 async function piece(q,t,y1,y2,x0,dd){
- if(t){try{if(await textOK(q,y1,y2,x0))return txt(t)}catch(e){}}
- return crop(await qCanvas(q),x0,y1,1e4,y2,dd)}
+ if(t&&!(dd&&sec(q)==='E')){try{if(await textOK(q,y1,y2,x0,sec(q)==='E'?700:30))return txt(t)}catch(e){}}
+ let x1=1e4;if(dd&&q.rc){const rs=q.rc.filter(b=>b[1]+b[3]>y1&&b[1]<y2&&b[0]>=x0-2);if(rs.length)x1=Math.max(...rs.map(b=>b[0]+b[2]))+6}
+  let o=crop(await qCanvas(q),x0,y1,x1,y2,dd);
+ if(sec(q)==='E'&&q.rc&&q.rc.length){const rr=q.rc.filter(b=>b[1]+b[3]>y1&&b[1]<y2),hs=rr.map(b=>b[3]/1.3).sort((a,b)=>a-b);
+  if(hs.length){const fs=hs[hs.length>>1],m=Math.min(6,Math.max(1,10.4/fs));
+   if(dd){const rows=new Set(rr.map(b=>Math.round(b[1]/3))).size,gv=n=>+getComputedStyle(R).getPropertyValue(n)||0,zE=gv('--z')||1.7,cz=1.05*(gv('--as')||1),av=((document.querySelector('#ch .cv')||{}).clientWidth||360)-6,W=o.width/SC*m*zE*cz,k=Math.min(4,Math.ceil(W/av));
+    if(rows<=1&&k>1)o=wrapLines(o,k)}
+   o.style.maxWidth='100%';o.style.width='calc(var(--z) * var(--rs,1) * var(--cz,1) * '+(o.width/SC*m)+'px)'}}
+ return o}
+function wrapLines(o,k){
+ const W=o.width,H=o.height,d=o.getContext('2d').getImageData(0,0,W,H).data,ink=new Uint8Array(W);
+ for(let x=0;x<W;x++)for(let y=0;y<H;y++)if(d[(y*W+x)*4+3]>40){ink[x]=1;break}
+ const cuts=[0];
+ for(let i=1;i<k;i++){const t=Math.round(W*i/k),lo=Math.max(cuts[cuts.length-1]+20,Math.round(t-W/k*.35)),hi=Math.min(W-20,Math.round(t+W/k*.35));
+  let best=-1,bl=0,run=0,st=0;for(let x=lo;x<=hi;x++){if(!ink[x]){if(!run)st=x;run++;if(run>bl){bl=run;best=st+(run>>1)}}else run=0}
+  cuts.push(best<0?t:best)}
+ cuts.push(W);
+ const sg=[];for(let i=0;i<k;i++){let a=cuts[i],b=cuts[i+1];while(a<b&&!ink[a])a++;while(b>a&&!ink[b-1])b--;if(b-a>2)sg.push([a,b])}
+ if(sg.length<2)return o;
+ const w2=Math.max(...sg.map(z=>z[1]-z[0])),gap=Math.round(H*.1),n=document.createElement('canvas');n.width=w2;n.height=sg.length*H+(sg.length-1)*gap;
+ const g=n.getContext('2d');sg.forEach((z,i)=>g.drawImage(o,z[0],0,z[1]-z[0],H,0,i*(H+gap),z[1]-z[0],H));
+ n.className='q';return n}
 
 /* ---------- answer checking ---------- */
 const norm=s=>{s=String(s).replace(/\u2212/g,'-').replace(/[\s,$%]/g,'');const m=s.match(/^(-?\d*\.?\d+)\/(-?\d*\.?\d+)$/);return m?+m[1]/+m[2]:(s!==''&&!isNaN(+s)?+s:s.toLowerCase())};
@@ -562,13 +632,18 @@ const tgv=k=>+ls(k)||0,TG=()=>tgv('sattge')+tgv('sattgm');
 const pLog=(s,b)=>1/(1+Math.exp(-((s-500)/100-b))),DIFF={Easy:-1,Medium:.3,Hard:1.5},dv=q=>DIFF[q.diff]??.3,KF=5;
 let satlog=[];try{satlog=JSON.parse(ls('satlog')||'[]')}catch(e){}
 function rec(q,ok){if(S.rec[q.id])return;S.rec[q.id]=1;satlog.push([q.id,ok?1:0,Date.now()]);if(satlog.length>6000)satlog.splice(0,satlog.length-6000);ls('satlog',JSON.stringify(satlog))}
-/* rough ability estimate from a list of {b: difficulty, ok: 0|1}; a weak pull toward the middle keeps tiny sets from jumping to 200 or 800 */
-function estScore(items){if(!items.length)return null;const f=s=>items.reduce((a,x)=>a+(x.ok-pLog(s,x.b)),0)+2*(.5-pLog(s,.3));
- if(f(800)>=0)return 800;if(f(200)<=0)return 200;let lo=200,hi=800;for(let i=0;i<40;i++){const m=(lo+hi)/2;f(m)>0?lo=m:hi=m}return Math.round((lo+hi)/20)*10}
+/* Section score (200-800, multiples of 10) from {b: difficulty, ok: 0|1, c: guess chance}. 3-parameter model: a multiple-choice question
+   can be hit by luck (c = .25), so random guessing lands near the bottom of the scale instead of the middle. A weak prior keeps tiny sets sane.
+   cap = highest score allowed (the easier module 2 on the real test tops out around 600). */
+function estScore(items,cap){if(!items.length)return null;let best=200,bl=-1e9;
+ for(let s=200;s<=800;s+=10){let l=-Math.pow((s-450)/220,2)/2;
+  for(const x of items){const p=Math.min(.999,Math.max(.001,(x.c||0)+(1-(x.c||0))*pLog(s,x.b)));l+=Math.log(x.ok?p:1-p)}
+  if(l>bl){bl=l;best=s}}
+ return cap?Math.min(cap,best):best}
 /* your score starts at what you entered and moves a little with every question, by how hard it was */
 function track(k){const S0=tgv(k==='E'?'sattse':'sattsm');if(!S0)return null;const base=+ls('satbase')||0,m=new Map(S.qs.map(q=>[q.id,q]));let s=S0,n=0,c=0;
  for(const[id,ok,ts]of satlog){if(ts<base)continue;const q=m.get(id);if(!q||sec(q)!==k)continue;s=Math.max(200,Math.min(800,s+KF*(ok-pLog(s,dv(q)))));n++;c+=ok}
- return{S0,cur:Math.round(s),n}}
+ return{S0,cur:Math.round(s/10)*10,n}}
 function tgHTML(){
  const bar=(nm,cur,S0,T,n,lo)=>{const pct=Math.max(0,Math.min(100,Math.round((cur-lo)/(T-lo)*100))),d=cur-S0;
   return`<div><div class="tgh"><b>${nm}</b><span>${cur} / ${T}</span></div><div class="bar"><i style="width:${pct}%"></i></div><div class="m sm">${cur>=T?'You\'re at your target.':(T-cur)+' points to go.'} ${n?(d>=0?'+':'')+d+' since you started ('+n+' questions answered).':'Starting from '+S0+'. Answer questions and this updates.'}</div></div>`};
@@ -578,7 +653,7 @@ function tgHTML(){
  return h?h+'<div class="m sm">Estimates only, not exact SAT scoring.</div>':''}
 
 const nameOf=()=>ls('satname')||'',hi=()=>esc(nameOf());
-const fld=(id,lb,key,ph)=>`<label class="tgl">${lb} <input id="${id}" type="number" min="200" max="800" placeholder="${ph}" value="${tgv(key)||''}"></label>`;
+const fld=(id,lb,key,ph)=>`<label class="tgl">${lb} <input id="${id}" type="number" min="200" max="800" step="10" placeholder="${ph}" value="${tgv(key)||''}"></label>`;
 const nameFld=()=>`<label class="tgl">Your name <input id="sn" type="text" style="width:200px" placeholder="Name" autocomplete="given-name" value="${esc(nameOf())}"></label>`;
 const SV=[
  ()=>`<h1>Welcome! What should I call you?</h1><p class="m" style="margin:0">A few quick questions so I can track your progress. You can change any of this later from the profile icon at the top right.</p>${nameFld()}`,
@@ -586,8 +661,8 @@ const SV=[
  ()=>`<h1>What score are you aiming for?</h1><p class="m" style="margin:0">Pick a target for each section (up to 800). You can leave these blank and it will track toward 800.</p><div class="tgrow">${fld('tge','English target','sattge','800')}${fld('tgm','Math target','sattgm','800')}</div>`,
  ()=>`<h1>When is your test?</h1><p class="m" style="margin:0">Pick your SAT date and I will count down the days and build a study plan. Leave it empty if you do not have a date yet.</p>${dateFld()}`,
  ()=>`<h1>How do you want to study?</h1><p class="m" style="margin:0">Choose the days you can study and how long each session should be. Your plan is built around this.</p>${daysFld()}`];
-function saveSv(){const td=$('#ttd');if(td)ls('sattest',td.value||null);const sd=document.querySelectorAll('.sdchk');if(sd.length){const dy=[...sd].filter(x=>x.checked).map(x=>+x.value);ls('satstudy',JSON.stringify({days:dy.length?dy:[1,2,3,4,5],mins:+(($('#smin')||{}).value)||45}))}const pl=$('#stpl');if(pl)ls('satplanon',pl.checked?'1':'0');const fw=$('#stftw');if(fw)ls('satftw',fw.value);const cdb=$('#stcd');if(cdb)ls('satcd',cdb.checked?'1':'0');const du=$('#stdup');if(du)ls('satdup',du.value);const wz=$('#stwz');if(wz)ls('satwiz',wz.checked?'1':'0');const en=$('#sten');if(en)ls('satenter',en.checked?'1':'0');const sa=$('#stsa');if(sa)ls('satstartall',sa.checked?'1':'0');const g=id=>{const e=$('#'+id);return e?e.value:null},nm=g('sn');if(nm!==null)ls('satname',nm.trim()||null);
- for(const[id,K]of[['tse','sattse'],['tsm','sattsm'],['tge','sattge'],['tgm','sattgm']]){const v=g(id);if(v===null)continue;let x=Math.round(+v);x=x?Math.min(800,Math.max(200,x)):0;const old=+ls(K)||0;ls(K,x?String(x):null);if((K==='sattse'||K==='sattsm')&&x!==old)ls('satbase',String(Date.now()))}}
+function saveSv(){const td=$('#ttd');if(td)ls('sattest',td.value||null);const sd=document.querySelectorAll('.sdchk');if(sd.length){const dy=[...sd].filter(x=>x.checked).map(x=>+x.value);ls('satstudy',JSON.stringify({days:dy.length?dy:[1,2,3,4,5],mins:+(($('#smin')||{}).value)||45}))}const pl=$('#stpl');if(pl)ls('satplanon',pl.checked?'1':'0');const fw=$('#stftw');if(fw)ls('satftw',fw.value);const cdb=$('#stcd');if(cdb)ls('satcd',cdb.checked?'1':'0');const du=$('#stdup');if(du)ls('satdup',du.value);const wz=$('#stwz');if(wz)ls('satwiz',wz.checked?'1':'0');const en=$('#sten');if(en)ls('satenter',en.checked?'1':'0');const sw1=$('#stsw');if(sw1)ls('satsw',sw1.checked?'1':'0');const sw2=$('#stswa');if(sw2)ls('satswa',sw2.checked?'1':'0');const sa=$('#stsa');if(sa)ls('satstartall',sa.checked?'1':'0');const g=id=>{const e=$('#'+id);return e?e.value:null},nm=g('sn');if(nm!==null)ls('satname',nm.trim()||null);
+ for(const[id,K]of[['tse','sattse'],['tsm','sattsm'],['tge','sattge'],['tgm','sattgm']]){const v=g(id);if(v===null)continue;let x=Math.round(+v/10)*10;x=x?Math.min(800,Math.max(200,x)):0;const old=+ls(K)||0;ls(K,x?String(x):null);if((K==='sattse'||K==='sattsm')&&x!==old)ls('satbase',String(Date.now()))}}
 function showSurvey(step=0){clearInterval(S.tick);S.done=true;S.sv=step;document.body.dataset.q='';
  app.innerHTML=`<div class="ttl"><div class="logo">SAT</div><div class="card" style="width:100%;text-align:left;display:flex;flex-direction:column;gap:14px;margin:0">${SV[step]()}<div class="m sm">Step ${step+1} of 5</div><div class="btns" style="justify-content:flex-start">${step?'<button class="pill" data-a="svb">Back</button>':''}<button class="p pill" data-a="svn">${step<4?'Next':'Finish'}</button></div></div></div>`;
  const i=$('#sn,#tse,#tge');if(i)i.focus()}
@@ -614,6 +689,9 @@ function showSettings(){clearInterval(S.tick);S.done=true;document.body.dataset.
  L=window.lookCfg(),md=ls('sattheme')||'auto',P=window.LOOK_PAL,B=window.LOOK_BGS;
  app.innerHTML=`<div class="card c left set"><h1>Settings</h1><p class="m sm" style="margin:0">Appearance changes apply instantly. Press Save to keep the other options.</p>
  <div class="sec">Appearance</div>
+ <div class="row"><span class="t"><b>Preview</b><span class="m sm">Opens a window that looks like a real question, with your colours, background and sizes.</span></span><button type="button" class="p s" id="pvopen">Open preview</button></div>
+ ${window.szRow('qs','Question size')}
+ ${window.szRow('as','Answer size')}
  <div class="row col"><span class="t"><b>Colour mode</b><span class="m sm">Auto follows your device.</span></span><div class="seg">${[['auto','Auto'],['light','Light'],['dark','Dark']].map(([k,n])=>`<button type="button" data-md="${k}" class="${md===k?'on':''}">${n}</button>`).join('')}</div></div>
  <div class="row col"><span class="t"><b>Accent colour</b><span class="m sm">Changes buttons, highlights and the animated backgrounds.</span></span><div class="seg">${Object.keys(P).map(k=>`<button type="button" class="swc ${L.acc===k?'on':''}" data-sw="${k}" title="${P[k][3]}" aria-label="${P[k][3]}" style="background:${P[k][0]}"></button>`).join('')}</div></div>
  <div class="sec">Background</div>
@@ -624,6 +702,9 @@ function showSettings(){clearInterval(S.tick);S.done=true;document.body.dataset.
  ${tg('stwz',ls('satwiz')!=='0','Guided setup','Ask a few quick questions to build your practice set, then show the full menu to confirm. Turn off to go straight to the full menu.')}
  ${tg('sten',ls('satenter')!=='0','Press Enter to check my answer','Practice mode only, and only once you have picked or typed an answer.')}
  ${tg('stsa',ls('satstartall')==='1','Show the &ldquo;Start all&rdquo; button','Adds a button to the practice setup screen that starts every question matching your filters at once.')}
+ <div class="sec">Stopwatch</div>
+ ${tg('stsw',swOn(),'Stopwatch','Adds a real stopwatch to the question screen: Start / Stop, Lap and Reset, down to hundredths of a second. It runs separately from the session timer and pauses when you pause.')}
+ ${tg('stswa',swAuto(),'Restart on every question','Starts the stopwatch fresh each time you move to another question and saves how long the last one took in the lap list.')}
  <div class="sec">Study plan</div>
  ${tg('stpl',ls('satplanon')!=='0','Calendar and study plan','Adds the Calendar button with your study plan and weekly full practice tests.')}
  ${tg('stcd',ls('satcd')!=='0','Countdown on the home screen','Shows how many days are left until your test. You can turn this off and keep the Calendar.')}
@@ -721,7 +802,7 @@ async function show(){
  if(sec(q)==='E'){const z=$('#dz');if(z)z.hidden=true;document.body.classList.remove('refopen','calcdock')}
  const cls=x=>(rev||S.chk[x.id])?(right(x,S.ans[x.id])?'ok':'bad'):S.ans[x.id]?'an':'';
  app.innerHTML=`<div class="top"><div class="hd"><div><b>${esc(q.test||'SAT')}</b><div class="m sm">${rev?'Review':S.full?'Full test · module '+S.full.mod+' of 2':S.mode==='test'?'Test mode':'Practice mode'}</div></div>
- <div class="hc"><div class="tmr" id="tm">${S.hideT||rev?'':fmt(S.lim?S.lim-e:e)}</div>${rev?'':`<button class="s" data-a="hide" title="Show or hide the timer">${S.hideT?'🕒':'Hide'}</button>`}</div>
+ <div class="hc"><div class="tmr" id="tm">${S.hideT||rev?'':fmt(S.lim?S.lim-e:e)}</div>${rev?'':`<button class="s" data-a="hide" title="Show or hide the timer">${S.hideT?'🕒':'Hide'}</button>`}${swHTML(rev)}</div>
  <div class="hr">${rev||S.full?'':'<button class="s" data-a="pause">⏸ Pause</button>'}${sec(q)==='E'?'':'<button class="s" data-a="des">Calculator</button>'}<button class="s" data-a="zm-" title="Smaller">A−</button><button class="s" data-a="zm+" title="Bigger">A+</button><button class="s" id="penb" data-a="pen" title="Draw on the question (P)">✏ Pen</button>
  <div class="mw"><button class="s" data-a="more">⋯ More</button><div id="mo" hidden>${!rev&&S.mode==='practice'?`<label><input type="checkbox" data-a="auto" ${S.auto?'checked':''}> Instant check</label>`:''}${sec(q)==='E'?'':`<button data-a="ref" id="refb">${document.body.classList.contains('refopen')?'Hide reference sheet':'Reference sheet'}</button>`}<button data-a="orig">${S.orig?'Hide original page':'Original page'}</button><button data-a="theme">◐ Theme</button>${rev?'':S.full?'<button data-a="quitfull">Quit test (ends it)</button>':'<button data-a="exit">Save &amp; exit</button>'}</div></div></div></div><div class="ban">THIS IS A PRACTICE TEST</div></div>
  <div class="qw"><div class="tags"><span class="tag">${esc(q.domain)}</span><span class="tag">${esc(q.skill)}</span><span class="tag ${q.diff}">${esc(q.diff||'—')}</span></div>
@@ -729,7 +810,7 @@ async function show(){
  <div id="qb" class="qtx m">Loading question…</div><div id="ch"></div></div></div><div id="og"></div><div id="fb"></div></div>
  <div class="bot"><span>${rev?'<button class="pill" data-a="results">Back to results</button>':'<span class="m">SAT Practice</span>'}</span><button class="qc" data-a="menu">Question ${S.i+1} of ${S.set.length} ⌄</button><div id="mn" hidden>${menu()}</div>
  <span><button class="pill" data-a="prev" ${S.i?'':'disabled'}>Back</button> ${!done&&S.mode==='practice'?'<button class="p pill" data-a="check">Check answer</button> ':''}${S.i<S.set.length-1?'<button class="p pill" data-a="next">Next</button>':rev?'':'<button class="p pill" data-a="rvw">Next</button>'}</span></div>`;
- const qb=$('#qb'),lp=$('#lp'),box=$('#ch'),fb=$('#fb');inkInit(q);
+ const qb=$('#qb'),lp=$('#lp'),box=$('#ch'),fb=$('#fb');inkInit(q);swSync(q);
  const letters=()=>'ABCD'.split('').forEach(L=>box.append(chEl(L,null))),spr=()=>{box.innerHTML=`<p class="m">Student-produced response. Enter your answer:</p><input id="sp" autocomplete="off" value="${esc(S.ans[q.id]||'')}" ${done?'disabled':''}>`;
   const sp=$('#sp');sp.oninput=()=>{S.ans[q.id]=sp.value.trim();persist();paint()};sp.onkeydown=ev=>{if(ev.key==='Enter'&&!done&&S.mode==='practice'&&(S.auto||ev.ctrlKey))check()}};
  const els={};if(q.mc)'ABCD'.split('').forEach(L=>{const e=chEl(L,document.createTextNode('Loading…'));els[L]=e;box.append(e)});
@@ -788,7 +869,7 @@ function modEnd(){const F=S.full,k=F.secs[F.si];clearInterval(S.tick);
  if(F.si<F.secs.length)return showInter(nameOf()?'Nice work, '+hi()+'. Break time':'Break time',`Take up to ${fmtMin(TEST.brk)}. ${SRC[F.secs[F.si]]} starts on its own when the timer ends, or start it now.`,'Start now',startMod,TEST.brk*60);
  fullResults()}
 function fullResults(){const F=S.full;F.done=true;clearInterval(S.tick);clearInterval(S.itv);const sc={},det={};let tot=0;
- F.secs.forEach(k=>{const it=F.items[k];sc[k]=estScore(it.map(x=>({b:dv(x.q),ok:x.ok})));tot+=sc[k];det[k]=[1,2].map(m=>{const a=it.filter(x=>x.mod===m);return{c:a.filter(x=>x.ok).length,n:a.length}})});
+ F.secs.forEach(k=>{const it=F.items[k];sc[k]=estScore(it.map(x=>({b:dv(x.q),ok:x.ok,c:x.q.mc?.25:0})),F.route[k]==='easier'?600:0);tot+=sc[k];det[k]=[1,2].map(m=>{const a=it.filter(x=>x.mod===m);return{c:a.filter(x=>x.ok).length,n:a.length}})});
  if(F.secs.length===2&&sc.E!=null&&sc.M!=null)addTest({d:dkey(new Date()),e:sc.E,m:sc.M,src:'In-app full test (estimate)'});
  S.fullRes={secs:F.secs,sc,det,route:F.route,tot:F.secs.length===2?tot:null};Object.assign(S,{set:F.all,ans:F.ans});results()}
 
@@ -801,7 +882,7 @@ function results(){
  const NOTE='<p class="m sm">This is only an estimate and is not entirely accurate. The real SAT uses a different, adaptive scoring method.</p>';let est='';
  if(F){est=`<div class="card"><h1 style="margin:0 0 4px">${nm?hi()+', your':'Your'} test score</h1>${F.tot!=null?`<div class="sc">${F.tot} <span class="m" style="font-size:1rem;font-weight:400">/ 1600</span></div>`:''}
   <table>${F.secs.map(k=>`<tr><td><b>${SRC[k]}</b></td><td>${F.sc[k]} / 800</td><td class="m sm">Module 1: ${F.det[k][0].c}/${F.det[k][0].n} · Module 2 (${F.route[k]}): ${F.det[k][1].c}/${F.det[k][1].n}</td></tr>`).join('')}</table>${NOTE}</div>`}
- else{const rows=['E','M'].map(k=>{const qs=S.set.filter(q=>sec(q)===k);return qs.length?{k,n:qs.length,c:qs.filter(q=>right(q,S.ans[q.id])).length,sc:estScore(qs.map(q=>({b:dv(q),ok:right(q,S.ans[q.id])?1:0})))}:null}).filter(Boolean);
+ else{const rows=['E','M'].map(k=>{const qs=S.set.filter(q=>sec(q)===k);return qs.length?{k,n:qs.length,c:qs.filter(q=>right(q,S.ans[q.id])).length,sc:estScore(qs.map(q=>({b:dv(q),ok:right(q,S.ans[q.id])?1:0,c:q.mc?.25:0})))}:null}).filter(Boolean);
   if(rows.length)est=`<div class="card"><b>Estimated score from this set</b>${rows.length===2?`<div class="sc">${rows[0].sc+rows[1].sc} <span class="m" style="font-size:1rem;font-weight:400">/ 1600</span></div>`:''}
   <table>${rows.map(r=>`<tr><td><b>${SRC[r.k]}</b></td><td>${r.sc} / 800</td><td class="m sm">${r.c} of ${r.n} correct</td></tr>`).join('')}</table>${NOTE}</div>`}
  app.innerHTML=`<div class="card"><h1>${F?'Test results':nm?hi()+', here are your results':'Results'}</h1><div class="sc">${ok} / ${n}</div><p class="m">${Math.round(ok/n*100)}% correct · ${Object.keys(S.ans).length} answered · ${g.p}% of the whole bank completed</p>${tgHTML()?`<div class="tgbox" style="margin:10px 0">${tgHTML()}</div>`:''}
@@ -850,6 +931,7 @@ document.addEventListener('click',ev=>{
  else if(a==='penx'){if(PC){penCommit();REDO[PC.q.id]=[];delete INK[PC.q.id];penSave();penDraw()}}
  else if(a==='zm-'||a==='zm+'){const z=Math.min(3.2,Math.max(.9,(+getComputedStyle(R).getPropertyValue('--z')||1.7)+(a==='zm+'?.2:-.2)));R.style.setProperty('--z',z.toFixed(2));ls('satz',z.toFixed(2));fitSplit()}
  else if(a==='theme')theme();else if(a==='pause')pause();else if(a==='unpause')unpause();
+ else if(a==='swt')swToggle();else if(a==='swl')swLap();else if(a==='swv'){SW.open=!SW.open;swUI()}
  else if(a==='hide'){S.hideT=!S.hideT;b.textContent=S.hideT?'🕒':'Hide';$('#tm').textContent=S.hideT?'':fmt(S.lim?S.lim-el():el())}
  else if(a==='auto'){S.auto=b.checked;ls('satauto',S.auto?'1':'0')}
  else if(a==='orig'){S.orig=!S.orig;show()}
@@ -1196,14 +1278,14 @@ function showLogTest(msg){clearInterval(S.tick);S.done=true;S.authpage=false;doc
  const rows=[...tests].reverse().map(t=>`<div class="cdl"><span><b>${t.e+t.m}</b> <span class="m">(English ${t.e}, Math ${t.m})</span><div class="m sm">${esc(fmtD(parseD(t.d)))}${t.src?' · '+esc(t.src):''}</div></span><button class="s x" data-a="deltest" data-id="${t.id}" title="Delete">✕</button></div>`).join('');
  app.innerHTML=`<div class="cdc"><div class="card"><h2>Log a test score</h2><p class="m" style="margin:0 0 12px">Took a full test somewhere else, like Bluebook or the official SAT? Enter your section scores. Your study plan will use the latest one as your new starting point.</p>
  <div style="display:flex;flex-direction:column;gap:12px;max-width:440px"><label class="tgl" style="justify-content:flex-start">Date <input id="ltd" type="date" value="${dkey(todayD())}" max="${dkey(todayD())}" style="width:175px;font-size:1rem"></label>
- <div class="tgrow" style="justify-content:flex-start"><label class="tgl">English <input id="lte" type="number" min="200" max="800" placeholder="690"></label><label class="tgl">Math <input id="ltm" type="number" min="200" max="800" placeholder="610"></label></div>
+ <div class="tgrow" style="justify-content:flex-start"><label class="tgl">English <input id="lte" type="number" min="200" max="800" step="10" placeholder="690"></label><label class="tgl">Math <input id="ltm" type="number" min="200" max="800" step="10" placeholder="610"></label></div>
  <div class="m" id="ltt"></div><label class="tgl" style="justify-content:flex-start;flex-wrap:wrap">Where? <input id="lts" type="text" style="width:260px;text-align:left" placeholder="e.g. Bluebook practice test 3" maxlength="60"></label>
  <div id="lterr" style="min-height:1.2em;color:${msg&&/^Saved/.test(msg)?'var(--ok)':'var(--bad)'}">${esc(msg||'')}</div><div><button class="p pill" data-a="savetest">Save score</button></div></div></div>
  ${rows?`<div class="card"><h2>Your logged tests</h2>${rows}</div>`:''}<div style="text-align:center"><button class="pill" data-a="navback">Back</button></div></div>`;
- const up=()=>{const e=+$('#lte').value,m=+$('#ltm').value;$('#ltt').textContent=e&&m?'Total: '+(e+m)+' / 1600':''};$('#lte').oninput=$('#ltm').oninput=up}
+ const up=()=>{const e=Math.round(+$('#lte').value/10)*10,m=Math.round(+$('#ltm').value/10)*10;$('#ltt').textContent=e&&m?'Total: '+(e+m)+' / 1600':''};$('#lte').oninput=$('#ltm').oninput=up}
 document.addEventListener('click',ev=>{const b=ev.target.closest('[data-a]');if(!b)return;const a=b.dataset.a;
  if(a==='logtest')showLogTest();
- else if(a==='savetest'){const e=Math.round(+$('#lte').value),m=Math.round(+$('#ltm').value),d=$('#ltd').value,er=t=>{const x=$('#lterr');x.style.color='var(--bad)';x.textContent=t};
+ else if(a==='savetest'){const e=Math.round(+$('#lte').value/10)*10,m=Math.round(+$('#ltm').value/10)*10,d=$('#ltd').value,er=t=>{const x=$('#lterr');x.style.color='var(--bad)';x.textContent=t};
   if(!d)return er('Pick the date you took the test.');if(!(e>=200&&e<=800&&m>=200&&m<=800))return er('Enter English and Math scores between 200 and 800.');
   addTest({d,e,m,src:($('#lts').value||'').trim()});showLogTest('Saved. Your plan now starts from '+(e+m)+'.')}
  else if(a==='deltest'){if(b.dataset.armed){tests=tests.filter(t=>t.id!==b.dataset.id);saveTests();showLogTest()}
@@ -1308,6 +1390,15 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-md],[data-
  else{ls('satbg',b.dataset.bg);mark('[data-bg]','bg',b.dataset.bg)}
  apply(false)});
 document.addEventListener('input',e=>{if(e.target.id==='stbgo'){const v=+e.target.value;ls('satbgo',String(v));cv.style.opacity=v/100;cur.op=v;const o=document.getElementById('stbgov');if(o)o.textContent=v+'%'}});
+const SZ={qs:['--qs','satqs'],as:['--as','sataS']};
+window.szRow=(k,label)=>{const v=(+getComputedStyle(R).getPropertyValue(SZ[k][0]))||1;return`<label class="row"><span class="t"><b>${label}</b></span><span class="rng"><input type="range" data-sz="${k}" min="0.6" max="2.5" step="0.05" value="${v}" aria-label="${label}"><output data-szv="${k}">${Math.round(v*100)}%</output></span></label>`};
+document.addEventListener('input',e=>{const k=e.target.dataset&&e.target.dataset.sz;if(!k)return;const v=(+e.target.value).toFixed(2);R.style.setProperty(SZ[k][0],v);ls(SZ[k][1],v);document.querySelectorAll('[data-sz="'+k+'"]').forEach(x=>{if(x!==e.target)x.value=v});document.querySelectorAll('[data-szv="'+k+'"]').forEach(o=>o.textContent=Math.round(v*100)+'%');try{fitSplit()}catch(_){}});
+function pvClose(){const m=document.getElementById('pvm');if(m)m.remove()}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')pvClose()});
+document.addEventListener('click',e=>{if(e.target.id==='pvopen'){if(document.getElementById('pvm'))return;const m=document.createElement('div');m.id='pvm';
+ m.innerHTML=`<div class="pvc"><div class="pvbar"><b>Preview</b><button type="button" class="s" id="pvx">✕ Close</button></div><div class="pvbg"><canvas id="pvbgc" width="600" height="56"></canvas><span>Background</span></div><div class="ban">THIS IS A PRACTICE TEST</div><div class="tags" style="justify-content:center"><span class="tag">Craft and Structure</span><span class="tag">Text Structure and Purpose</span><span class="tag Medium">Medium</span></div><div class="split two"><div class="lp"><div id="pvq" class="qtx"><p>Many archaeologists assume that large-scale engineering projects in ancient societies required an elite class to plan and direct the necessary labor. However, recent discoveries, such as the excavation of an ancient canal near the Gulf Coast of Alabama, have complicated this picture.</p><p>Which choice best describes the overall structure of the text?</p></div></div><div class="rp"><div class="qh"><span class="qn">1</span><span style="padding:0 12px">&#9873; Mark for Review</span></div><div id="ch"><div class="ch" data-l="A"><span class="lt">A</span><span class="cv"><div class="tx">It describes a common view among archaeologists, then discusses a recent finding that challenges that view.</div></span></div><div class="ch" data-l="B"><span class="lt">B</span><span class="cv"><div class="tx">It outlines a method used in some archaeological fieldwork, then explains why an alternative method is superior to it.</div></span></div><div class="ch" data-l="C"><span class="lt">C</span><span class="cv"><div class="tx">It identifies a gap in scientific research, then presents a strategy used by some archaeologists to remedy that gap.</div></span></div></div></div></div><div class="pvsl">${window.szRow('qs','Question size')}${window.szRow('as','Answer size')}</div></div>`;
+ m.addEventListener('click',ev=>{if(ev.target===m||ev.target.id==='pvx')pvClose()});document.body.append(m)}});
+(function pv(){const c=document.getElementById('pvbgc');if(c&&c.isConnected){try{const g=c.getContext('2d');g.clearRect(0,0,c.width,c.height);c.style.opacity=cv.style.opacity||1;const r=Math.max(c.width/cv.width,c.height/cv.height);g.drawImage(cv,0,0,cv.width,cv.height,0,0,cv.width*r,cv.height*r)}catch(_){}}requestAnimationFrame(pv)})();
 document.addEventListener('change',e=>{if(e.target.id==='stlive'){ls('satlive',e.target.checked?'1':'0');apply(false)}});
 try{['satbg','satlive','sataccent','satbgo'].forEach(k=>{if(typeof SYNC!=='undefined'&&!SYNC.includes(k))SYNC.push(k);if(typeof SCAL!=='undefined'&&!SCAL.includes(k))SCAL.push(k)})}catch(_){}
 size();apply(true);
