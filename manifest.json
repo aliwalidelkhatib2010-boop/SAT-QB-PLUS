@@ -2,5 +2,12 @@
   "short_name": "SAT QB+",
   "name": "Sat Question Bank Plus",
   "display": "standalone",
-  "start_url": "/"
+  "start_url": "./"
+  "icond": [
+    {
+      "src": "https://gstatic.com",
+      "sizes": "96x96",
+      "type": "image/png"
+    }
+  ]
 }
