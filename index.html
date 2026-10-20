@@ -1404,4 +1404,13 @@ document.addEventListener('change',e=>{if(e.target.id==='stlive'){ls('satlive',e
 try{['satbg','satlive','sataccent','satbgo'].forEach(k=>{if(typeof SYNC!=='undefined'&&!SYNC.includes(k))SYNC.push(k);if(typeof SCAL!=='undefined'&&!SCAL.includes(k))SCAL.push(k)})}catch(_){}
 size();apply(true);
 })();
+ <script>
+  if ('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+   navigator.serviceWorker.register('./sw.js')
+    .then(reg => console.log('Service Worker registered!',reg))
+   .catch(err => console.log('failed',
+  });
+ }
+  </script>
 </script></body></html>
