@@ -3,7 +3,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SAT Practice</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="manifest" href="/manifest.json">
 <style>
 :root{--bg:#fff;--card:#fff;--tx:#1b1b1b;--mut:#5f6368;--bd:#cfd3dc;--ac:#324fbe;--ok:#1b7f3b;--bad:#c0392b;--okb:#e3f3e8;--badb:#fbe7e4;--hd:#e9edf8;--ban:#1d2a6b;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121316;--card:#1b1d22;--tx:#e8e8ea;--mut:#9ba0aa;--bd:#3a3e48;--ac:#8ea3ff;--ok:#56c884;--bad:#ff8173;--okb:#14291c;--badb:#33191a;--hd:#1c2030;--ban:#0f1740;color-scheme:dark}
@@ -1404,13 +1403,4 @@ document.addEventListener('change',e=>{if(e.target.id==='stlive'){ls('satlive',e
 try{['satbg','satlive','sataccent','satbgo'].forEach(k=>{if(typeof SYNC!=='undefined'&&!SYNC.includes(k))SYNC.push(k);if(typeof SCAL!=='undefined'&&!SCAL.includes(k))SCAL.push(k)})}catch(_){}
 size();apply(true);
 })();
- <script>
-  if ('serviceWorker' in navigator){
-  window.addEventListener('load', () => {
-   navigator.serviceWorker.register('./sw.js')
-    .then(reg => console.log('Service Worker registered!',reg))
-   .catch(err => console.log('failed',
-  });
- }
-  </script>
 </script></body></html>
