@@ -527,6 +527,54 @@ body[data-q="1"] .tipsb{display:none}
 .hintp{position:fixed;right:calc(14px + var(--dw,0px));bottom:calc(134px + env(safe-area-inset-bottom,0px));z-index:34;width:min(320px,calc(100vw - 28px));background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 14px;box-shadow:0 8px 30px #0006;font-size:.92rem;text-align:left}
 .hintp b{display:block;margin-bottom:4px;color:var(--ac)}.hintp p{margin:0 0 8px}.hintp .btns{justify-content:flex-start;gap:8px;margin:0}
 @media(max-width:760px){.hintb,.hintp{right:14px}}
+
+/* ===== grammar + layout fixes ===== */
+body:not([data-q="1"]) #app{padding-bottom:calc(44px + env(safe-area-inset-bottom,0px))}
+.vcw,.vcz.card{min-height:calc(100vh - 130px);min-height:calc(100dvh - 130px)}
+button.tipsb{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:99px;background:linear-gradient(145deg,var(--ac),color-mix(in srgb,var(--ac) 68%,#000));color:var(--bg);box-shadow:0 6px 20px color-mix(in srgb,var(--ac) 40%,transparent),0 0 0 4px color-mix(in srgb,var(--ac) 16%,transparent);transition:transform .15s,box-shadow .15s}
+button.tipsb:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.08)}button.tipsb svg{flex:none}
+@media(max-width:700px),(max-height:560px){button.tipsb{position:static;display:flex;justify-content:center;width:56px;height:56px;padding:0;border-radius:50%;margin:20px auto 0}button.tipsb .tl{display:none}button.tipsb svg{width:26px;height:26px}}
+.grc{align-items:flex-start;text-align:left}.grc .mn{font-weight:400}.grc small{line-height:1.5}
+.grc .bd{color:var(--bad)}.grc .gd{color:var(--ok)}
+.upr{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:12px;margin:10px 0}.upr>.card{margin:0!important;display:flex;flex-direction:column;justify-content:center}
+#app:has(>.vcen){display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}#app>.vcen{margin:auto;width:100%}
+input[type=checkbox]:not(.sdchk){appearance:none;-webkit-appearance:none;flex:none;width:42px;height:24px;min-height:0;padding:0;margin:0 6px 0 0;border:0;border-radius:99px;background:var(--bd);position:relative;cursor:pointer;vertical-align:middle;transition:background .2s}
+input[type=checkbox]:not(.sdchk)::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0004;transition:transform .2s}
+input[type=checkbox]:not(.sdchk):checked{background:var(--ac)}input[type=checkbox]:not(.sdchk):checked::after{transform:translateX(18px)}
+/* ===== OLED black (dark mode only) ===== */
+:root[data-oled="1"][data-theme="dark"]{--bg:#000;--card:#000;--hd:#0b0b0d;--bd:#26272c;--okb:#06170c;--badb:#1a0b0b;--ban:#000;--pg:#000}
+@media(prefers-color-scheme:dark){:root[data-oled="1"]:not([data-theme="light"]):not([data-theme="dark"]){--bg:#000;--card:#000;--hd:#0b0b0d;--bd:#26272c;--okb:#06170c;--badb:#1a0b0b;--ban:#000;--pg:#000}}
+:root[data-oled="1"][data-theme="dark"] body,:root[data-oled="1"][data-theme="dark"] .card{background:#000}
+@media(max-width:760px),(pointer:coarse) and (max-width:900px){.lyg{display:none!important}}
+/* ===== tidy question header (PC + phone) ===== */
+.hd .hr{align-items:center;gap:6px}
+.seg2{display:inline-flex}.seg2 .s{border-radius:0;padding:.4rem .75rem;min-height:36px}.seg2 .s:first-child{border-radius:8px 0 0 8px}.seg2 .s:last-child{border-radius:0 8px 8px 0;margin-left:-1px}
+.hd .hr>.s,.hd .mw>.s{padding:.4rem .75rem;min-height:36px;justify-content:center}
+.hd .hc{gap:8px}.hd .stw{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:2px 4px 2px 10px;margin-left:6px}
+@media(max-width:1199px){.hd .bl{display:none}}
+@media (max-width:600px) and (orientation:portrait){
+.hd{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"ttl tmr" "tools tools";gap:4px 10px;align-items:center;padding:6px 10px}
+.hd>div:first-child{grid-area:ttl}.hd>.hc{grid-area:tmr;flex-wrap:wrap;justify-content:flex-end;gap:6px}.hd>.hr{grid-area:tools;order:0;width:100%;flex-wrap:nowrap;justify-content:stretch;gap:6px}
+.hd .stw{flex-basis:100%;justify-content:flex-end;margin:0;background:none;border:0;padding:0}
+.hd .hr>.s,.hd .hr>.seg2,.hd .hr>.mw{flex:1 1 0;min-width:0}
+.hd .hr>.seg2{display:flex}.hd .seg2 .s{flex:1;padding:.3rem 0}
+.hd .hr>.s{padding:.3rem 0;min-height:40px}.hd .mw>.s{width:100%;min-height:40px;padding:.3rem 0}
+.hd .hr>.s,.hd .mw>.s,.hd .seg2 .s{font-size:1rem}
+#mo{left:auto;right:0}}
+.ic{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hd .hr .s{align-items:center;justify-content:center}
+.hd .seg2 .s{justify-content:center;font-weight:600}
+@media (max-width:600px) and (orientation:portrait){
+.hd .stw button.s{min-width:0;padding:.2rem .75rem;min-height:34px}.hd .stw .stv{font-size:.9rem;min-width:0;padding:0 4px;min-height:0}
+.hd .stw{gap:6px}.hd>.hc .tmr{font-size:1.5rem}
+.hd .seg2 .s{border-radius:0}.hd .seg2 .s:first-child{border-radius:10px 0 0 10px}.hd .seg2 .s:last-child{border-radius:0 10px 10px 0}
+.hd .hr>.s,.hd .mw>.s{border-radius:10px}}
+button.hintb{display:grid;place-items:center;width:48px;height:48px;padding:0;border:0;border-radius:50%;background:linear-gradient(145deg,var(--ac),color-mix(in srgb,var(--ac) 68%,#000));color:var(--bg);box-shadow:0 6px 18px color-mix(in srgb,var(--ac) 40%,transparent),0 0 0 4px color-mix(in srgb,var(--ac) 16%,transparent);transition:transform .15s,filter .15s}
+button.hintb:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.08)}
+button.tipsb{padding:8px 13px;font-size:.7rem;box-shadow:0 2px 8px #0003}
+button.tipsb svg{width:17px;height:17px}
+button.hintb{box-shadow:0 2px 8px #0003}
+@media(max-width:700px),(max-height:560px){button.tipsb{width:44px;height:44px;padding:0;margin:16px auto 0}button.tipsb svg{width:22px;height:22px}}
 </style></head>
 <body>
 <div id="tbar"><span id="tl" style="display:flex;align-items:center;gap:10px"><button class="s" id="hmb" data-a="home" title="Home" aria-label="Home"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg></button><button class="s" id="pdfb" data-a="newfile">English / Math PDFs</button></span><span id="tr"><button class="s gbtn" id="gbtn" data-a="gin" hidden></button><button class="s" id="th" data-a="theme" title="Toggle light / dark" aria-label="Toggle light / dark theme">◐</button><div class="mw"><button class="av" id="pfp" data-a="pfp" title="Account" aria-label="Account"></button><div id="pm" hidden></div></div></span></div>
@@ -566,7 +614,10 @@ S.auto=ls('satauto')==='1';
 const PH=matchMedia('(max-width:600px) and (orientation:portrait)');
 const zApply=()=>{const v=PH.matches?(ls('satzp')||'1.45'):ls('satz');if(v)R.style.setProperty('--z',v);else R.style.removeProperty('--z')};
 zApply();addEventListener('resize',zApply);PH.addEventListener&&PH.addEventListener('change',zApply);
+if(ls('sattheme')==='grey')ls('sattheme',null);
 if(ls('sattheme'))R.dataset.theme=ls('sattheme');
+if(ls('satoled')==='1')R.dataset.oled='1';
+document.addEventListener('change',e=>{if(e.target.id==='stoled'){const on=e.target.checked;ls('satoled',on?'1':'0');if(on)R.dataset.oled='1';else delete R.dataset.oled;try{gdraw();penDraw()}catch(_){}}});
 
 /* ---------- stopwatch (Settings > Stopwatch) ---------- */
 const SW={run:0,t0:0,acc:0,lt:0,laps:[],open:0,q:null,qi:0,pr:0};
@@ -846,7 +897,7 @@ function showUpload(note=''){document.body.dataset.q='';
  const slot=k=>{const n=S.qs.filter(q=>q.src===k).length;return`<div class="card" style="margin:10px 0"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><b>${SRC[k]} document</b>${n?`<span class="m sm">${n} questions loaded <button class="s" data-a="clr" data-k="${k}">Remove</button></span>`:'<span class="m sm">not loaded</span>'}</div>
   <label class="drop" data-k="${k}" style="padding:22px 12px"><input type="file" class="fi" data-k="${k}" accept="application/pdf" hidden><b>${n?'Replace':'Choose'} ${SRC[k]} PDF</b> or drop it here</label><div class="m st" data-k="${k}"></div><div class="bar"><i class="pb" data-k="${k}"></i></div></div>`};
  app.innerHTML=`<div class="card c"><h1>SAT Practice</h1><p class="m">Upload an English PDF, a Math PDF, or both. You can then practice from either one or mix them. Everything runs in your browser; the files never leave your device.</p>
- ${slot('E')}${vcSlot()}${slot('M')}<div class="m" id="st">${esc(note)}</div>
+ <div class="upr">${slot('E')}${vcSlot()}</div>${slot('M')}<div class="m" id="st">${esc(note)}</div>
  <div class="btns" style="margin-top:12px">${S.qs.length?'<button class="p pill" data-a="setup">Continue</button>':''}<button class="pill" data-a="home">Back</button></div></div>`;
  document.querySelectorAll('.drop').forEach(d=>{const k=d.dataset.k;d.ondragover=e=>{e.preventDefault();d.classList.add('hv')};d.ondragleave=()=>d.classList.remove('hv');
   d.ondrop=e=>{e.preventDefault();d.classList.remove('hv');if(e.dataTransfer.files[0])load(e.dataTransfer.files[0],k)}});
@@ -897,7 +948,7 @@ function tgHTML(){
  const E=track('E'),M=track('M'),tE=tgv('sattge')||800,tM=tgv('sattgm')||800;let h='';
  if(E)h+=bar('English',E.cur,E.S0,tE,E.n,200);if(M)h+=bar('Math',M.cur,M.S0,tM,M.n,200);
  if(E&&M)h+=bar('Total',E.cur+M.cur,E.S0+M.S0,tE+tM,E.n+M.n,400);
- return h?h+'<div class="m sm">Estimates only, not exact SAT scoring.</div>':''}
+ return h?h+'<div class="m sm" style="text-align:center">Estimates only, not exact SAT scoring.</div>':''}
 
 const nameOf=()=>ls('satname')||'',hi=()=>esc(nameOf());
 const fld=(id,lb,key,ph)=>`<label class="tgl">${lb} <input id="${id}" type="number" min="200" max="800" step="10" placeholder="${ph}" value="${tgv(key)||''}"></label>`;
@@ -923,7 +974,7 @@ function showTitle(){
  ${has?`<div class="stat"><div><b>${S.qs.length}</b><span>questions</span></div><div><b>${g.p}%</b><span>completed</span></div></div><p class="m sm" style="margin:0"></p>`:''}
  ${tg?`<div class="tgbox" id="tgt">${tg}</div>`:''}
  <div class="btns"><button class="p pill big" data-a="begin">${has?(ss?'Continue':'Start practicing'):'Upload question bank'}</button>${has?'<button class="pill big" data-a="fullsetup">Full practice test</button>':''}${vcBtn()}</div>
-  </div><button class="s tipsb" data-vc="tips">Tips and tricks for SAT</button>`}
+  </div><button class="s tipsb" data-vc="tips" title="Tips &amp; tricks" aria-label="Tips &amp; tricks"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg><span class="tl">Tips &amp; tricks</span></button>`}
 
 /* ---------- top bar: PDFs (left), theme + profile menu (right) ---------- */
 const DUP=()=>{const d=ls('satdup')||'nobank',two=S.qs.some(q=>q.src==='E')&&S.qs.some(q=>q.src==='M');return{two,bank:two&&d!=='nobank',sec:!(two&&d==='nosec')}};
@@ -943,6 +994,7 @@ function showSettings(){clearInterval(S.tick);S.done=true;document.body.dataset.
  <div class="row"><span class="t"><b>Math layout</b><span class="m sm">Question above the answers, or side by side.</span></span><select id="stlayM" class="s"><option value="stack">Above each other</option><option value="side">Side by side</option></select></div>
  ${tg('stedit',ls('satedit')==='1','Layout edit mode','Adds a ⚙ Layout button on the left of every question. Use it to pick side by side or above each other (English and Math separately), resize the question and answers, drag the divider, then press Save.')}
  <div class="row col"><span class="t"><b>Colour mode</b><span class="m sm">Auto follows your device.</span></span><div class="seg">${[['auto','Auto'],['light','Light'],['dark','Dark']].map(([k,n])=>`<button type="button" data-md="${k}" class="${md===k?'on':''}">${n}</button>`).join('')}</div></div>
+ ${tg('stoled',ls('satoled')==='1','OLED black','Makes dark mode pure black instead of dark grey. Saves battery on OLED screens and looks deeper at night.')}
  <div class="row col"><span class="t"><b>Accent colour</b><span class="m sm">Changes buttons, highlights and the animated backgrounds.</span></span><div class="seg">${Object.keys(P).map(k=>`<button type="button" class="swc ${L.acc===k?'on':''}" data-sw="${k}" title="${P[k][3]}" aria-label="${P[k][3]}" style="background:${P[k][0]}"></button>`).join('')}</div></div>
  <div class="sec">Background</div>
  <div class="row col"><span class="t"><b>Background theme</b><span class="m sm">Shown behind the menus. It is hidden while you answer questions so it never distracts you.</span></span><div class="seg">${Object.keys(B).map(k=>`<button type="button" data-bg="${k}" class="${L.bg===k?'on':''}">${B[k]}</button>`).join('')}</div></div>
@@ -958,6 +1010,8 @@ function showSettings(){clearInterval(S.tick);S.done=true;document.body.dataset.
  <div class="sec">Vocab</div>
  ${tg('stvc',vcOn(),'Vocab practice','Adds a Vocab button on the home screen, a vocab list box on the upload page, and a “Vocab questions only” choice when building a practice set.')}
  ${tg('stvcb',vcBankOn(),'Add vocab questions to the question bank','Turns your vocab words and your own vocab questions into multiple-choice questions inside the main bank (Reading and Writing, Craft and Structure, Vocabulary). Off by default. They are left out of full practice tests and your score estimate.')}
+ ${tg('stgr',grOn(),'Grammar practice','Adds a Grammar tab next to Vocab with grammar rules, SAT grammar questions, your own questions and tips.')}
+ ${tg('stgrb',grBankOn(),'Add grammar questions to the question bank','Mixes the SAT grammar questions (and your own grammar questions) in with your regular practice questions under Standard English Conventions. Left out of full practice tests and your score estimate.')}
  <div class="sec">Study plan</div>
  ${tg('stpl',ls('satplanon')!=='0','Calendar and study plan','Adds the Calendar button with your study plan and weekly full practice tests.')}
  ${tg('stcd',ls('satcd')!=='0','Countdown on the home screen','Shows how many days are left until your test. You can turn this off and keep the Calendar.')}
@@ -1030,7 +1084,7 @@ function showSetup(){
  <label>Mode<span class="hint">When you see the answers</span><select id="fm"><option value="practice">Practice: answer shown after each question</option><option value="test">Test: answers shown at the end</option></select></label>
  <label>Number of questions<span class="hint">How many to put in this set. Enter 0 for all questions</span><input id="fc" type="number" min="0" value="20"></label>
  <label>Time limit (minutes)<span class="hint">Enter 0 for no time limit</span><input id="fl" type="number" min="0" value="0"></label></div>
- <label><input type="checkbox" id="fr" checked> Shuffle questions</label>${vcOn()&&S.qs.some(vcIsBank)?'<label><input type="checkbox" id="fv"> Vocab questions only (Words in Context)</label>':''}
+ <label><input type="checkbox" id="fr" checked> Shuffle questions</label>
  <p class="m" id="av"></p>
  <div class="acts"><button class="p pill" data-a="go">Start</button>${ls('satstartall')==='1'?'<button class="p pill" data-a="goall">Start all</button>':''}</div>
  <div class="acts"><button class="pill" data-a="fullsetup">Full practice test</button><button class="pill" data-a="home">Home</button></div></div>${side}</div>`;
@@ -1059,8 +1113,8 @@ async function show(){
  const cls=x=>(rev||S.chk[x.id])?(right(x,S.ans[x.id])?'ok':'bad'):S.ans[x.id]?'an':'';
  app.innerHTML=`<div class="top"><div class="hd"><div><b>${esc(q.test||'SAT')}</b><div class="m sm">${rev?'Review':S.full?'Full test · module '+S.full.mod+' of 2':S.mode==='test'?'Test mode':'Practice mode'}</div></div>
  <div class="hc"><div class="tmr" id="tm">${S.hideT||rev?'':fmt(S.lim?S.lim-e:e)}</div>${rev?'':`<button class="s" data-a="hide" title="Show or hide the timer">${S.hideT?'🕒':'Hide'}</button>`}${swHTML(rev)}</div>
- <div class="hr">${rev||S.full?'':'<button class="s" data-a="pause">⏸ Pause</button>'}${sec(q)==='E'?'':'<button class="s" data-a="des">Calculator</button>'}<button class="s" data-a="zm-" title="Smaller">A−</button><button class="s" data-a="zm+" title="Bigger">A+</button><button class="s" id="penb" data-a="pen" title="Draw on the question (P)">✏ Pen</button>
- <div class="mw"><button class="s" data-a="more">⋯ More</button><div id="mo" hidden>${!rev&&S.mode==='practice'?`<label><input type="checkbox" data-a="auto" ${S.auto?'checked':''}> Instant check</label>`:''}${sec(q)==='E'?'':`<button data-a="ref" id="refb">${document.body.classList.contains('refopen')?'Hide reference sheet':'Reference sheet'}</button>`}<button data-a="orig">${S.orig?'Hide original page':'Original page'}</button><button data-a="theme">◐ Theme</button>${rev?'':S.full?'<button data-a="quitfull">Quit test (ends it)</button>':'<button data-a="exit">Save &amp; exit</button>'}</div></div></div></div><div class="ban">THIS IS A PRACTICE TEST</div></div>
+ <div class="hr">${rev||S.full?'':'<button class="s" data-a="pause" title="Pause"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor" stroke="none"/><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor" stroke="none"/></svg><span class="bl">Pause</span></button>'}${sec(q)==='E'?'':'<button class="s" data-a="des" title="Calculator"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></svg><span class="bl">Calculator</span></button>'}<span class="seg2"><button class="s" data-a="zm-" title="Smaller text">A−</button><button class="s" data-a="zm+" title="Bigger text">A+</button></span><button class="s" id="penb" data-a="pen" title="Draw on the question (P)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><span class="bl">Pen</span></button>
+ <div class="mw"><button class="s" data-a="more" title="More"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.6" fill="currentColor" stroke="none"/></svg><span class="bl">More</span></button><div id="mo" hidden>${!rev&&S.mode==='practice'?`<label><input type="checkbox" data-a="auto" ${S.auto?'checked':''}> Instant check</label>`:''}${sec(q)==='E'?'':`<button data-a="ref" id="refb">${document.body.classList.contains('refopen')?'Hide reference sheet':'Reference sheet'}</button>`}<button data-a="orig">${S.orig?'Hide original page':'Original page'}</button><button data-a="theme">◐ Theme</button>${rev?'':S.full?'<button data-a="quitfull">Quit test (ends it)</button>':'<button data-a="exit">Save &amp; exit</button>'}</div></div></div></div><div class="ban">THIS IS A PRACTICE TEST</div></div>
  <div class="qw"><div class="tags"><span class="tag">${esc(q.domain)}</span><span class="tag">${esc(q.skill)}</span><span class="tag ${q.diff}">${esc(q.diff||'—')}</span></div>
  <div class="split${two?' two':''}"><div class="lp qtx" id="lp"></div><div class="rp"><div class="qh"><span class="qn">${S.i+1}</span><button class="s mk ${S.fl[q.id]?'on':''}" data-a="flag">⚑ Mark for Review</button></div>
  <div id="qb" class="qtx m">Loading question…</div><div id="ch"></div></div></div><div id="og"></div><div id="fb"></div></div>
@@ -1103,7 +1157,7 @@ function pickMod(k,r,n,used){
 const fullSecs=()=>['E','M'].filter(k=>S.qs.filter(q=>sec(q)===k&&!q.vc).length>=TEST[k].n);
 function showFullSetup(){clearInterval(S.tick);S.done=true;document.body.dataset.q='';const ks=fullSecs();
  const tm=ks.reduce((a,k)=>a+2*TEST[k].min,0)+(ks.length>1?TEST.brk:0),row=k=>`<tr><td><b>${SRC[k]}</b></td><td>2 modules × ${TEST[k].n} questions</td><td>${fmtMin(TEST[k].min)} each</td></tr>`;
- app.innerHTML=`<div class="card c"><h1>Full practice test</h1>${ks.length?`<p class="m">Modeled on the digital SAT.</p><table>${ks.map(row).join('')}${ks.length>1?`<tr><td><b>Break</b></td><td>between English and Math</td><td>${fmtMin(TEST.brk)}</td></tr>`:''}</table>
+ app.innerHTML=`<div class="card c vcen"><h1>Full practice test</h1>${ks.length?`<p class="m">Modeled on the digital SAT.</p><table>${ks.map(row).join('')}${ks.length>1?`<tr><td><b>Break</b></td><td>between English and Math</td><td>${fmtMin(TEST.brk)}</td></tr>`:''}</table>
  <p>Testing time: ${fmtMin(tm-(ks.length>1?TEST.brk:0))}${ks.length>1?`, plus a ${fmtMin(TEST.brk)} break (${fmtMin(tm)} in all)`:''}.</p>
  <p class="m sm">Module 2 adapts to how you did in module 1. Do well and you get harder questions, which raises the highest score you can reach. There is no pause, the calculator is Math only, and leaving ends the test. Your score is an estimate and is not entirely accurate.</p>
  ${ks.length<2?'<p class="m sm">Load both an English and a Math PDF (English / Math PDFs) to take the whole test.</p>':''}
@@ -1559,7 +1613,7 @@ document.getElementById('gbtn').innerHTML=GSVG+' Sign in';
 /* ===== colour schemes + live backgrounds ===== */
 (function(){
 const R=document.documentElement;
-const PAL={blue:['#324fbe','#8ea3ff','#1d2a6b','Blue'],teal:['#0f766e','#4fd1c5','#0b3d3a','Teal'],purple:['#7c3aed','#b79cff','#3b1c78','Purple'],orange:['#c2410c','#ffa05c','#6b2305','Orange'],rose:['#be185d','#ff8fb8','#6d0f35','Rose'],green:['#15803d','#6ee7a0','#0b4a24','Green']};
+const PAL={blue:['#324fbe','#8ea3ff','#1d2a6b','Blue'],teal:['#0f766e','#4fd1c5','#0b3d3a','Teal'],purple:['#7c3aed','#b79cff','#3b1c78','Purple'],orange:['#c2410c','#ffa05c','#6b2305','Orange'],rose:['#be185d','#ff8fb8','#6d0f35','Rose'],green:['#15803d','#6ee7a0','#0b4a24','Green'],red:['#e11d2e','#ff5a5f','#8a0f1c','Red'],gold:['#a16207','#fbbf24','#4a2e05','Gold'],grey:['#4b5563','#c4c8cf','#2a2e35','Greyscale']};
 const BGS={graph:'Live graph',math:'Math',circuit:'Circuit board',gears:'Gears',off:'None'};
 window.LOOK_PAL=PAL;window.LOOK_BGS=BGS;
 const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -1696,7 +1750,7 @@ function vcStat(){try{return JSON.parse(ls('satvocabst')||'{}')}catch(e){return{
 function vcSaveStat(o){ls('satvocabst',JSON.stringify(o))}
 function vcIsBank(q){return /words in context/i.test(q.skill||'')}
 function vo(){const e=document.getElementById('fv');return !!(e&&e.checked)}
-function vcBtn(){return vcOn()?'<button class="pill big" data-vc="home">Vocab</button>':''}
+function vcBtn(){return vcOn()||grOn()?'<button class="pill big" data-vc="home">'+(vcOn()&&grOn()?'Vocab &amp; Grammar':vcOn()?'Vocab':'Grammar')+'</button>':''}
 function vcParse(raw){
  const words=[],qs=[],seen=new Set();let skipped=0;
  const optRe=/^\s*\(?([A-Fa-f])[\).:]\s+(\S.*)$/,ansRe=/^\s*(?:correct\s+)?(?:answer|ans|key)\s*(?:is)?\s*[:=\-]?\s*\(?([A-Fa-f])\)?(?![a-z])/i,expRe=/^\s*(?:explanation|why|reason|rationale)\s*[:\-]\s*(.*)$/i;
@@ -1723,8 +1777,8 @@ function vcSlot(){if(!vcOn())return'';const P=vcData(),any=P.words.length||P.qs.
  return`<div class="card" style="margin:10px 0"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><b>Vocab list &amp; questions</b><span class="m sm">${any?P.words.length+' words · '+P.qs.length+' questions':'nothing added yet'}</span></div><p class="m sm" style="margin:8px 0">Paste words with their meanings, or your own multiple-choice questions, and practice them here.</p><div class="btns" style="justify-content:flex-start"><button class="s" data-vc="edit">${any?'Edit':'Add'} vocab</button>${any?'<button class="s p" data-vc="home">Practice</button>':''}</div></div>`}
 let VC=null;
 function vcBase(){clearInterval(S.tick);clearInterval(S.itv);S.done=true;document.body.dataset.q='';if(VC)VC.live=false;window.scrollTo(0,0)}
-function vcHome(msg){vcBase();const P=vcData(),st=vcStat(),nm=P.words.filter(x=>(st[x.w.toLowerCase()]||{}).w>0).length,nb=S.qs.filter(vcIsBank).length,any=P.words.length||P.qs.length,has=P.words.length>=2||P.qs.length>0;
- app.innerHTML=`<div class="vcw"><h1 style="margin:.1em 0">Vocab</h1>${msg?`<p style="color:var(--ok);margin:0">${esc(msg)}</p>`:''}
+function vcHome(msg){if(grMode())return grHome(msg);vcBase();const P=vcData(),st=vcStat(),nm=P.words.filter(x=>(st[x.w.toLowerCase()]||{}).w>0).length,nb=S.qs.filter(vcIsBank).length,any=P.words.length||P.qs.length,has=P.words.length>=2||P.qs.length>0;
+ app.innerHTML=`<div class="vcw"><h1 style="margin:.1em 0">Vocab</h1>${gmTabs()}${msg?`<p style="color:var(--ok);margin:0">${esc(msg)}</p>`:''}
  <div class="vcg">
  <div class="card vcc vc"><h2>My vocab list</h2>
  <label class="wchk"><input type="checkbox" id="vcs" ${vcStarterOn()?'checked':''}> Include built-in starter list (${vcParse(vcStarterTxt()).words.length} words)</label>
@@ -1785,7 +1839,7 @@ function vcStart(){const P=vcData(),g=id=>document.getElementById(id),mode=g('vc
  VC={items,i:0,res:[],live:true};vcQ()}
 function vcOk(){return VC.items.filter((x,i)=>VC.res[i]===x.a).length}
 function vcQ(){vcBase();VC.live=true;const it=VC.items[VC.i],n=VC.items.length,L='ABCDEF',done=VC.res.filter(x=>x!=null).length;
- const pr=it.k==='w'?(it.rev?'<small>Which word matches this meaning?</small>':'<small>What does this word mean?</small>')+esc(it.p):esc(it.p);
+ const pr=it.k==='w'?(it.rev?'<small>Which word matches this meaning?</small>':'<small>What does this word mean?</small>')+esc(it.p):(it.h?'<small>'+esc(it.h)+'</small>':'')+esc(it.p);
  app.innerHTML=`<div class="vcz card vc"><div class="vct"><span style="display:flex;gap:6px"><button class="s" data-vc="quit">✕ Quit</button><button class="s" data-vc="shelve">Save for later</button></span><span class="m sm">Question ${VC.i+1} of ${n}</span><span class="m sm" id="vck">${vcOk()} correct</span></div><div class="bar"><i id="vcbar" style="width:${done/n*100}%"></i></div>
  <div class="vcp${it.k==='w'&&!it.rev?' vcbig':''}">${pr}</div><div id="vco">${it.o.map((o,j)=>`<div class="ch" data-i="${j}" tabindex="0"><span class="lt">${L[j]}</span><span class="cv">${esc(o)}</span></div>`).join('')}</div><div id="vcf"></div>
  <div class="vcn"><button class="pill" data-vc="prev" ${VC.i?'':'disabled'}>‹ Back</button><button class="pill" id="vcnx" data-vc="next"></button></div></div>`;
@@ -1936,7 +1990,7 @@ function vcBankQs(){
   if(o.length>4){const c=o[ai],rest=vcSeed(o.filter((_,i)=>i!==ai),q.q).slice(0,3);o=vcSeed([c,...rest],q.q+'|o');ai=o.indexOf(c)}
   out.push(mk('q'+vcHash(q.q),q.q,o,ai,q.e))});
  return out}
-function vcBankSync(){S.qs=S.qs.filter(q=>!q.vc);if(vcBankOn()){try{S.qs=S.qs.concat(vcBankQs())}catch(e){}}}
+function vcBankSync(){S.qs=S.qs.filter(q=>!q.vc);if(vcBankOn()){try{S.qs=S.qs.concat(vcBankQs())}catch(e){}}if(grBankOn()){try{S.qs=S.qs.concat(grBankQs())}catch(e){}}}
 function vcRenderQ(q,c){
  const{qb,box,fb,els,done}=c;qb.textContent='';qb.classList.remove('m');
  const p=document.createElement('div');p.className='tx';p.style.whiteSpace='pre-wrap';p.textContent=q.vp;qb.append(p);
@@ -2036,7 +2090,7 @@ function showTips(tab){vcBase();if(tab)TIPTAB=tab;
    ['4 · Reading question types','Then learn Transitions, Central Ideas, Inferences, Text Structure and Evidence one type at a time.'],
    ['Do not start with vocab','Do not begin by memorising long word lists. The SAT tests words in context, so learn the clue strategies first, then add a few words a day alongside everything else.'],
    ['Fix before you add','Redo your missed questions before moving on to new topics.'],
-   ['Easy to hard','practice Easy and Medium first, then add Hard once those feel steady.']]],
+   ['Easy to hard','Practice Easy and Medium first, then add Hard once those feel steady.']]],
   basics:['Basics',[
    ['Know the format','Reading & Writing, then Math. Each has 2 modules, and module 2 adapts to how you did in module 1.'],
    ['Never leave blanks','There is no penalty for wrong answers, so always guess.'],
@@ -2067,12 +2121,12 @@ function showTips(tab){vcBase();if(tab)TIPTAB=tab;
    ['Word problems','Define your variables, underline what is asked, and keep units consistent.'],
    ['Student-produced answers','Type a fraction or decimal. Plug your answer back into the problem to check it.'],
    ['Shortcuts','Backsolve with number choices, pick simple numbers for variables, and write every step to avoid arithmetic slips.']]],
-  day:['Practice & test day',[
+  gr:['Grammar',GTIPS],day:['Practice & test day',[
    ['Review every miss','Note why: careless, did not know, or ran out of time. Fix that cause.'],
    ['Redo misses later','Use the “Previously missed” filter a few days after.'],
    ['Time full tests','Stamina matters on a test this long.'],
    ['Be ready','Sleep, eat, charge your device, and have your ID.']]]};
- const names=[['start','Where to start'],['basics','Basics'],['eng','English'],['math','Math'],['day','Test day']];
+ const names=[['start','Where to start'],['basics','Basics'],['eng','English'],['gr','Grammar'],['math','Math'],['day','Test day']];
  const cur=T[TIPTAB],ti=names.findIndex(n=>n[0]===TIPTAB);
  app.innerHTML=`<div class="card c left lrn pxw"><h1>Tips and tricks for SAT</h1><p class="m" style="margin:0">Quick habits that save time and points.</p><label class="tgl" style="justify-content:center;color:var(--tx);margin-top:10px;cursor:pointer"><input type="checkbox" id="sthint" ${ls('sathint')==='1'?'checked':''}> Show a 💡 hint button while I practice</label>
  <div class="ptabs">${names.map(([k,n])=>`<button class="s${TIPTAB===k?' on':''}" data-vc="tiptab" data-t="${k}">${esc(n)}</button>`).join('')}</div>
@@ -2103,10 +2157,10 @@ const HINTS=[
  [/area|volume|line|angle|triangle|circle|geometry/,['Check the reference sheet for the formula you need.','Label every given on a sketch and look for similar triangles. Do not assume the picture is to scale.']]];
 const HINT_E=['Reread the last line of the question so you answer exactly what is asked.','Cross out choices that are true but do not answer the question.','If two choices both work, the shorter and clearer one usually wins.'];
 const HINT_M=['Underline what the question asks for and check the units.','Try plugging in the answer choices or picking simple numbers.','Write every step to avoid small arithmetic slips, and check with Desmos.'];
-function hintsFor(q){if(q.vc)return HINTS[0][1];const t=((q.skill||'')+' '+(q.domain||'')).toLowerCase();
+function hintsFor(q){if(q.vc&&!q.gr)return HINTS[0][1];const t=((q.skill||'')+' '+(q.domain||'')).toLowerCase();
  for(const[r,h]of HINTS.slice(1))if(r.test(t))return h.concat(sec(q)==='M'?HINT_M.slice(0,1):HINT_E.slice(0,1));
  return sec(q)==='M'?HINT_M:HINT_E}
-function hintBtn(){return ls('sathint')==='1'&&!S.full&&S.mode==='practice'?'<button class="s hintb" data-hint="tog" title="Hint" aria-label="Hint">💡</button><div class="hintp" id="hintp" hidden></div>':''}
+function hintBtn(){return ls('sathint')==='1'&&!S.full&&S.mode==='practice'?'<button class="s hintb" data-hint="tog" title="Hint" aria-label="Hint"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></button><div class="hintp" id="hintp" hidden></div>':''}
 const HN={};
 function hintShow(next){const q=S.set[S.i],p=document.getElementById('hintp');if(!q||!p)return;const h=hintsFor(q);
  if(next||p.hidden){HN[q.id]=p.hidden?(HN[q.id]||0):((HN[q.id]||0)+1)%h.length;p.hidden=false}else{p.hidden=true;return}
@@ -2118,7 +2172,134 @@ document.addEventListener('change',e=>{if(e.target.id==='sthint')ls('sathint',e.
 /* ===== save a vocab practice for later ===== */
 let vsaved=[];try{vsaved=JSON.parse(ls('satvsaved')||'[]')}catch(e){}
 const saveVs=()=>ls('satvsaved',JSON.stringify(vsaved));
-function vcShelve(){if(!VC)return;vsaved.unshift({id:Date.now().toString(36),at:Date.now(),name:'Vocab practice of '+VC.items.length+' questions',items:VC.items,i:VC.i,res:VC.res.map(x=>x==null?null:x)});vsaved=vsaved.slice(0,20);saveVs();vcHome('Saved for later. Find it under “Saved practices” below.')}
+function vcShelve(){if(!VC)return;vsaved.unshift({id:Date.now().toString(36),at:Date.now(),name:(GM==='g'?'Grammar':'Vocab')+' practice of '+VC.items.length+' questions',items:VC.items,i:VC.i,res:VC.res.map(x=>x==null?null:x)});vsaved=vsaved.slice(0,20);saveVs();vcHome('Saved for later. Find it under “Saved practices” below.')}
 function vcResume(id){const x=vsaved.find(y=>y.id===id);if(!x)return;vsaved=vsaved.filter(y=>y!==x);saveVs();VC={items:x.items,i:Math.min(x.i,x.items.length-1),res:x.res,live:true};vcQ()}
 function vcDelSaved(id){vsaved=vsaved.filter(y=>y.id!==id);saveVs();vcHome()}
+
+/* ===================== GRAMMAR (rules + SAT grammar questions + own questions) ===================== */
+let GM=ls('satgm')||'v',GT='sb';
+const grOn=()=>ls('satgron')!=='0',grBankOn=()=>ls('satgrbank')==='1',grMode=()=>grOn()&&(!vcOn()||GM==='g');
+const GRPS=[['sb','Sentence boundaries'],['pu','Commas, colons & apostrophes'],['sv','Subject–verb agreement'],['vt','Verb tense & form'],['pr','Pronouns'],['mp','Modifiers & parallelism']];
+const GRL={
+sb:[['Two full sentences need a real break','Join two complete sentences with a period, a semicolon, or a comma + and/but/or/so. A comma alone is a comma splice.','It rained, we stayed in.','It rained, so we stayed in.'],
+['Semicolon','Use ; only between two complete sentences. Never before a dependent clause or a list.','We stayed in; because it rained.','We stayed in; it was raining.'],
+['Colon','A colon follows a complete sentence and introduces a list or an explanation.','We need: eggs and flour.','We need two things: eggs and flour.'],
+['No fragments','A dependent clause (because, although, when, if) cannot stand alone. Add a main clause with a comma.','Because the vote was delayed.','Because the vote was delayed, we waited.']],
+pu:[['Commas in a list','Put commas between three or more items, including before the final and.','flour sugar and eggs','flour, sugar, and eggs'],
+['Nonessential phrases','Extra information goes between two commas (or none). If you can remove it and the sentence still works, use both commas.','My sister, a nurse works nights.','My sister, a nurse, works nights.'],
+['Never split subject and verb','Do not put a single comma between the subject and its verb.','The tall woman near the door, is my aunt.','The tall woman near the door is my aunt.'],
+['Apostrophes','its = belongs to it; it’s = it is. Plural owner: add ’ after the s (teams’). Singular owner: add ’s (team’s).','The company raised it’s prices.','The company raised its prices.']],
+sv:[['Ignore the words in between','Find the true subject. A phrase with of, in, or with is not the subject.','The box of old photos are missing.','The box of old photos is missing.'],
+['Each, every, either, neither','These words take a singular verb.','Each of the players have a locker.','Each of the players has a locker.'],
+['Neither / nor, either / or','The verb agrees with the subject closer to it.','Neither the boss nor the workers was late.','Neither the boss nor the workers were late.'],
+['Flipped sentences','When the verb comes first, look after it for the subject.','Beside the tree stands two benches.','Beside the tree stand two benches.'],
+['Collective nouns','Jury, team, committee and company are singular on the SAT.','The jury are deciding.','The jury is deciding.']],
+vt:[['Stay consistent','Keep one tense through a sequence unless the time really changes.','He walks in, sat down, and orders.','He walks in, sits down, and orders.'],
+['Present perfect (has/have + verb)','Started in the past and still true or relevant now. Clues: since, for, so far.','Since 2010 the museum expanded.','Since 2010 the museum has expanded.'],
+['Past perfect (had + verb)','An action that happened before another past action.','When we arrived, the show already started.','When we arrived, the show had already started.'],
+['If clauses','If + had + verb leads to would have + verb.','If she studied, she would have passed.','If she had studied, she would have passed.'],
+['Irregular forms','Use the participle after has, have, had: drawn, written, begun, chosen.','He had drew the plans.','He had drawn the plans.']],
+pr:[['Match the noun','A singular noun takes a singular pronoun (its). Plural takes their.','The board approved their budget.','The board approved its budget.'],
+['Who vs. whom','who = he / she / they. whom = him / her / them. Swap in he or him to test.','The coach who the team admired.','The coach whom the team admired.'],
+['That vs. which','Which follows a comma and gives extra information. That gives essential information with no comma.','My laptop that I bought last year works.','My laptop, which I bought last year, works.'],
+['Pronoun case','After a preposition use me, him, her, them. Never myself.','Between you and I.','Between you and me.'],
+['Their / there / they’re','their = belongs to them, there = place, they’re = they are.','They finished there homework.','They finished their homework.']],
+mp:[['Dangling modifiers','The noun right after the comma must be the one doing the action.','Walking in the woods, the trail was hard to see.','Walking in the woods, the hikers lost the trail.'],
+['Parallel lists','Every item in a list or pair uses the same form.','analyze data, write, and presenting','analyze data, write, and present'],
+['Compare like with like','Compare the same kinds of things. Use that of or those of.','The population of Tokyo is larger than Paris.','The population of Tokyo is larger than that of Paris.'],
+['Fewer vs. less','fewer for things you can count, less for amounts you cannot count.','less customers','fewer customers']],
+ck:[['1 · Read the whole sentence','Do not stop at the blank. The clue is often at the end of the sentence.','',''],
+['2 · Look at the choices','If they differ only in punctuation, it is a boundaries question. If they differ in verbs or pronouns, it is a form question.','',''],
+['3 · Name the rule','Say it in your head: two full sentences, singular subject, or past perfect.','',''],
+['4 · Plug in and eliminate','Read the sentence with your choice. Cross out any that break the rule, and prefer the shorter option.','','']]};
+const GTIPS=[['Check the choices first','Punctuation-only choices test boundaries. Verb or pronoun choices test form, structure and sense.'],
+['Cover the middle','Cross out any phrase between the subject and the verb, then check agreement.'],
+['Complete sentence test','Cover one side of the punctuation. Can each side stand alone? Then you need . or ; or , + conjunction.'],
+['Comma rule of thumb','Commas come in pairs around extra information, and a single comma never separates a subject from its verb.'],
+['Shorter is safer','If two options are both correct, the shorter and clearer one wins.'],
+['No new ideas','Fix the error without changing the meaning. Wrong choices often add or lose information.'],
+['Read it aloud in your head','Plug your choice in and listen for anything that sounds off, then name the rule it breaks.']];
+const GQ=[
+['sb','The telescope arrived in March____ the staff spent April calibrating it.',', and',[',',': and',' and,'],'Two complete sentences need a comma + conjunction. A comma alone is a splice.'],
+['sb','Rain fell all weekend____ the river rose three feet.','; as a result,',[', as a result,',' as a result,',': as a result,'],'A semicolon can join two complete sentences before a transition word.'],
+['sb','Because the committee had not received the final report____ the vote was postponed.',',',[';','.',':'],'An opening dependent clause is followed by a comma, then the main clause.'],
+['sb','The festival features three stages____ one for jazz, one for folk, and one for rock.',':',[';','.',' that'],'A colon after a complete sentence introduces the list.'],
+['sb','Dr. Ortiz reviewed the data twice____ she found no errors.',';',[',',', however,',': and'],'Two complete sentences need a semicolon (or a period). A comma alone is a splice.'],
+['sb','Marie Curie, ____ won Nobel Prizes in two sciences, is still studied today.','who',['she','and she','which'],'“Who” links the extra information to Curie so the sentence has one main verb (is).'],
+['sb','The study included 300 participants____ ages ranged from 18 to 65.','whose',['who','their','which'],'“Whose” shows possession and avoids a run-on.'],
+['pu','The satellite, ____ launched in 1990, has captured thousands of images.','which was',['it was','was','that was'],'Nonessential information uses a comma and “which”, not “that”.'],
+['pu','The chef had only one request____ fresh basil.',':',[';',' that',' of'],'A colon follows a complete sentence and introduces the explanation.'],
+['pu','The two ____ trophies were displayed in the lobby.','teams’',['team’s','teams','teams’s'],'Two teams own the trophies, so the apostrophe goes after the s.'],
+['pu','The committee will announce ____ decision on Friday.','its',['it’s','its’','their’s'],'“Its” shows ownership. “It’s” always means “it is”.'],
+['pu','Her new novel ____ comes out in May.',', a mystery set in Lisbon,',[', a mystery set in Lisbon','a mystery set in Lisbon,',': a mystery set in Lisbon,'],'Extra information needs a comma on both sides.'],
+['pu','The trail winds past a lake____ a waterfall, and an old mill.',',',[';',':','.'],'Items in a list are separated by commas.'],
+['sv','The box of old photographs ____ found in the attic yesterday.','was',['were','are','have been'],'The subject is “box” (singular), not “photographs”.'],
+['sv','Each of the volunteers ____ a badge at check-in.','receives',['receive','are receiving','have received'],'“Each” is singular.'],
+['sv','Neither the manager nor the employees ____ aware of the change.','were',['was','is','has been'],'The verb agrees with the closer subject, “employees” (plural).'],
+['sv','Beside the old oak tree ____ two wooden benches.','stand',['stands','is','has'],'The subject, “benches”, comes after the verb and is plural.'],
+['sv','The jury ____ still deliberating after three hours.','is',['are','were','have been'],'A collective noun like “jury” is singular.'],
+['sv','A series of experiments ____ the hypothesis.','supports',['support','have supported','are supporting'],'The subject is “series” (singular), not “experiments”.'],
+['vt','By the time the rescue team arrived, the hikers ____ for two days.','had been waiting',['have been waiting','will wait','are waiting'],'Past perfect shows an action before another past action (arrived).'],
+['vt','Every morning, Tomás walks to the station, buys a coffee, and ____ the 7:15 train.','catches',['caught','catching','had caught'],'Keep the tense consistent with “walks” and “buys”.'],
+['vt','If the city ____ more funding last year, the library would have stayed open.','had received',['received','has received','would receive'],'If + past perfect leads to “would have”.'],
+['vt','Since 2010, the museum ____ its collection by over 40 percent.','has expanded',['expanded','expands','had expanded'],'“Since” + an action continuing to now takes the present perfect.'],
+['vt','In 1969, astronauts ____ on the Moon for the first time.','landed',['have landed','land','had landed'],'A specific past date takes the simple past.'],
+['vt','The architect had ____ the plans before the client changed the requirements.','drawn',['drew','drawed','draw'],'After “had”, use the participle: drawn.'],
+['pr','When Priya and her sister arrived, ____ coats were soaked.','their',['there','they’re','its'],'“Their” shows possession by more than one person.'],
+['pr','The coach, ____ the team admired, retired in June.','whom',['who','which','whose'],'The team admired him, so use “whom”.'],
+['pr','Anyone ____ finishes the survey will receive a gift card.','who',['whom','whose','which'],'“Who” is the subject of “finishes”.'],
+['pr','The laptop, ____ I bought last year, still works perfectly.','which',['that','who','what'],'Nonessential information uses a comma and “which”.'],
+['pr','The award was shared by Jordan and ____.','me',['I','myself','mine'],'After “by” (a preposition) use the object form “me”.'],
+['pr','The twins finished ____ homework before dinner.','their',['there','they’re','them'],'“Their” shows possession.'],
+['mp','Walking through the dense forest, ____.','the hikers noticed a faint trail',['a faint trail appeared to the hikers','the trail was difficult to see','the birdsong grew louder'],'The hikers are the ones walking, so they must come right after the comma.'],
+['mp','The program teaches students to analyze data, write reports, and ____.','present findings',['presenting findings','to be presenting findings','findings presentation'],'List items must be parallel: analyze, write, present.'],
+['mp','She enjoys hiking, painting, and ____.','playing chess',['to play chess','chess','she plays chess'],'Hiking, painting, playing: all -ing forms.'],
+['mp','The population of Tokyo is larger than ____ of Paris.','that',['those','it','this'],'Compare population with population: “that of Paris”.'],
+['mp','The new engine uses ____ fuel than the old one.','less',['fewer','few','many'],'Fuel cannot be counted, so use “less”.'],
+['mp','The committee was impressed both by the clarity of her argument and ____.','by the depth of her research',['her research was deep','that she researched deeply','deeply researched'],'“Both … and” needs parallel parts: by … and by …']];
+const grIsBank=q=>!q.vc&&/Standard English Conventions/i.test(q.domain||'');
+const grOwn=()=>vcParse(ls('satgrtxt')||'').qs;
+function gmTabs(){if(!(vcOn()&&grOn()))return'';return`<div class="ptabs">${[['v','Vocab'],['g','Grammar']].map(([k,n])=>`<button class="s${GM===k?' on':''}" data-vc="mode" data-t="${k}">${n}</button>`).join('')}</div>`}
+function grItems(g,n){const it=GQ.filter(x=>!g||x[0]===g).map(x=>{const o=shuf([x[2],...x[3]]);return{k:'q',h:'Which choice completes the text so that it conforms to Standard English?',p:x[1],o,a:o.indexOf(x[2]),e:x[4]}});if(!g)grOwn().forEach(q=>it.push({k:'q',p:q.q,o:q.o,a:q.a,e:q.e}));return shuf(it).slice(0,n)}
+function grRun(items){if(!items.length)return grHome('Nothing to practice yet.');VC={items,i:0,res:[],live:true};vcQ()}
+function grHome(msg){vcBase();const O=grOwn(),nb=S.qs.filter(grIsBank).length;
+ app.innerHTML=`<div class="vcw"><h1 style="margin:.1em 0">Grammar</h1>${gmTabs()}${msg?`<p style="color:var(--ok);margin:0">${esc(msg)}</p>`:''}
+ <div class="vcg">
+ <div class="card vcc vc"><h2>My grammar</h2><p class="m" style="margin:0">${GQ.length} questions built on the rules the SAT tests.</p><div class="g"><label>Rule<select id="grr"><option value="">All rules</option>${GRPS.map(g=>`<option value="${g[0]}">${esc(g[1])}</option>`).join('')}</select></label><label>How many (0 = all)<input id="grn" type="number" min="0" value="10"></label></div>
+ <p class="m sm" style="margin:0">${O.length?O.length+' of your own questions are included.':''}</p><div class="acts"><button class="p pill" data-vc="grstart">Practice</button><button class="pill" data-vc="gredit">${O.length?'Edit my questions':'Add my own'}</button></div></div>
+ ${nb?`<div class="card vcc vc"><h2>SAT practice questions</h2><p class="m" style="margin:0">${nb} grammar questions from your practice question bank.</p><div class="g"><label>How many (0 = all)<input id="grb" type="number" min="0" value="${Math.min(20,nb)}"></label></div><div class="acts"><button class="p pill" data-vc="grbank">Solve</button></div></div>`:''}
+ <div class="card vcc vc"><h2>Learn grammar rules</h2><p class="m" style="margin:0">Short rules with a wrong and a right example for each.</p><div class="acts"><button class="p pill" data-vc="grlearn">Learn</button><button class="pill" data-vc="grtips">Grammar tips</button></div></div>
+ ${vsaved.length?`<div class="card vcc vc"><h2>Saved practices</h2>${vsaved.map(x=>`<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;text-align:left"><span><b>${esc(x.name)}</b><div class="m sm">${x.res.filter(r=>r!=null).length} of ${x.items.length} answered</div></span><span style="display:flex;gap:6px"><button class="p s" data-vc="vresume" data-id="${x.id}">Resume</button><button class="s" data-vc="vdel" data-id="${x.id}" aria-label="Delete">✕</button></span></div>`).join('')}</div>`:''}
+ </div><div class="acts" style="margin:0"><button class="pill" data-a="home">Back</button></div></div>`}
+function grLearn(t){vcBase();if(t)GT=t;const tabs=[...GRPS,['ck','Method']],L=GRL[GT]||[];
+ app.innerHTML=`<div class="card c left lrn pxw"><h1>Grammar rules</h1><p class="m" style="margin:0">Learn the rule, then spot it in the questions.</p>
+ <div class="ptabs">${tabs.map(([k,n])=>`<button class="s${GT===k?' on':''}" data-vc="grlt" data-t="${k}">${esc(n)}</button>`).join('')}</div>
+ <div class="pxg">${L.map(r=>`<div class="pxc grc"><b>${esc(r[0])}</b><span class="mn">${esc(r[1])}</span>${r[2]?`<small><span class="bd">✗ ${esc(r[2])}</span><br><span class="gd">✓ ${esc(r[3])}</span></small>`:''}</div>`).join('')}</div>
+ <div class="btns">${GT!=='ck'?`<button class="p pill" data-vc="grpr" data-t="${GT}">Practice this rule</button>`:''}<button class="pill" data-vc="home">Back to Grammar</button></div></div>`}
+function grEdit(){vcBase();
+ app.innerHTML=`<div class="vcz card vc"><h1 style="margin:.1em 0">My grammar questions</h1><p class="m sm" style="margin:0 0 4px">Question, options A to D, then the answer letter. Leave a blank line between questions.</p>
+ <div class="vcf"><div><pre>The committee will announce ____ decision on Friday.
+A) it’s
+B) its
+C) its’
+D) their’s
+Answer: B
+Explanation: “Its” shows ownership.</pre><ul><li><b>Answer:</b> is required, <b>Explanation:</b> is optional</li><li>They also show up in your main practice if you turned that option on</li></ul></div></div>
+ <textarea id="grta" placeholder="Paste your questions here…" spellcheck="false">${esc(ls('satgrtxt')||'')}</textarea><p class="m sm" id="grc" style="margin:6px 0"></p>
+ <div class="acts"><button class="p pill" data-vc="grsave">Save</button><button class="pill" data-vc="home">Back</button></div></div>`;
+ const t=$('#grta'),c=()=>{const P=vcParse(t.value);$('#grc').textContent=P.qs.length+' questions'+(P.skipped?' · '+P.skipped+' lines not understood':'')};t.oninput=c;c()}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-vc]');if(!b)return;const a=b.dataset.vc,g=id=>document.getElementById(id);
+ if(a==='mode'){GM=b.dataset.t;ls('satgm',GM);vcHome()}
+ else if(a==='grstart')grRun(grItems(g('grr').value,nAll(g('grn').value,10)));
+ else if(a==='grpr')grRun(grItems(b.dataset.t,10));
+ else if(a==='grlearn')grLearn();else if(a==='grlt')grLearn(b.dataset.t);else if(a==='grtips')showTips('gr');
+ else if(a==='gredit')grEdit();
+ else if(a==='grbank'){const set=shuf(S.qs.filter(grIsBank)).slice(0,nAll(g('grb').value,20));if(!set.length)return;S.set=set;S.mode='practice';S.lim=0;Object.assign(S,{rec:{},full:null,fullRes:null,i:0,ans:{},chk:{},fl:{},xo:{},t0:Date.now(),done:false,paused:0,orig:false});timer();show()}
+ else if(a==='grsave'){ls('satgrtxt',g('grta').value.trim()?g('grta').value:null);vcBankSync();grHome('Saved.')}
+ else if(a==='grown')grRun(shuf(grOwn().map(q=>({k:'q',p:q.q,o:q.o,a:q.a,e:q.e}))))});
+function grBankQs(){const out=[],L='ABCD',dm='Standard English Conventions';
+ const mk=(id,sk,vp,o,ai,vx)=>({id:'gr'+id,src:'E',test:'Reading and Writing',domain:dm,skill:sk,diff:'Medium',mc:true,vc:1,gr:1,vp,vo:o,ca:L[ai],vx:vx||''});
+ GQ.forEach((x,n)=>{const o=vcSeed([x[2],...x[3]],'g'+n);out.push(mk(n,x[0]==='sb'||x[0]==='pu'?'Boundaries':'Form, Structure, and Sense',x[1].replace('____','______'),o,o.indexOf(x[2]),x[4]))});
+ grOwn().forEach(q=>{if(q.o.length<2||q.o.length>4)return;out.push(mk('u'+vcHash(q.q),'Form, Structure, and Sense',q.q,q.o,q.a,q.e))});return out}
+document.addEventListener('change',e=>{const t=e.target;if(t.id==='stgr')ls('satgron',t.checked?'1':'0');else if(t.id==='stgrb'||t.id==='grbk'){ls('satgrbank',t.checked?'1':'0');vcBankSync()}});
 </script></body></html>
