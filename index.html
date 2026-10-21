@@ -910,7 +910,7 @@ const SV=[
  ()=>`<h1>How do you want to study?</h1><p class="m" style="margin:0">Choose the days you can study and how long each session should be. Your plan is built around this.</p>${daysFld()}`,
  ()=>`<h1>Do you want vocab practice?</h1><p class="m" style="margin:0">Vocab practice adds a Vocab button with word quizzes, your own word list, and a Prefixes &amp; word clues lesson. You can change both of these later in Settings.</p>
   <label class="tgl" style="color:var(--tx);align-items:flex-start"><input type="checkbox" id="stvc" ${vcOn()?'checked':''} style="margin-top:5px"><span><b>Vocab practice</b><br><span class="m sm">Show the Vocab button on the home screen.</span></span></label>
-  <label class="tgl" style="color:var(--tx);align-items:flex-start"><input type="checkbox" id="stvcb" ${vcBankOn()?'checked':''} style="margin-top:5px"><span><b>Add vocab questions to the question bank</b><br><span class="m sm">Mixes vocab questions in with your regular practice questions. Off is fine if you only want to practise vocab on its own.</span></span></label>`];
+  <label class="tgl" style="color:var(--tx);align-items:flex-start"><input type="checkbox" id="stvcb" ${vcBankOn()?'checked':''} style="margin-top:5px"><span><b>Add vocab questions to the question bank</b><br><span class="m sm">Mixes vocab questions in with your regular practice questions. Off is fine if you only want to practice vocab on its own.</span></span></label>`];
 function saveSv(){const td=$('#ttd');if(td)ls('sattest',td.value||null);const sd=document.querySelectorAll('.sdchk');if(sd.length){const dy=[...sd].filter(x=>x.checked).map(x=>+x.value);ls('satstudy',JSON.stringify({days:dy.length?dy:[1,2,3,4,5],mins:+(($('#smin')||{}).value)||45}))}const pl=$('#stpl');if(pl)ls('satplanon',pl.checked?'1':'0');const fw=$('#stftw');if(fw)ls('satftw',fw.value);const cdb=$('#stcd');if(cdb)ls('satcd',cdb.checked?'1':'0');const du=$('#stdup');if(du)ls('satdup',du.value);const wz=$('#stwz');if(wz)ls('satwiz',wz.checked?'1':'0');const en=$('#sten');if(en)ls('satenter',en.checked?'1':'0');const sw1=$('#stsw');if(sw1)ls('satsw',sw1.checked?'1':'0');const sw2=$('#stswa');if(sw2)ls('satswa',sw2.checked?'1':'0');const sa=$('#stsa');if(sa)ls('satstartall',sa.checked?'1':'0');const g=id=>{const e=$('#'+id);return e?e.value:null},nm=g('sn');if(nm!==null)ls('satname',nm.trim()||null);
  for(const[id,K]of[['tse','sattse'],['tsm','sattsm'],['tge','sattge'],['tgm','sattgm']]){const v=g(id);if(v===null)continue;let x=Math.round(+v/10)*10;x=x?Math.min(800,Math.max(200,x)):0;const old=+ls(K)||0;ls(K,x?String(x):null);if((K==='sattse'||K==='sattsm')&&x!==old)ls('satbase',String(Date.now()))}}
 function showSurvey(step=0){clearInterval(S.tick);S.done=true;S.sv=step;document.body.dataset.q='';
@@ -1503,7 +1503,7 @@ function dayText(P,key,done,vd){const x=P.map[key],bits=[];
  else bits.push(key<dkey(todayD())?'No session was planned.':'Rest day. No session planned.');
  const xx=P.map[key];if(xx&&xx.nV)bits.push(`Plus ${xx.nV} vocab words (about ${Math.max(1,Math.round(xx.nV/2))} min) from the Vocab page.`);if(xx&&xx.pfx)bits.push('First vocab session: read the Prefixes & word clues lesson and try the Solve quiz.');
  const lt=tests.find(t=>t.d===key);if(lt)bits.push(`You logged a test: ${lt.e+lt.m} (English ${lt.e}, Math ${lt.m})${lt.src?' · '+lt.src:''}.`);
- if(done)bits.push(`You answered ${done} question${done>1?'s':''}.`);if(vd)bits.push(`You practised ${vd} vocab word${vd>1?'s':''}.`);return bits.join(' ')}
+ if(done)bits.push(`You answered ${done} question${done>1?'s':''}.`);if(vd)bits.push(`You practiced ${vd} vocab word${vd>1?'s':''}.`);return bits.join(' ')}
 function showCalendar(){clearInterval(S.tick);S.done=true;S.authpage=false;document.body.dataset.q='';window.scrollTo(0,0);
  const back='<div style="text-align:center"><button class="pill" data-a="navback">Back</button></div>';
  if(ls('satplanon')==='0'){app.innerHTML=`<div class="cdc"><div class="card"><h2>Calendar</h2><p class="m" style="margin:0 0 12px">The calendar and study plan are turned off. You can turn them back on in Settings.</p><button class="p pill" data-a="settings">Open Settings</button></div>${back}</div>`;return}
@@ -2036,7 +2036,7 @@ function showTips(tab){vcBase();if(tab)TIPTAB=tab;
    ['4 · Reading question types','Then learn Transitions, Central Ideas, Inferences, Text Structure and Evidence one type at a time.'],
    ['Do not start with vocab','Do not begin by memorising long word lists. The SAT tests words in context, so learn the clue strategies first, then add a few words a day alongside everything else.'],
    ['Fix before you add','Redo your missed questions before moving on to new topics.'],
-   ['Easy to hard','Practise Easy and Medium first, then add Hard once those feel steady.']]],
+   ['Easy to hard','practice Easy and Medium first, then add Hard once those feel steady.']]],
   basics:['Basics',[
    ['Know the format','Reading & Writing, then Math. Each has 2 modules, and module 2 adapts to how you did in module 1.'],
    ['Never leave blanks','There is no penalty for wrong answers, so always guess.'],
@@ -2074,7 +2074,7 @@ function showTips(tab){vcBase();if(tab)TIPTAB=tab;
    ['Be ready','Sleep, eat, charge your device, and have your ID.']]]};
  const names=[['start','Where to start'],['basics','Basics'],['eng','English'],['math','Math'],['day','Test day']];
  const cur=T[TIPTAB],ti=names.findIndex(n=>n[0]===TIPTAB);
- app.innerHTML=`<div class="card c left lrn pxw"><h1>Tips and tricks for SAT</h1><p class="m" style="margin:0">Quick habits that save time and points.</p><label class="tgl" style="justify-content:center;color:var(--tx);margin-top:10px;cursor:pointer"><input type="checkbox" id="sthint" ${ls('sathint')==='1'?'checked':''}> Show a 💡 hint button while I practise</label>
+ app.innerHTML=`<div class="card c left lrn pxw"><h1>Tips and tricks for SAT</h1><p class="m" style="margin:0">Quick habits that save time and points.</p><label class="tgl" style="justify-content:center;color:var(--tx);margin-top:10px;cursor:pointer"><input type="checkbox" id="sthint" ${ls('sathint')==='1'?'checked':''}> Show a 💡 hint button while I practice</label>
  <div class="ptabs">${names.map(([k,n])=>`<button class="s${TIPTAB===k?' on':''}" data-vc="tiptab" data-t="${k}">${esc(n)}</button>`).join('')}</div>
  <div class="pxg">${cur[1].map(([t,x])=>`<div class="pxc"><b>${esc(t)}</b><small>${esc(x)}</small></div>`).join('')}</div>
  <div class="btns"><button class="pill" data-vc="tiptab" data-t="${names[ti-1]?names[ti-1][0]:''}" ${ti?'':'disabled'}>‹ Back</button><button class="p pill" data-vc="tiptab" data-t="${names[ti+1]?names[ti+1][0]:''}" ${ti<names.length-1?'':'disabled'}>Next ›</button></div><div class="btns" style="margin-top:8px"><button class="pill" data-a="home">Home</button></div></div>`}
