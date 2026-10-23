@@ -1764,11 +1764,12 @@ async function publishSocial(){
  const A=acctStats(),prefs=sharePrefs(),uid=FB.user.uid;
  const profile={username:FB.un,updatedAt:Date.now(),share:prefs};
  const e=track('E'),m=track('M');
- profile.streak=prefs.streak?A.streak:null;
- profile.score=prefs.score?((e?e.cur:(+ls('sattse')||0))+(m?m.cur:(+ls('sattsm')||0))):null;
- profile.answered=prefs.answered?A.t:null;
- profile.accuracy=prefs.accuracy&&A.acc!=null?A.acc:null;
- profile.days=prefs.days?A.days:null;
+ profile.streak=prefs.streak&&Number.isFinite(Number(A.streak))?Number(A.streak):null;
+ const score=(Number(e&&e.cur)||Number(ls('sattse'))||0)+(Number(m&&m.cur)||Number(ls('sattsm'))||0);
+ profile.score=prefs.score?score:null;
+ profile.answered=prefs.answered?Number(A.tot)||0:null;
+ profile.accuracy=prefs.accuracy&&A.acc!=null&&Number.isFinite(Number(A.acc))?Number(A.acc):null;
+ profile.days=prefs.days&&Number.isFinite(Number(A.days))?Number(A.days):null;
  try{
   const old=await FB.m.Db.get(dbr('profiles/'+uid+'/avatar'));
   if(old.exists())profile.avatar=old.val();
