@@ -1758,12 +1758,47 @@ async function unSave(){const i=document.getElementById('unin'),e=document.getEl
 /* ---------- shareable stats, global ranking and profile photos ---------- */
 const SHARE_KEYS={streak:'Day streak',score:'SAT score (English + Math)',answered:'Questions answered',accuracy:'Accuracy',days:'Days practiced'};
 function sharePrefs(){try{return Object.assign({streak:true,score:false,answered:true,accuracy:true,days:true},JSON.parse(ls('satshareprefs')||'{}'))}catch(e){return {streak:true,score:false,answered:true,accuracy:true,days:true}}}
-async function publishSocial(){if(!FB.user||!FB.ready||!FB.un)return;const A=acctStats(),prefs=sharePrefs(),uid=FB.user.uid;let profile={username:FB.un,updatedAt:Date.now(),share:prefs};const e=track('E'),m=track('M');profile.streak=prefs.streak?A.streak:null;profile.score=prefs.score?((e?e.cur:(+ls('sattse')||0))+(m?m.cur:(+ls('sattsm')||0))):null;profile.answered=prefs.answered?A.t:null;profile.accuracy=prefs.accuracy&&A.acc!=null?A.acc:null;profile.days=prefs.days?A.days:null;
- try{const old=await FB.m.Db.get(dbr('profiles/'+uid+'/avatar'));if(old.exists())profile.avatar=old.val();await FB.m.Db.update(dbr('profiles/'+uid+'/publicStats'),profile)}catch(e){FB.socialErr=e}}
+async function publishSocial(){
+ if(!FB.user||!FB.ready)throw new Error('Firebase is not ready or you are signed out.');
+ if(!FB.un)throw new Error('No username is loaded. Open Account, set/check your username, then try again.');
+ const A=acctStats(),prefs=sharePrefs(),uid=FB.user.uid;
+ const profile={username:FB.un,updatedAt:Date.now(),share:prefs};
+ const e=track('E'),m=track('M');
+ profile.streak=prefs.streak?A.streak:null;
+ profile.score=prefs.score?((e?e.cur:(+ls('sattse')||0))+(m?m.cur:(+ls('sattsm')||0))):null;
+ profile.answered=prefs.answered?A.t:null;
+ profile.accuracy=prefs.accuracy&&A.acc!=null?A.acc:null;
+ profile.days=prefs.days?A.days:null;
+ try{
+  const old=await FB.m.Db.get(dbr('profiles/'+uid+'/avatar'));
+  if(old.exists())profile.avatar=old.val();
+  await FB.m.Db.set(dbr('profiles/'+uid+'/publicStats'),profile);
+  FB.socialErr=null;
+  return true;
+ }catch(e){FB.socialErr=e;throw e}
+}
+function socialErrorText(e){return (e&&(e.code||e.message))?String(e.code||e.message):'Unknown Firebase error';}
 function showSocialSettings(msg){if(!FB.user){showFriends('Sign in to manage sharing settings.');return}const p=sharePrefs();app.innerHTML=`<div class="card c left"><h1>Social sharing</h1><p class="m">Choose which stats appear to friends and on the global ranking. Turn any option off to hide that stat. Your email and private practice data are never shown here.</p><div class="socialstats">${Object.entries(SHARE_KEYS).map(([k,v])=>`<label><input type="checkbox" data-share="${k}" ${p[k]?'checked':''}><span>${v}</span></label>`).join('')}</div><p class="m sm">Your username is shown so people can identify your ranking. Global ranking only includes accounts that publish stats.</p><div class="btns"><button class="p pill" data-a="sharesave">Save sharing</button><button class="pill" data-a="leaderboard">Global ranking</button><button class="pill" data-a="acct">Back</button></div><p class="m sm">${esc(msg||'')}</p></div>`}
-async function saveShareSettings(){const p={};document.querySelectorAll('[data-share]').forEach(e=>p[e.dataset.share]=e.checked);ls('satshareprefs',JSON.stringify(p));await publishSocial();showSocialSettings(FB.socialErr?'Saved locally; Firebase sharing could not be updated. Check database rules.':'Sharing preferences saved.')}
+async function saveShareSettings(){
+ const p={};document.querySelectorAll('[data-share]').forEach(e=>p[e.dataset.share]=e.checked);
+ ls('satshareprefs',JSON.stringify(p));FB.socialErr=null;
+ try{await publishSocial();showSocialSettings('Sharing preferences saved to Firebase.')}
+ catch(e){showSocialSettings('Saved on this device, but Firebase failed: '+socialErrorText(e)+'. Check your Realtime Database rules and sign-in status.')}
+}
 function showLeaderboard(msg){clearInterval(S.tick);S.done=true;document.body.dataset.q='';app.innerHTML=`<div class="card c left"><h1>Global ranking</h1><p class="m">Rankings use only stats each person chose to share. People who opt out of a stat won’t show a value for it.</p><div class="m sm" id="lbmsg">${esc(msg||'Loading rankings…')}</div><div id="lbrows"></div><div class="btns"><button class="s" data-a="socialsettings">Sharing settings</button><button class="pill" data-a="acct">Back</button></div></div>`;loadLeaderboard()}
-async function loadLeaderboard(){const out=document.getElementById('lbrows'),msg=document.getElementById('lbmsg');if(!out)return;if(!FB.user||!FB.ready){msg.textContent='Sign in to view the global ranking.';return}try{await publishSocial();const snap=await FB.m.Db.get(dbr('profiles'));const rows=[];snap.forEach(ch=>{const v=ch.val()||{},x=v.publicStats||{};if(x.username&&x.share&&Object.values(x.share).some(Boolean))rows.push({id:ch.key,...x})});rows.sort((a,b)=>(b.score||0)-(a.score||0)||(b.answered||0)-(a.answered||0));if(!rows.length){msg.textContent='No public stats yet. Be the first to share yours!';return}msg.textContent=`${rows.length} account${rows.length===1?'':'s'} sharing stats`;out.innerHTML=rows.slice(0,100).map((x,i)=>`<div class="rankrow"><span class="ranknum">#${i+1}</span><div class="frw">${x.avatar?`<img class="fav" style="object-fit:cover" src="${esc(x.avatar)}" alt="">`:frAv(x.username)}<div><b>@${esc(x.username)}</b><div class="rankmetrics">${x.streak!=null?esc(x.streak)+' day streak · ':''}${x.score!=null?esc(x.score)+' SAT score · ':''}${x.answered!=null?esc(x.answered)+' answered · ':''}${x.accuracy!=null?esc(x.accuracy)+'% accuracy':''}${x.days!=null?' · '+esc(x.days)+' days practiced':''}</div></div></div><span class="m sm">${i+1}</span></div>`).join('')}catch(e){msg.textContent='Could not load rankings. '+dbErr(e)+' Make sure your Firebase rules allow signed-in users to read publicStats.'}}
+async function loadLeaderboard(){
+ const out=document.getElementById('lbrows'),msg=document.getElementById('lbmsg');if(!out)return;
+ if(!FB.user||!FB.ready){msg.textContent='Sign in to view the global ranking.';return}
+ try{
+  try{await publishSocial()}catch(e){/* Still try reading already-published users; show publishing failure only if the board is empty. */}
+  const snap=await FB.m.Db.get(dbr('profiles')),rows=[];
+  snap.forEach(ch=>{const v=ch.val()||{},x=v.publicStats||{};if(x.username&&x.share&&Object.values(x.share).some(Boolean))rows.push({id:ch.key,...x})});
+  rows.sort((a,b)=>(b.score||0)-(a.score||0)||(b.answered||0)-(a.answered||0));
+  if(!rows.length){msg.textContent=FB.socialErr?'No published stats found. Your stats could not be published: '+socialErrorText(FB.socialErr):'No public stats yet. Be the first to share yours!';return}
+  msg.textContent=`${rows.length} account${rows.length===1?'':'s'} sharing stats`;
+  out.innerHTML=rows.slice(0,100).map((x,i)=>`<div class="rankrow"><span class="ranknum">#${i+1}</span><div class="frw">${x.avatar?`<img class="fav" style="object-fit:cover" src="${esc(x.avatar)}" alt="">`:frAv(x.username)}<div><b>@${esc(x.username)}</b><div class="rankmetrics">${x.streak!=null?esc(x.streak)+' day streak · ':''}${x.score!=null?esc(x.score)+' SAT score · ':''}${x.answered!=null?esc(x.answered)+' answered · ':''}${x.accuracy!=null?esc(x.accuracy)+'% accuracy':''}${x.days!=null?' · '+esc(x.days)+' days practiced':''}</div></div></div><span class="m sm">${i+1}</span></div>`).join('');
+ }catch(e){msg.textContent='Could not load rankings: '+socialErrorText(e)+'. Check that signed-in users can read profiles.'}
+}
 function showAvatarPicker(){if(!FB.user){showFriends('Sign in to upload a profile picture.');return}app.innerHTML=`<div class="card c"><h1>Profile picture</h1><p class="m">Choose an image. It will be resized before being saved to your profile.</p><div class="pfpupload" style="justify-content:center"><img id="avprev" class="pfppreview" src="${esc(FB.avatar||FB.user.photoURL||'')}" alt="Preview"><input id="avatarfile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></div><p class="m sm" id="avmsg"></p><div class="btns"><button class="p pill" data-a="avatarsave">Save picture</button><button class="pill" data-a="acct">Back</button></div></div>`;const input=document.getElementById('avatarfile');input.onchange=()=>{const f=input.files&&input.files[0];if(!f)return;if(f.size>8*1024*1024){document.getElementById('avmsg').textContent='Please choose an image under 8 MB.';return}const im=new Image(),url=URL.createObjectURL(f);im.onload=()=>{const c=document.createElement('canvas'),ctx=c.getContext('2d');c.width=256;c.height=256;const side=Math.min(im.width,im.height),sx=(im.width-side)/2,sy=(im.height-side)/2;ctx.drawImage(im,sx,sy,side,side,0,0,256,256);document.getElementById('avprev').src=c.toDataURL('image/jpeg',.78);URL.revokeObjectURL(url)};im.src=url}}
 async function saveAvatar(){const img=document.getElementById('avprev');if(!img||!img.src||!img.src.startsWith('data:image/')){const m=document.getElementById('avmsg');if(m)m.textContent='Choose an image first.';return}try{await FB.m.Db.set(dbr('profiles/'+FB.user.uid+'/avatar'),img.src);FB.avatar=img.src;fbUI();await publishSocial();showAccount('Profile picture saved.')}catch(e){const m=document.getElementById('avmsg');if(m)m.textContent=dbErr(e)+' Your Firebase rules must allow users to write their own profile avatar.'}}
 
