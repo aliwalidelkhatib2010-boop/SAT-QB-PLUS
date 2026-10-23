@@ -214,6 +214,7 @@ button.s,label.s{font-size:.85rem;padding:.4rem .85rem;border-radius:10px}
 #tbar{padding:calc(14px + env(safe-area-inset-top,0px)) 22px 0}
 .av{background-size:cover;background-position:center}
 /* ===== usernames + friends ===== */
+.socialstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;text-align:left;margin-top:12px}.socialstats label{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid var(--bd);border-radius:12px}.socialstats input{width:auto}.pfpupload{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.pfppreview{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid var(--bd)}.rankrow{display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd)}.ranknum{font-weight:800;color:var(--ac)}.rankmetrics{font-size:.82rem;color:var(--mut)}
 .unb{position:absolute;top:-5px;right:-5px;width:19px;height:19px;border-radius:50%;background:#e53935;color:#fff;font:700 13px/19px system-ui,sans-serif;text-align:center;pointer-events:none;box-shadow:0 0 0 2px var(--bg)}
 .unb[hidden]{display:none}
 .unm{position:fixed;inset:0;z-index:200;background:#0008;display:flex;align-items:center;justify-content:center;padding:18px}
@@ -663,7 +664,7 @@ zApply();addEventListener('resize',zApply);PH.addEventListener&&PH.addEventListe
 if(ls('sattheme')==='grey')ls('sattheme',null);
 if(ls('sattheme'))R.dataset.theme=ls('sattheme');
 if(ls('satoled')==='1')R.dataset.oled='1';
-document.addEventListener('change',e=>{if(e.target.id==='stoled'){const on=e.target.checked;ls('satoled',on?'1':'0');if(on)R.dataset.oled='1';else delete R.dataset.oled;try{gdraw();penDraw()}catch(_){}}});
+document.addEventListener('change',e=>{if(e.target.id==='stfriends'){ls('satfriendsbtn',e.target.checked?'1':'0');const f=document.getElementById('frb');if(f)f.hidden=!e.target.checked;}if(e.target.id==='stoled'){const on=e.target.checked;ls('satoled',on?'1':'0');if(on)R.dataset.oled='1';else delete R.dataset.oled;try{gdraw();penDraw()}catch(_){}}});
 
 /* ---------- stopwatch (Settings > Stopwatch) ---------- */
 const SW={run:0,t0:0,acc:0,lt:0,laps:[],open:0,q:null,qi:0,pr:0};
@@ -1032,7 +1033,7 @@ function showTitle(){
 
 /* ---------- top bar: PDFs (left), theme + profile menu (right) ---------- */
 const DUP=()=>{const d=ls('satdup')||'nobank',two=S.qs.some(q=>q.src==='E')&&S.qs.some(q=>q.src==='M');return{two,bank:two&&d!=='nobank',sec:!(two&&d==='nosec')}};
-function pfpUpdate(){const b=$('#pfp');if(!b)return;const n=nameOf().trim(),u=window.FB&&FB.user;if(u&&u.photoURL){b.textContent='';b.style.backgroundImage=`url('${u.photoURL}')`}else{b.style.backgroundImage='';b.textContent=n?n[0].toUpperCase():(u&&u.displayName?u.displayName[0].toUpperCase():'👤')}}
+function pfpUpdate(){const b=$('#pfp');if(!b)return;const n=nameOf().trim(),u=window.FB&&FB.user;if(u&&(FB.avatar||u.photoURL)){b.textContent='';b.style.backgroundImage=`url('${FB.avatar||u.photoURL}')`}else{b.style.backgroundImage='';b.textContent=n?n[0].toUpperCase():(u&&u.displayName?u.displayName[0].toUpperCase():'👤')}}
 function pmHTML(){const n=nameOf().trim(),g=prog(0),tg=tgHTML();
  return `<div class="pmh"><span class="av big" style="${window.FB?avStyle():''}">${window.FB&&FB.user&&FB.user.photoURL?'':esc(n?n[0].toUpperCase():'👤')}</span><div><b>${n?esc(n):'Your account'}</b>${window.FB&&FB.un?'<div class="m sm">@'+esc(FB.un)+'</div>':''}<div class="m sm">${g.t?g.n+' of '+g.t+' questions done':'No questions loaded yet'}</div></div></div>
  <div class="pmb">${tg||'<p class="m sm" style="margin:0">No scores yet. Add your starting scores in Edit profile to track your progress.</p>'}</div>
@@ -1054,6 +1055,8 @@ function showSettings(){clearInterval(S.tick);S.done=true;document.body.dataset.
  <div class="row col"><span class="t"><b>Background theme</b><span class="m sm">Shown behind the menus. It is hidden while you answer questions so it never distracts you.</span></span><div class="seg">${Object.keys(B).map(k=>`<button type="button" data-bg="${k}" class="${L.bg===k?'on':''}">${B[k]}</button>`).join('')}</div></div>
  <label class="row"><span class="t"><b>Background opacity</b><span class="m sm">Slide left to make the background fainter, right for bolder.</span></span><span class="rng"><input type="range" id="stbgo" min="5" max="100" step="5" value="${L.op}" aria-label="Background opacity"><output id="stbgov">${L.op}%</output></span></label>
  ${tg('stlive',L.live,'Live animation','Turn off to freeze the background on a still picture (also saves battery).')}
+ <div class="sec">Social</div>
+ ${tg('stfriends',ls('satfriendsbtn')!=='0','Show friends button','Show or hide the friends shortcut in the top bar. Your friends and data remain saved.') }
  <div class="sec">Practice</div>
  ${tg('stwz',ls('satwiz')!=='0','Guided setup','Ask a few quick questions to build your practice set, then show the full menu to confirm. Turn off to go straight to the full menu.')}
  ${tg('sten',ls('satenter')!=='0','Press Enter to check my answer','Practice mode only, and only once you have picked or typed an answer.')}
@@ -1444,19 +1447,19 @@ function gdraw(){const c=$('#gc');if(!c||!c.clientWidth)return;const w=c.clientW
 var FBres,FB={cfg:!!FIREBASE_CONFIG.apiKey,ready:false,user:null,err:null,m:null,sync:'',t:0,pulling:false,first:new Promise(r=>FBres=r)};
 var SYNC=['satstats','satlog','satsaved','satname','satdone','sattse','sattsm','sattge','sattgm','satbase','sattest','satstudy','satplanon','satcd','satftw','sattests','satvlog','satvsaved','satsess','satsessat'],SCAL=['satname','satdone','sattse','sattsm','sattge','sattgm','satbase','sattest','satstudy','satplanon','satcd','satftw'];
 const GSVG='<svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.4 30.2 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.8 6C12.3 13.5 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.4 5.7c4.3-4 6.9-9.9 6.9-17.1z"/><path fill="#FBBC05" d="M10.4 28.8c-.5-1.4-.8-2.9-.8-4.8s.3-3.3.8-4.8l-7.8-6C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.8-6z"/><path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.6l-7.4-5.7c-2 1.4-4.7 2.3-7.8 2.3-6.3 0-11.7-4-13.6-9.7l-7.8 6C6.5 42.6 14.6 48 24 48z"/></svg>';
-function avStyle(){const u=FB.user;return u&&u.photoURL?`background-image:url('${esc(u.photoURL)}')`:''}
+function avStyle(){const u=FB.user,photo=FB.avatar||(u&&u.photoURL);return photo?`background-image:url('${esc(photo)}')`:''}
 function fbBlock(){
  if(!FB.cfg)return '<div class="pmb"><p class="m sm" style="margin:0">Google sign-in isn’t set up yet. Paste your Firebase config at the top of the script.</p></div>';
  const u=FB.user;
  if(u)return `<div class="pmb"><div class="m sm">Signed in as <b>${esc(u.email||u.displayName||'')}</b></div><div class="m sm">${FB.err?'Sync problem: '+esc(FB.err.code||FB.err.message||'unknown'):FB.sync?'Progress saved to your account at '+FB.sync:'Syncing your progress…'}</div><div><button class="s" data-a="gout">Sign out</button></div></div>`;
  if(!FB.ready)return '<div class="pmb"><p class="m sm" style="margin:0">Google sign-in isn’t available here. Open the site from your own hosting (https or localhost) to use it.</p></div>';
  return `<div class="pmb"><p class="m sm" style="margin:0">Sign in to keep your progress on every device.</p><div><button class="s gbtn" data-a="gin">${GSVG} Sign in with Google</button></div></div>`}
-function fbUI(){const g=$('#gbtn');if(g)g.hidden=!(FB.cfg&&FB.ready&&!FB.user);pfpUpdate();if(window.unUI)unUI();const m=$('#pm');if(m&&!m.hidden)m.innerHTML=pmHTML()}
+function fbUI(){const frb=document.getElementById('frb');if(frb)frb.hidden=ls('satfriendsbtn')==='0';const g=$('#gbtn');if(g)g.hidden=!(FB.cfg&&FB.ready&&!FB.user);pfpUpdate();if(window.unUI)unUI();const m=$('#pm');if(m&&!m.hidden)m.innerHTML=pmHTML()}
 async function fbInit(){
  if(!FB.cfg){fbUI();FBres();return}
  try{const V='10.12.2',u=n=>`https://www.gstatic.com/firebasejs/${V}/firebase-${n}.js`,[A,Au,Db]=await Promise.all([import(u('app')),import(u('auth')),import(u('database'))]);
   FB.m={A,Au,Db};const app=A.initializeApp(FIREBASE_CONFIG);FB.auth=Au.getAuth(app);FB.db=Db.getDatabase(app);FB.ready=true;
-  Au.onAuthStateChanged(FB.auth,async u=>{FB.user=u;FB.err=null;fbUI();if(u)await cloudPull();if(u){await unLoad();fbUI();unAsk()}else{FB.un='';FB.fr=null}FBres();if(u)pdfSyncOnce().then(ch=>{if(ch)pdfRefresh()});
+  Au.onAuthStateChanged(FB.auth,async u=>{FB.user=u;FB.err=null;fbUI();if(u)await cloudPull();if(u){await unLoad();try{const av=await Db.get(Db.ref(FB.db,'profiles/'+u.uid+'/avatar'));FB.avatar=av.exists()?av.val():''}catch(e){FB.avatar=''}fbUI();unAsk()}else{FB.un='';FB.fr=null}FBres();if(u)pdfSyncOnce().then(ch=>{if(ch)pdfRefresh()});
    if(u&&S.authpage){S.authpage=false;ls('satauthseen','1');ls('satdone')==='1'?showTitle():showSurvey()}});
   Au.getRedirectResult(FB.auth).catch(e=>{FB.err=e;fbUI()});
  }catch(e){FB.ready=false;fbUI();FBres()}}
@@ -1580,7 +1583,7 @@ function acctStats(){const days=[...new Set(satlog.map(x=>{const d=new Date(x[2]
 function showAccount(msg){clearInterval(S.tick);S.done=true;S.authpage=false;document.body.dataset.q='';window.scrollTo(0,0);
  const u=FB&&FB.user,n=nameOf().trim(),A=acctStats(),pw=u&&u.providerData&&u.providerData.some(p=>p.providerId==='password'),
  prov=u?(u.providerData||[]).map(p=>p.providerId==='google.com'?'Google':p.providerId==='password'?'Email':p.providerId).join(', '):'',
- av=`<span class="av big" style="${avStyle()}">${u&&u.photoURL?'':esc(n?n[0].toUpperCase():(u&&u.email?u.email[0].toUpperCase():'👤'))}</span>`,
+ av=`<span class="av big" style="${avStyle()}">${(FB.avatar||(u&&u.photoURL))?'':esc(n?n[0].toUpperCase():(u&&u.email?u.email[0].toUpperCase():'👤'))}</span>`,
  row=(t,d,b)=>`<div class="acr"><div class="l"><b>${t}</b><span class="m">${d}</span></div>${b}</div>`,tg=tgHTML();
  app.innerHTML=`<div class="acct"><div class="card"><div class="who">${av}<div><b>${n?esc(n):'Your account'}</b><div class="m">${u?esc(u.email||'')+(prov?' · '+esc(prov):''):'Not signed in'}</div></div></div></div>
  ${u?'':`<div class="card"><h2>Sign in to sync</h2><p class="m" style="margin:0 0 12px">You&rsquo;re using SAT Practice without an account, so your progress only lives on this device.</p><button class="p pill" data-a="gin">Sign in or sign up</button></div>`}
@@ -1591,6 +1594,8 @@ function showAccount(msg){clearInterval(S.tick);S.done=true;S.authpage=false;doc
  ${u?row('Cloud sync',FB.err?'Sync problem: '+esc(FB.err.code||FB.err.message||'unknown'):FB.sync?'Last synced at '+esc(FB.sync):'Syncing…','<button class="s" data-a="syncnow">Sync now</button>'):''}
  ${u?row('Username',FB.un?'@'+esc(FB.un)+' · friends find you with this':'<span style="color:#e53935;font-weight:600">! You have not picked a username yet</span>','<button class="s'+(FB.un?'':' unred')+'" data-a="unset">'+(FB.un?'Change':'Set username')+'</button>'):''}
  ${u?row('Friends','Search for people by username and add them','<button class="s" data-a="friends">Friends</button>'):''}
+ ${u?row('Social stats','Choose what friends and the global leaderboard can see','<button class="s" data-a="socialsettings">Sharing settings</button> <button class="s" data-a="leaderboard">Global ranking</button>'):''}
+ ${u?row('Profile picture','Upload a picture for your profile and friends list','<button class="s" data-a="avatar">Change picture</button>'):''}
  ${row('Profile and goals','Your name, current scores and targets','<button class="s" data-a="profile">Edit profile</button>')}
  ${row('Settings','Guided setup, Enter to check, Start all button','<button class="s" data-a="settings">Settings</button>')}
  ${ls('satplanon')!=='0'||ls('satcd')!=='0'?row('Test day and study plan',ls('sattest')?(daysTo(ls('sattest'))>=0?daysTo(ls('sattest'))+' days left · ':'Passed · ')+fmtD(parseD(ls('sattest'))):'No test date set','<span style="display:flex;gap:8px">'+(ls('satplanon')!=='0'?'<button class="s" data-a="cal">Calendar</button>':'')+'<button class="s" data-a="profile">Change</button></span>'):''}
@@ -1750,6 +1755,18 @@ async function unSave(){const i=document.getElementById('unin'),e=document.getEl
  const r=await unClaim(v);if(!r.ok){if(e)e.textContent=r.err;return}
  unClose();fbUI();if(document.getElementById('frm'))showFriends();else if(app.querySelector('.acct'))showAccount('Username saved.')}
 
+/* ---------- shareable stats, global ranking and profile photos ---------- */
+const SHARE_KEYS={streak:'Day streak',score:'SAT score (English + Math)',answered:'Questions answered',accuracy:'Accuracy',days:'Days practiced'};
+function sharePrefs(){try{return Object.assign({streak:true,score:false,answered:true,accuracy:true,days:true},JSON.parse(ls('satshareprefs')||'{}'))}catch(e){return {streak:true,score:false,answered:true,accuracy:true,days:true}}}
+async function publishSocial(){if(!FB.user||!FB.ready||!FB.un)return;const A=acctStats(),prefs=sharePrefs(),uid=FB.user.uid;let profile={username:FB.un,updatedAt:Date.now(),share:prefs};const e=track('E'),m=track('M');profile.streak=prefs.streak?A.streak:null;profile.score=prefs.score?((e?e.cur:(+ls('sattse')||0))+(m?m.cur:(+ls('sattsm')||0))):null;profile.answered=prefs.answered?A.t:null;profile.accuracy=prefs.accuracy&&A.acc!=null?A.acc:null;profile.days=prefs.days?A.days:null;
+ try{const old=await FB.m.Db.get(dbr('profiles/'+uid+'/avatar'));if(old.exists())profile.avatar=old.val();await FB.m.Db.update(dbr('profiles/'+uid+'/publicStats'),profile)}catch(e){FB.socialErr=e}}
+function showSocialSettings(msg){if(!FB.user){showFriends('Sign in to manage sharing settings.');return}const p=sharePrefs();app.innerHTML=`<div class="card c left"><h1>Social sharing</h1><p class="m">Choose which stats appear to friends and on the global ranking. Turn any option off to hide that stat. Your email and private practice data are never shown here.</p><div class="socialstats">${Object.entries(SHARE_KEYS).map(([k,v])=>`<label><input type="checkbox" data-share="${k}" ${p[k]?'checked':''}><span>${v}</span></label>`).join('')}</div><p class="m sm">Your username is shown so people can identify your ranking. Global ranking only includes accounts that publish stats.</p><div class="btns"><button class="p pill" data-a="sharesave">Save sharing</button><button class="pill" data-a="leaderboard">Global ranking</button><button class="pill" data-a="acct">Back</button></div><p class="m sm">${esc(msg||'')}</p></div>`}
+async function saveShareSettings(){const p={};document.querySelectorAll('[data-share]').forEach(e=>p[e.dataset.share]=e.checked);ls('satshareprefs',JSON.stringify(p));await publishSocial();showSocialSettings(FB.socialErr?'Saved locally; Firebase sharing could not be updated. Check database rules.':'Sharing preferences saved.')}
+function showLeaderboard(msg){clearInterval(S.tick);S.done=true;document.body.dataset.q='';app.innerHTML=`<div class="card c left"><h1>Global ranking</h1><p class="m">Rankings use only stats each person chose to share. People who opt out of a stat won’t show a value for it.</p><div class="m sm" id="lbmsg">${esc(msg||'Loading rankings…')}</div><div id="lbrows"></div><div class="btns"><button class="s" data-a="socialsettings">Sharing settings</button><button class="pill" data-a="acct">Back</button></div></div>`;loadLeaderboard()}
+async function loadLeaderboard(){const out=document.getElementById('lbrows'),msg=document.getElementById('lbmsg');if(!out)return;if(!FB.user||!FB.ready){msg.textContent='Sign in to view the global ranking.';return}try{await publishSocial();const snap=await FB.m.Db.get(dbr('profiles'));const rows=[];snap.forEach(ch=>{const v=ch.val()||{},x=v.publicStats||{};if(x.username&&x.share&&Object.values(x.share).some(Boolean))rows.push({id:ch.key,...x})});rows.sort((a,b)=>(b.score||0)-(a.score||0)||(b.answered||0)-(a.answered||0));if(!rows.length){msg.textContent='No public stats yet. Be the first to share yours!';return}msg.textContent=`${rows.length} account${rows.length===1?'':'s'} sharing stats`;out.innerHTML=rows.slice(0,100).map((x,i)=>`<div class="rankrow"><span class="ranknum">#${i+1}</span><div class="frw">${x.avatar?`<img class="fav" style="object-fit:cover" src="${esc(x.avatar)}" alt="">`:frAv(x.username)}<div><b>@${esc(x.username)}</b><div class="rankmetrics">${x.streak!=null?esc(x.streak)+' day streak · ':''}${x.score!=null?esc(x.score)+' SAT score · ':''}${x.answered!=null?esc(x.answered)+' answered · ':''}${x.accuracy!=null?esc(x.accuracy)+'% accuracy':''}${x.days!=null?' · '+esc(x.days)+' days practiced':''}</div></div></div><span class="m sm">${i+1}</span></div>`).join('')}catch(e){msg.textContent='Could not load rankings. '+dbErr(e)+' Make sure your Firebase rules allow signed-in users to read publicStats.'}}
+function showAvatarPicker(){if(!FB.user){showFriends('Sign in to upload a profile picture.');return}app.innerHTML=`<div class="card c"><h1>Profile picture</h1><p class="m">Choose an image. It will be resized before being saved to your profile.</p><div class="pfpupload" style="justify-content:center"><img id="avprev" class="pfppreview" src="${esc(FB.avatar||FB.user.photoURL||'')}" alt="Preview"><input id="avatarfile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></div><p class="m sm" id="avmsg"></p><div class="btns"><button class="p pill" data-a="avatarsave">Save picture</button><button class="pill" data-a="acct">Back</button></div></div>`;const input=document.getElementById('avatarfile');input.onchange=()=>{const f=input.files&&input.files[0];if(!f)return;if(f.size>8*1024*1024){document.getElementById('avmsg').textContent='Please choose an image under 8 MB.';return}const im=new Image(),url=URL.createObjectURL(f);im.onload=()=>{const c=document.createElement('canvas'),ctx=c.getContext('2d');c.width=256;c.height=256;const side=Math.min(im.width,im.height),sx=(im.width-side)/2,sy=(im.height-side)/2;ctx.drawImage(im,sx,sy,side,side,0,0,256,256);document.getElementById('avprev').src=c.toDataURL('image/jpeg',.78);URL.revokeObjectURL(url)};im.src=url}}
+async function saveAvatar(){const img=document.getElementById('avprev');if(!img||!img.src||!img.src.startsWith('data:image/')){const m=document.getElementById('avmsg');if(m)m.textContent='Choose an image first.';return}try{await FB.m.Db.set(dbr('profiles/'+FB.user.uid+'/avatar'),img.src);FB.avatar=img.src;fbUI();await publishSocial();showAccount('Profile picture saved.')}catch(e){const m=document.getElementById('avmsg');if(m)m.textContent=dbErr(e)+' Your Firebase rules must allow users to write their own profile avatar.'}}
+
 /* ---------- friends ---------- */
 function frAv(n){return`<span class="fav">${esc((n||'?')[0].toUpperCase())}</span>`}
 function showFriends(msg){
@@ -1759,7 +1776,7 @@ function showFriends(msg){
  else if(!FB.un)body=`<p class="m" style="margin:0 0 12px"><span style="color:#e53935;font-weight:700">!</span> Pick a username first so friends can find you.</p><button class="p pill" data-a="unset">Set username</button>`;
  else body=`<p class="m" style="margin:0 0 10px">You are <b>@${esc(FB.un)}</b>. Search for a username to add someone.</p><div class="fsr"><input id="fs" type="text" placeholder="Search usernames" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false"><button class="p s" data-a="fsearch">Search</button></div><div id="fres" style="margin-top:8px"></div>
   <div class="fsec" id="freqc" hidden><h2>Friend requests</h2><div id="freq"></div></div>
-  <div class="fsec"><h2>Your friends</h2><div id="flist"><p class="m" style="margin:0">Loading…</p></div></div>`;
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="s" data-a="leaderboard">Global ranking</button><button class="s" data-a="socialsettings">Sharing settings</button></div><div class="fsec"><h2>Your friends</h2><div id="flist"><p class="m" style="margin:0">Loading…</p></div></div>`;
  let d=document.getElementById('frm');if(!d){d=document.createElement('div');d.id='frm';d.className='unm';document.body.appendChild(d)}
  d.innerHTML=`<div class="card frcard"><div class="frh"><h2>Friends</h2><button class="s" data-a="frclose" aria-label="Close">✕</button></div>${body}<div class="m sm" id="fmsg" style="text-align:center;margin-top:8px">${esc(msg||'')}</div></div>`;
  if(u&&FB.un){frLoad();const f=document.getElementById('fs');if(f)f.focus()}}
@@ -1806,6 +1823,7 @@ async function frAccept(id){
  catch(e){fmsg(dbErr(e))}}
 document.addEventListener('click',async ev=>{if(ev.target.id==='frm'){frClose();return}const b=ev.target.closest('[data-a]');if(!b)return;const a=b.dataset.a;if(a==='gin'||a==='frclose')frClose();
  if(a==='friends'){const m=$('#pm');if(m)m.hidden=true;showFriends()}
+ else if(a==='socialsettings')showSocialSettings();else if(a==='sharesave')saveShareSettings();else if(a==='leaderboard')showLeaderboard();else if(a==='avatar')showAvatarPicker();else if(a==='avatarsave')saveAvatar();
  else if(a==='unset'){const m=$('#pm');if(m)m.hidden=true;unModal()}
  else if(a==='unsave')unSave();
  else if(a==='unlater')unClose();
