@@ -3,6 +3,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SAT QB+</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <script>
+        // 1. Disable Right-Click
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+
+        // 2. Disable Common Inspect Shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Disable F12
+            if (e.keyCode === 123) {
+                e.preventDefault();
+                return false;
+            }
+            // Disable Ctrl+Shift+I, J, and C
+            if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) {
+                e.preventDefault();
+                return false;
+            }
+            // Disable Ctrl+U (View Source)
+            if (e.ctrlKey && e.key === 'u') {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // 3. Optional: Pause DevTools if they manage to open it
+        setInterval(() => {
+            debugger;
+        }, 100);
+    </script>
 <style>
 :root{--bg:#fff;--card:#fff;--tx:#1b1b1b;--mut:#5f6368;--bd:#cfd3dc;--ac:#324fbe;--ok:#1b7f3b;--bad:#c0392b;--okb:#e3f3e8;--badb:#fbe7e4;--hd:#e9edf8;--ban:#1d2a6b;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121316;--card:#1b1d22;--tx:#e8e8ea;--mut:#9ba0aa;--bd:#3a3e48;--ac:#8ea3ff;--ok:#56c884;--bad:#ff8173;--okb:#14291c;--badb:#33191a;--hd:#1c2030;--ban:#0f1740;color-scheme:dark}
