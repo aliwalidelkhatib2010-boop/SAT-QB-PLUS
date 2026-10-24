@@ -1028,7 +1028,7 @@ const fld=(id,lb,key,ph)=>`<label class="tgl">${lb} <input id="${id}" type="numb
 const nameFld=()=>`<label class="tgl">Your name <input id="sn" type="text" style="width:200px" placeholder="Name" autocomplete="given-name" value="${esc(nameOf())}"></label>`;
 const SV=[
  ()=>`<h1>Welcome! What should I call you?</h1><p class="m" style="margin:0">A few quick questions so I can track your progress. You can change any of this later from the profile icon at the top right.</p>${nameFld()}`,
- ()=>`<h1>Pick a username</h1><p class="m" style="margin:0">This is how friends find and add you. It is separate from your name above. Use 3 to 20 letters, numbers, _ or . (@a is reserved for the developer).</p>${window.FB&&FB.user?`<label class="tgl">Username <input id="sun" type="text" style="width:220px" placeholder="username" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false" value="${esc(FB.un||'')}"></label><div class="uerr" id="sunm"></div>`:`<p class="m" style="margin:0">Sign in first so your username is saved to your account. You can also skip this and a red <b style="color:#e53935">!</b> will remind you next time.</p><div><button class="p s" data-a="gin">Sign in or sign up</button></div>`}<div class="onboardprivacy"><h3>Privacy &amp; sharing</h3><p class="m sm">Choose which stats you want to share with friends and on the global ranking. You can change these anytime in Social sharing. Unchecked stats stay hidden.</p><div class="socialstats">${Object.entries(SHARE_KEYS).map(([k,v])=>`<label><input type="checkbox" data-onboard-share="${k}" ${sharePrefs()[k]?'checked':''}><span>${v}</span></label>`).join('')}</div><label class="privacy-global"><input type="checkbox" id="onboard-share-enabled" ${ls('satshareenabled')!=='0'?'checked':''}><span><b>Publish my stats</b><br><span class="m sm">Allow my selected stats to appear in rankings.</span></span></label></div>` ,
+ ()=>`<h1>Pick a username</h1><p class="m" style="margin:0">This is how friends find and add you. It is separate from your name above. Use 1 to 20 letters, numbers, _ or .</p>${window.FB&&FB.user?`<label class="tgl">Username <input id="sun" type="text" style="width:220px" placeholder="username" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false" value="${esc(FB.un||'')}"></label><div class="uerr" id="sunm"></div>`:`<p class="m" style="margin:0">Sign in first so your username is saved to your account. You can also skip this and a red <b style="color:#e53935">!</b> will remind you next time.</p><div><button class="p s" data-a="gin">Sign in or sign up</button></div>`}<div class="onboardprivacy"><h3>Privacy &amp; sharing</h3><p class="m sm">Choose which stats you want to share with friends and on the global ranking. You can change these anytime in Social sharing. Unchecked stats stay hidden.</p><div class="socialstats">${Object.entries(SHARE_KEYS).map(([k,v])=>`<label><input type="checkbox" data-onboard-share="${k}" ${sharePrefs()[k]?'checked':''}><span>${v}</span></label>`).join('')}</div><label class="privacy-global"><input type="checkbox" id="onboard-share-enabled" ${ls('satshareenabled')!=='0'?'checked':''}><span><b>Publish my stats</b><br><span class="m sm">Allow my selected stats to appear in rankings.</span></span></label></div>` ,
  ()=>`<h1>Where are you now${nameOf()?', '+hi():''}?</h1><p class="m" style="margin:0">Enter your latest score for each section (200 to 800). Your progress builds from these numbers.</p><div class="tgrow">${fld('tse','English','sattse','690')}${fld('tsm','Math','sattsm','610')}</div>`,
  ()=>`<h1>What score are you aiming for?</h1><p class="m" style="margin:0">Pick a target for each section (up to 800). You can leave these blank and it will track toward 800.</p><div class="tgrow">${fld('tge','English target','sattge','800')}${fld('tgm','Math target','sattgm','800')}</div>`,
  ()=>`<h1>When is your test?</h1><p class="m" style="margin:0">Pick your SAT date and I will count down the days and build a study plan. Leave it empty if you do not have a date yet.</p>${dateFld()}`,
@@ -1103,9 +1103,9 @@ function showSettings(){clearInterval(S.tick);S.done=true;document.body.dataset.
  ${tg('stcd',ls('satcd')!=='0','Countdown on the home screen','Shows how many days are left until your test. You can turn this off and keep the Calendar.')}
  <label class="row"><span class="t"><b>Full practice tests per week</b><span class="m sm">How many full tests your study plan schedules each week. Choose 0 to turn them off.</span></span><select id="stftw">${[0,1,2,3,4].map(v=>`<option value="${v}"${v===(ls('satftw')==null?1:+ls('satftw'))?' selected':''}>${v}</option>`).join('')}</select></label>
  <div class="sec">Daily practice reminders</div>
- ${tg('strem',ls('satreminders')==='1','Daily practice notifications','A gentle SAT QB+ reminder on your planned study days, only if you have not practiced yet that day. Notifications require permission from your browser.')}
+ ${tg('strem',ls('satreminders')!=='0','Daily practice notifications','A gentle SAT QB+ reminder on your planned study days, only if you have not practiced yet that day. Notifications require permission from your browser.')}
  <label class="row"><span class="t"><b>Reminder time</b><span class="m sm">Uses your device’s local time. Follows the study days selected in your Calendar / study plan.</span></span><input id="stremtime" type="time" class="s" value="${/^([01]\d|2[0-3]):[0-5]\d$/.test(ls('satremindertime')||'')?ls('satremindertime'):'18:00'}" style="max-width:140px"></label>
- <p class="m sm" id="stremstatus" style="margin:0">${('Notification' in window)?(Notification.permission==='granted'?'Browser notifications are allowed.':Notification.permission==='denied'?'Notifications are blocked in browser settings.':'Your browser will ask for permission when you enable reminders.'):'This browser does not support notifications.'} Reminders can run while this page is open; delivery while the site is fully closed requires push notifications / a service worker setup.</p>
+ <p class="m sm" id="stremstatus" style="margin:0">${('Notification' in window)?(Notification.permission==='granted'?'Notification permission is allowed.':Notification.permission==='denied'?'Notifications are blocked in browser settings.':'Permission has not been granted yet.'):'This Android WebView may not expose browser notifications. The app wrapper may need native notification support.'} Reminders can run while SAT QB+ is open. Notifications while it is closed require native Android scheduled notifications or a properly configured push service.</p><button class="pill" type="button" id="strempermission">Enable notification permission</button>
  <div class="sec">Practice setup screen</div>
  <label class="row"><span class="t"><b>Practice from / Section</b><span class="m sm">These two filters ask almost the same thing. Choose which one to show.</span></span><select id="stdup"><option value="nobank">Section only</option><option value="nosec">Practice from only</option><option value="both">Show both</option></select></label>
  <div class="sec">Hints</div>
@@ -1113,8 +1113,15 @@ function showSettings(){clearInterval(S.tick);S.done=true;document.body.dataset.
  <p class="m sm tipp">Tip: use A&minus; / A+ while practicing to change the text size.</p>
  <div class="btns" style="margin-top:14px"><button class="p pill" data-a="svs">Save</button><button class="pill" data-a="navback">Back</button></div></div>`;
  $('#stdup').value=ls('satdup')||'nobank'}
+document.addEventListener('click',async e=>{
+ const b=e.target.closest('#strempermission');if(!b)return;
+ const status=document.getElementById('stremstatus');
+ if(!('Notification' in window)){if(status)status.textContent='This Android WebView does not expose the Notification API. Browser HTML cannot grant Android notification permission; the WebToApp wrapper must add native notification support.';return}
+ try{const perm=Notification.permission==='default'?await Notification.requestPermission():Notification.permission;if(perm==='granted'){ls('satreminders','1');const t=document.getElementById('strem');if(t)t.checked=true;if(status)status.textContent='Permission granted. Reminders are enabled while SAT QB+ is open.';if(window.SATQBCheckReminder)window.SATQBCheckReminder()}else{if(status)status.textContent=perm==='denied'?'Notifications are blocked. Allow them in Android app settings or site settings.':'Permission was not granted. Reminders stay enabled as a preference, but notifications cannot appear until permission is granted.'}}catch(_){if(status)status.textContent='Permission request failed in this WebView. Native notification permission support may need to be added to the Android wrapper.'}
+});
 document.addEventListener('change',async e=>{
  if(e.target.id==='stdup')ls('satdup',e.target.value);
+ if(e.target.id==='strem'){ls('satreminders',e.target.checked?'1':'0')}
  if(e.target.id==='strem'&&e.target.checked){
   const status=document.getElementById('stremstatus');
   if(!('Notification' in window)){e.target.checked=false;if(status)status.textContent='This browser does not support notifications.';return}
@@ -1778,13 +1785,20 @@ FB.un='';FB.fr=null;FB.unAsked=false;
 const dbr=p=>FB.m.Db.ref(FB.db,p),dbErr=e=>e&&(e.code==='PERMISSION_DENIED'||/permission/i.test(e.message||''))?'The database is not allowing this yet. The Firebase rules need updating (see firebase-rules.json).':'Something went wrong: '+((e&&(e.code||e.message))||'unknown');
 function unUI(){const b=document.getElementById('unb');if(b)b.hidden=!(FB.user&&FB.ready&&!FB.un)}
 async function unLoad(){FB.un='';if(!FB.user||!FB.ready)return;try{const s=await FB.m.Db.get(dbr('profiles/'+FB.user.uid+'/username'));FB.un=s.exists()?String(s.val()):''}catch(e){FB.unErr=e}}
-function unCheck(v){if(!v)return'Type a username first.';if(v==='a')return FB.user&&isDevAccount(FB.user.uid)?'':'The username @a is reserved for the SAT QB+ developer.';if(!UNRE.test(v))return'Use 3 to 20 characters: letters, numbers, _ or .';return''}
+function unCheck(v){if(!v)return'Type a username first.';if(v==='a')return'';if(!UNRE.test(v))return'Use 3 to 20 characters: letters, numbers, _ or .';return''}
 async function unClaim(v){
  const bad=unCheck(v);if(bad)return{ok:false,err:bad};if(!FB.user||!FB.ready)return{ok:false,err:'Sign in first.'};
  const{Db}=FB.m,uid=FB.user.uid;if(v===FB.un)return{ok:true};
  try{const ex=await Db.get(dbr('usernames/'+v));if(ex.exists()&&ex.val()!==uid)return{ok:false,err:'That username is taken. Try another one.'};
   await Db.set(dbr('usernames/'+v),uid);
   await Db.set(dbr('profiles/'+uid+'/username'),v);
+  // Keep the published leaderboard snapshot in sync with the current username.
+  // Preserve the user's existing share preferences and statistics.
+  try{
+   const pubRef=dbr('profiles/'+uid+'/publicStats');
+   const pub=await Db.get(pubRef);
+   if(pub.exists())await Db.update(pubRef,{username:v,updatedAt:Date.now()});
+  }catch(syncErr){console.warn('Could not sync leaderboard username:',syncErr)}
   const old=FB.un;FB.un=v;
   if(old&&old!==v){try{await Db.remove(dbr('usernames/'+old))}catch(e){}}
   return{ok:true}}
@@ -1796,7 +1810,7 @@ async function svNext(){saveSv();
  if(S.sv<6)showSurvey(S.sv+1);else{ls('satdone','1');showTitle()}}
 function unAsk(){if(FB.unAsked||FB.un||!FB.user||!FB.ready)return;if(ls('satdone')!=='1'||S.authpage)return;if(document.body.dataset.q==='1')return;FB.unAsked=true;unModal()}
 function unModal(){if(document.getElementById('unm'))return;const d=document.createElement('div');d.id='unm';d.className='unm';
- d.innerHTML=`<div class="card"><h2>${FB.un?'Change your username':'Choose a username'}</h2><p class="m" style="margin:0">${FB.un?'Friends find you by your username.':'You need a username so friends can find and add you. This is separate from the name I call you.'} Use 3 to 20 letters, numbers, _ or . (@a is reserved for the developer).</p><input id="unin" type="text" placeholder="username" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false" value="${esc(FB.un||'')}"><div class="uerr" id="unerr"></div><div class="btns"><button class="p pill" data-a="unsave">Save</button><button class="pill" data-a="unlater">${FB.un?'Cancel':'Later'}</button></div></div>`;
+ d.innerHTML=`<div class="card"><h2>${FB.un?'Change your username':'Choose a username'}</h2><p class="m" style="margin:0">${FB.un?'Friends find you by your username.':'You need a username so friends can find and add you. This is separate from the name I call you.'} Use 1 to 20 letters, numbers, _ or .</p><input id="unin" type="text" placeholder="username" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false" value="${esc(FB.un||'')}"><div class="uerr" id="unerr"></div><div class="btns"><button class="p pill" data-a="unsave">Save</button><button class="pill" data-a="unlater">${FB.un?'Cancel':'Later'}</button></div></div>`;
  document.body.appendChild(d);const i=document.getElementById('unin');if(i){i.focus();i.select()}}
 function unClose(){const d=document.getElementById('unm');if(d)d.remove()}
 async function unSave(){const i=document.getElementById('unin'),e=document.getElementById('unerr');if(!i)return;const v=unNorm(i.value);
@@ -2657,6 +2671,7 @@ document.addEventListener('change',e=>{const t=e.target;if(t.id==='stgr')ls('sat
 /* ---------- daily SAT practice reminders ----------
    Browser-only delivery: checks while this page is open. Closed-page delivery needs a push service. */
 (function initDailyPracticeReminders(){
+ try{if(ls('satreminders')==null)ls('satreminders','1')}catch(_){}
  const dayKey=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
  function reminderConfig(){let c={days:[1,2,3,4,5]};try{c=Object.assign(c,JSON.parse(ls('satstudy')||'{}'))}catch(_){}return c}
  function practicedToday(now){let L=[];try{L=JSON.parse(ls('satlog')||'[]')}catch(_){}const key=dayKey(now);return Array.isArray(L)&&L.some(x=>x&&x.length>2&&dayKey(new Date(+x[2]))===key)}
