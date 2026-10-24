@@ -224,7 +224,8 @@ button.s,label.s{font-size:.85rem;padding:.4rem .85rem;border-radius:10px}
 .uerr{color:var(--bad);font-size:.88rem;min-height:1.2em}.uok{color:var(--ok);font-size:.88rem}
 .unred{background:#e53935!important;border-color:#e53935!important;color:#fff!important}
 .dev-flair{display:inline-flex;align-items:center;gap:3px;margin-left:5px;padding:2px 7px;border-radius:999px;vertical-align:middle;font-size:.68em;font-weight:900;letter-spacing:.025em;color:#17100a;background:linear-gradient(110deg,#fff0a8,#f5c34d 48%,#fff2b8);border:1px solid #d39b21;box-shadow:0 0 0 1px #f5c34d33,0 2px 8px #e7b63b33;white-space:nowrap}.dev-flair .dev-star{font-size:1.05em}.podium-name .dev-flair{margin-top:3px}.rank-user-text .dev-flair{font-size:.65em}.dev-username{color:#e4b83f!important;text-shadow:0 0 12px #e4b83f44}
-.friends-pop{position:fixed;z-index:190;width:min(520px,calc(100vw - 24px));max-height:calc(100vh - 100px);overflow:auto;background:transparent;padding:0}.friends-pop .frcard{width:100%!important;max-height:calc(100vh - 100px);overflow:auto;box-shadow:0 12px 40px #0005}.frcard{width:min(520px,100%)!important;max-height:85vh;overflow:auto}.frh{display:flex;justify-content:space-between;align-items:center}.frh h2{margin:0}.fsec{border-top:1px solid var(--bd);padding-top:12px;margin-top:14px}.fsec h2{margin:0 0 6px;font-size:1.05rem}.fsec[hidden]{display:none}
+.friends-pop{position:fixed;z-index:190;width:min(520px,calc(100vw - 24px));max-height:calc(100vh - 100px);overflow:auto;background:transparent;padding:0}.friends-pop .frcard{width:100%!important;max-height:calc(100vh - 100px);overflow:auto;box-shadow:0 12px 40px #0005}.frcard{width:min(520px,100%)!important;max-height:85vh;overflow:auto}
+@media(max-width:600px){.friends-pop{left:8px!important;right:8px!important;top:calc(env(safe-area-inset-top,0px) + 56px)!important;width:auto!important;max-height:calc(100dvh - env(safe-area-inset-top,0px) - 68px)!important}.friends-pop .frcard{padding:14px!important;border-radius:14px!important;max-height:calc(100dvh - env(safe-area-inset-top,0px) - 68px)!important;font-size:.94rem}.friends-pop .frh{margin-bottom:8px}.friends-pop .fsec{padding-top:8px;margin-top:9px}.friends-pop .fsec h2{font-size:.98rem}.friends-pop .fsr{gap:6px}.friends-pop .fsr input{padding:8px 10px}.friends-pop .acr{padding:7px 0}.friends-pop .fav{width:28px;height:28px;margin-right:7px}.friends-pop .dev-flair{font-size:.6em}.friends-pop button{min-height:34px;padding:6px 10px}.friends-pop .m{line-height:1.4}}.frh{display:flex;justify-content:space-between;align-items:center}.frh h2{margin:0}.fsec{border-top:1px solid var(--bd);padding-top:12px;margin-top:14px}.fsec h2{margin:0 0 6px;font-size:1.05rem}.fsec[hidden]{display:none}
 .fsr{display:flex;gap:8px}.fsr input{flex:1;min-width:0;text-align:left;padding:10px 14px}
 .fav{width:34px;height:34px;border-radius:50%;background:var(--ac);color:var(--bg);display:inline-grid;place-items:center;font-weight:700;flex:none;margin-right:10px}
 .frw{display:flex;align-items:center}
@@ -1040,9 +1041,15 @@ function saveSv(){const onboardShares=[...document.querySelectorAll('[data-onboa
 function showSurvey(step=0){clearInterval(S.tick);S.done=true;S.sv=step;document.body.dataset.q='';
  app.innerHTML=`<div class="ttl"><div class="logo">SAT</div><div class="card" style="width:100%;text-align:left;display:flex;flex-direction:column;gap:14px;margin:0">${SV[step]()}<div class="m sm">Step ${step+1} of 7</div><div class="btns" style="justify-content:flex-start">${step?'<button class="pill" data-a="svb">Back</button>':''}<button class="p pill" data-a="svn">${step<6?'Next':'Finish'}</button></div></div></div>`;
  const i=$('#sn,#sun,#tse,#tge');if(i)i.focus()}
-function apkLink(){const ua=navigator.userAgent||'';/* only offered in an Android browser, never inside the app itself */
- if(!/Android/i.test(ua)||/; wv\)/.test(ua)||(matchMedia&&matchMedia('(display-mode: standalone)').matches))return'';
- return ' · <a href="https://github.com/aliwalidelkhatib2010-boop/SAT-QB-PLUS/raw/main/satqbplus.APK" rel="noopener" style="color:inherit;text-decoration:underline">Android app</a>'}
+function apkLink(){
+ const ua=navigator.userAgent||'';
+ /* Show the APK link only in a regular Android browser, not in a wrapped/native app. */
+ let standalone=false;
+ try{standalone=!!(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||!!navigator.standalone}catch(e){}
+ const embedded=/;\s*wv\)/i.test(ua)||/;\s*wv(?:\)|;|\s)/i.test(ua)||/Version\/4\.0.*Chrome\/.*Mobile Safari/i.test(ua)||/Capacitor|Cordova|SATQBPlusApp|WebToApp/i.test(ua)||!!window.Capacitor||!!window.cordova||!!window.Android||!!window.AndroidBridge;
+ if(!/Android/i.test(ua)||embedded||standalone)return'';
+ return ' · <a href="https://github.com/aliwalidelkhatib2010-boop/SAT-QB-PLUS/raw/main/satqbplus.APK" rel="noopener" style="color:inherit;text-decoration:underline">Android app</a>'
+}
 function showTitle(){
  clearInterval(S.tick);clearInterval(S.itv);S.done=true;S.full=null;S.fullRes=null;document.body.dataset.q='';const has=S.qs.length,g=prog(0),nE=S.qs.filter(q=>sec(q)==='E').length,nM=S.qs.filter(q=>sec(q)==='M').length;let ss=null;try{ss=JSON.parse(ls('satsess'))}catch(e){}
  const tg=has?tgHTML():'';
