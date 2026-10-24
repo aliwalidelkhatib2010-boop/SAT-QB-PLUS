@@ -223,6 +223,7 @@ button.s,label.s{font-size:.85rem;padding:.4rem .85rem;border-radius:10px}
 .unm h2{margin:0}.unm input{width:100%;text-align:left;padding:11px 14px}
 .uerr{color:var(--bad);font-size:.88rem;min-height:1.2em}.uok{color:var(--ok);font-size:.88rem}
 .unred{background:#e53935!important;border-color:#e53935!important;color:#fff!important}
+.dev-flair{display:inline-flex;align-items:center;gap:3px;margin-left:5px;padding:2px 7px;border-radius:999px;vertical-align:middle;font-size:.68em;font-weight:900;letter-spacing:.025em;color:#17100a;background:linear-gradient(110deg,#fff0a8,#f5c34d 48%,#fff2b8);border:1px solid #d39b21;box-shadow:0 0 0 1px #f5c34d33,0 2px 8px #e7b63b33;white-space:nowrap}.dev-flair .dev-star{font-size:1.05em}.podium-name .dev-flair{margin-top:3px}.rank-user-text .dev-flair{font-size:.65em}.dev-username{color:#e4b83f!important;text-shadow:0 0 12px #e4b83f44}
 .friends-pop{position:fixed;z-index:190;width:min(520px,calc(100vw - 24px));max-height:calc(100vh - 100px);overflow:auto;background:transparent;padding:0}.friends-pop .frcard{width:100%!important;max-height:calc(100vh - 100px);overflow:auto;box-shadow:0 12px 40px #0005}.frcard{width:min(520px,100%)!important;max-height:85vh;overflow:auto}.frh{display:flex;justify-content:space-between;align-items:center}.frh h2{margin:0}.fsec{border-top:1px solid var(--bd);padding-top:12px;margin-top:14px}.fsec h2{margin:0 0 6px;font-size:1.05rem}.fsec[hidden]{display:none}
 .fsr{display:flex;gap:8px}.fsr input{flex:1;min-width:0;text-align:left;padding:10px 14px}
 .fav{width:34px;height:34px;border-radius:50%;background:var(--ac);color:var(--bg);display:inline-grid;place-items:center;font-weight:700;flex:none;margin-right:10px}
@@ -1026,7 +1027,7 @@ const fld=(id,lb,key,ph)=>`<label class="tgl">${lb} <input id="${id}" type="numb
 const nameFld=()=>`<label class="tgl">Your name <input id="sn" type="text" style="width:200px" placeholder="Name" autocomplete="given-name" value="${esc(nameOf())}"></label>`;
 const SV=[
  ()=>`<h1>Welcome! What should I call you?</h1><p class="m" style="margin:0">A few quick questions so I can track your progress. You can change any of this later from the profile icon at the top right.</p>${nameFld()}`,
- ()=>`<h1>Pick a username</h1><p class="m" style="margin:0">This is how friends find and add you. It is separate from your name above. Use 3 to 20 letters, numbers, _ or .</p>${window.FB&&FB.user?`<label class="tgl">Username <input id="sun" type="text" style="width:220px" placeholder="username" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false" value="${esc(FB.un||'')}"></label><div class="uerr" id="sunm"></div>`:`<p class="m" style="margin:0">Sign in first so your username is saved to your account. You can also skip this and a red <b style="color:#e53935">!</b> will remind you next time.</p><div><button class="p s" data-a="gin">Sign in or sign up</button></div>`}<div class="onboardprivacy"><h3>Privacy &amp; sharing</h3><p class="m sm">Choose which stats you want to share with friends and on the global ranking. You can change these anytime in Social sharing. Unchecked stats stay hidden.</p><div class="socialstats">${Object.entries(SHARE_KEYS).map(([k,v])=>`<label><input type="checkbox" data-onboard-share="${k}" ${sharePrefs()[k]?'checked':''}><span>${v}</span></label>`).join('')}</div><label class="privacy-global"><input type="checkbox" id="onboard-share-enabled" ${ls('satshareenabled')!=='0'?'checked':''}><span><b>Publish my stats</b><br><span class="m sm">Allow my selected stats to appear in rankings.</span></span></label></div>` ,
+ ()=>`<h1>Pick a username</h1><p class="m" style="margin:0">This is how friends find and add you. It is separate from your name above. Use 3 to 20 letters, numbers, _ or . (@a is reserved for the developer).</p>${window.FB&&FB.user?`<label class="tgl">Username <input id="sun" type="text" style="width:220px" placeholder="username" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false" value="${esc(FB.un||'')}"></label><div class="uerr" id="sunm"></div>`:`<p class="m" style="margin:0">Sign in first so your username is saved to your account. You can also skip this and a red <b style="color:#e53935">!</b> will remind you next time.</p><div><button class="p s" data-a="gin">Sign in or sign up</button></div>`}<div class="onboardprivacy"><h3>Privacy &amp; sharing</h3><p class="m sm">Choose which stats you want to share with friends and on the global ranking. You can change these anytime in Social sharing. Unchecked stats stay hidden.</p><div class="socialstats">${Object.entries(SHARE_KEYS).map(([k,v])=>`<label><input type="checkbox" data-onboard-share="${k}" ${sharePrefs()[k]?'checked':''}><span>${v}</span></label>`).join('')}</div><label class="privacy-global"><input type="checkbox" id="onboard-share-enabled" ${ls('satshareenabled')!=='0'?'checked':''}><span><b>Publish my stats</b><br><span class="m sm">Allow my selected stats to appear in rankings.</span></span></label></div>` ,
  ()=>`<h1>Where are you now${nameOf()?', '+hi():''}?</h1><p class="m" style="margin:0">Enter your latest score for each section (200 to 800). Your progress builds from these numbers.</p><div class="tgrow">${fld('tse','English','sattse','690')}${fld('tsm','Math','sattsm','610')}</div>`,
  ()=>`<h1>What score are you aiming for?</h1><p class="m" style="margin:0">Pick a target for each section (up to 800). You can leave these blank and it will track toward 800.</p><div class="tgrow">${fld('tge','English target','sattge','800')}${fld('tgm','Math target','sattgm','800')}</div>`,
  ()=>`<h1>When is your test?</h1><p class="m" style="margin:0">Pick your SAT date and I will count down the days and build a study plan. Leave it empty if you do not have a date yet.</p>${dateFld()}`,
@@ -1034,7 +1035,7 @@ const SV=[
  ()=>`<h1>Do you want vocab practice?</h1><p class="m" style="margin:0">Vocab practice adds a Vocab button with word quizzes, your own word list, and a Prefixes &amp; word clues lesson. You can change both of these later in Settings.</p>
   <label class="tgl" style="color:var(--tx);align-items:flex-start"><input type="checkbox" id="stvc" ${vcOn()?'checked':''} style="margin-top:5px"><span><b>Vocab practice</b><br><span class="m sm">Show the Vocab button on the home screen.</span></span></label>
   <label class="tgl" style="color:var(--tx);align-items:flex-start"><input type="checkbox" id="stvcb" ${vcBankOn()?'checked':''} style="margin-top:5px"><span><b>Add vocab questions to the question bank</b><br><span class="m sm">Mixes vocab questions in with your regular practice questions. Off is fine if you only want to practice vocab on its own.</span></span></label>`];
-function saveSv(){const onboardShares=[...document.querySelectorAll('[data-onboard-share]')];if(onboardShares.length){const p={};onboardShares.forEach(e=>p[e.dataset.onboardShare]=e.checked);ls('satshareprefs',JSON.stringify(p));const en=$('#onboard-share-enabled');if(en)ls('satshareenabled',en.checked?'1':'0')}const td=$('#ttd');if(td)ls('sattest',td.value||null);const sd=document.querySelectorAll('.sdchk');if(sd.length){const dy=[...sd].filter(x=>x.checked).map(x=>+x.value);ls('satstudy',JSON.stringify({days:dy.length?dy:[1,2,3,4,5],mins:+(($('#smin')||{}).value)||45}))}const pl=$('#stpl');if(pl)ls('satplanon',pl.checked?'1':'0');const fw=$('#stftw');if(fw)ls('satftw',fw.value);const cdb=$('#stcd');if(cdb)ls('satcd',cdb.checked?'1':'0');const du=$('#stdup');if(du)ls('satdup',du.value);const wz=$('#stwz');if(wz)ls('satwiz',wz.checked?'1':'0');const en=$('#sten');if(en)ls('satenter',en.checked?'1':'0');const sw1=$('#stsw');if(sw1)ls('satsw',sw1.checked?'1':'0');const sw2=$('#stswa');if(sw2)ls('satswa',sw2.checked?'1':'0');const sa=$('#stsa');if(sa)ls('satstartall',sa.checked?'1':'0');const g=id=>{const e=$('#'+id);return e?e.value:null},nm=g('sn');if(nm!==null)ls('satname',nm.trim()||null);
+function saveSv(){const onboardShares=[...document.querySelectorAll('[data-onboard-share]')];if(onboardShares.length){const p={};onboardShares.forEach(e=>p[e.dataset.onboardShare]=e.checked);ls('satshareprefs',JSON.stringify(p));const en=$('#onboard-share-enabled');if(en)ls('satshareenabled',en.checked?'1':'0')}const td=$('#ttd');if(td)ls('sattest',td.value||null);const sd=document.querySelectorAll('.sdchk');if(sd.length){const dy=[...sd].filter(x=>x.checked).map(x=>+x.value);ls('satstudy',JSON.stringify({days:dy.length?dy:[1,2,3,4,5],mins:+(($('#smin')||{}).value)||45}))}const pl=$('#stpl');if(pl)ls('satplanon',pl.checked?'1':'0');const fw=$('#stftw');if(fw)ls('satftw',fw.value);const rem=$('#strem');if(rem)ls('satreminders',rem.checked?'1':'0');const remt=$('#stremtime');if(remt&&/^([01]\d|2[0-3]):[0-5]\d$/.test(remt.value))ls('satremindertime',remt.value);const cdb=$('#stcd');if(cdb)ls('satcd',cdb.checked?'1':'0');const du=$('#stdup');if(du)ls('satdup',du.value);const wz=$('#stwz');if(wz)ls('satwiz',wz.checked?'1':'0');const en=$('#sten');if(en)ls('satenter',en.checked?'1':'0');const sw1=$('#stsw');if(sw1)ls('satsw',sw1.checked?'1':'0');const sw2=$('#stswa');if(sw2)ls('satswa',sw2.checked?'1':'0');const sa=$('#stsa');if(sa)ls('satstartall',sa.checked?'1':'0');const g=id=>{const e=$('#'+id);return e?e.value:null},nm=g('sn');if(nm!==null)ls('satname',nm.trim()||null);
  for(const[id,K]of[['tse','sattse'],['tsm','sattsm'],['tge','sattge'],['tgm','sattgm']]){const v=g(id);if(v===null)continue;let x=Math.round(+v/10)*10;x=x?Math.min(800,Math.max(200,x)):0;const old=+ls(K)||0;ls(K,x?String(x):null);if((K==='sattse'||K==='sattsm')&&x!==old)ls('satbase',String(Date.now()))}}
 function showSurvey(step=0){clearInterval(S.tick);S.done=true;S.sv=step;document.body.dataset.q='';
  app.innerHTML=`<div class="ttl"><div class="logo">SAT</div><div class="card" style="width:100%;text-align:left;display:flex;flex-direction:column;gap:14px;margin:0">${SV[step]()}<div class="m sm">Step ${step+1} of 7</div><div class="btns" style="justify-content:flex-start">${step?'<button class="pill" data-a="svb">Back</button>':''}<button class="p pill" data-a="svn">${step<6?'Next':'Finish'}</button></div></div></div>`;
@@ -1094,6 +1095,10 @@ function showSettings(){clearInterval(S.tick);S.done=true;document.body.dataset.
  ${tg('stpl',ls('satplanon')!=='0','Calendar and study plan','Adds the Calendar button with your study plan and weekly full practice tests.')}
  ${tg('stcd',ls('satcd')!=='0','Countdown on the home screen','Shows how many days are left until your test. You can turn this off and keep the Calendar.')}
  <label class="row"><span class="t"><b>Full practice tests per week</b><span class="m sm">How many full tests your study plan schedules each week. Choose 0 to turn them off.</span></span><select id="stftw">${[0,1,2,3,4].map(v=>`<option value="${v}"${v===(ls('satftw')==null?1:+ls('satftw'))?' selected':''}>${v}</option>`).join('')}</select></label>
+ <div class="sec">Daily practice reminders</div>
+ ${tg('strem',ls('satreminders')==='1','Daily practice notifications','A gentle SAT QB+ reminder on your planned study days, only if you have not practiced yet that day. Notifications require permission from your browser.')}
+ <label class="row"><span class="t"><b>Reminder time</b><span class="m sm">Uses your device’s local time. Follows the study days selected in your Calendar / study plan.</span></span><input id="stremtime" type="time" class="s" value="${/^([01]\d|2[0-3]):[0-5]\d$/.test(ls('satremindertime')||'')?ls('satremindertime'):'18:00'}" style="max-width:140px"></label>
+ <p class="m sm" id="stremstatus" style="margin:0">${('Notification' in window)?(Notification.permission==='granted'?'Browser notifications are allowed.':Notification.permission==='denied'?'Notifications are blocked in browser settings.':'Your browser will ask for permission when you enable reminders.'):'This browser does not support notifications.'} Reminders can run while this page is open; delivery while the site is fully closed requires push notifications / a service worker setup.</p>
  <div class="sec">Practice setup screen</div>
  <label class="row"><span class="t"><b>Practice from / Section</b><span class="m sm">These two filters ask almost the same thing. Choose which one to show.</span></span><select id="stdup"><option value="nobank">Section only</option><option value="nosec">Practice from only</option><option value="both">Show both</option></select></label>
  <div class="sec">Hints</div>
@@ -1101,7 +1106,18 @@ function showSettings(){clearInterval(S.tick);S.done=true;document.body.dataset.
  <p class="m sm tipp">Tip: use A&minus; / A+ while practicing to change the text size.</p>
  <div class="btns" style="margin-top:14px"><button class="p pill" data-a="svs">Save</button><button class="pill" data-a="navback">Back</button></div></div>`;
  $('#stdup').value=ls('satdup')||'nobank'}
-document.addEventListener('change',e=>{if(e.target.id==='stdup')ls('satdup',e.target.value)});
+document.addEventListener('change',async e=>{
+ if(e.target.id==='stdup')ls('satdup',e.target.value);
+ if(e.target.id==='strem'&&e.target.checked){
+  const status=document.getElementById('stremstatus');
+  if(!('Notification' in window)){e.target.checked=false;if(status)status.textContent='This browser does not support notifications.';return}
+  if(Notification.permission==='default'){
+   try{const perm=await Notification.requestPermission();if(perm!=='granted'){e.target.checked=false;if(status)status.textContent=perm==='denied'?'Notifications were blocked. Allow them in your browser settings, then try again.':'Permission was not granted, so reminders remain off.'}}
+   catch(_){e.target.checked=false;if(status)status.textContent='Could not request notification permission in this browser.'}
+  }else if(Notification.permission==='denied'){e.target.checked=false;if(status)status.textContent='Notifications are blocked in browser settings. Allow them there before enabling reminders.'}
+  else if(status)status.textContent='Browser notifications are allowed. Reminders follow your selected study days and only appear if you have not practiced that day.';
+ }
+});
 new MutationObserver(pfpUpdate).observe(app,{childList:true});pfpUpdate();
 
 function sideHTML(ss){return (ss||saved.length)?`<aside class="card side"><b>Your practices</b>
@@ -1466,7 +1482,7 @@ function gdraw(){const c=$('#gc');if(!c||!c.clientWidth)return;const w=c.clientW
  else if(ls('satdone')!=='1')showSurvey();else showTitle()})();
 /* ===== Firebase: Google sign-in + progress sync (needs your own hosting; see FIREBASE_CONFIG at the top) ===== */
 var FBres,FB={cfg:!!FIREBASE_CONFIG.apiKey,ready:false,user:null,err:null,m:null,sync:'',t:0,pulling:false,first:new Promise(r=>FBres=r)};
-var SYNC=['satstats','satlog','satsaved','satname','satdone','sattse','sattsm','sattge','sattgm','satbase','sattest','satstudy','satplanon','satcd','satftw','sattests','satvlog','satvsaved','satsess','satsessat','satshareprefs','satshareenabled'],SCAL=['satname','satdone','sattse','sattsm','sattge','sattgm','satbase','sattest','satstudy','satplanon','satcd','satftw'];
+var SYNC=['satstats','satlog','satsaved','satname','satdone','sattse','sattsm','sattge','sattgm','satbase','sattest','satstudy','satplanon','satcd','satftw','sattests','satvlog','satvsaved','satsess','satsessat','satshareprefs','satshareenabled','satreminders','satremindertime'],SCAL=['satname','satdone','sattse','sattsm','sattge','sattgm','satbase','sattest','satstudy','satplanon','satcd','satftw','satreminders','satremindertime'];
 const GSVG='<svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.4 30.2 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.8 6C12.3 13.5 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.4 5.7c4.3-4 6.9-9.9 6.9-17.1z"/><path fill="#FBBC05" d="M10.4 28.8c-.5-1.4-.8-2.9-.8-4.8s.3-3.3.8-4.8l-7.8-6C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.8-6z"/><path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.6l-7.4-5.7c-2 1.4-4.7 2.3-7.8 2.3-6.3 0-11.7-4-13.6-9.7l-7.8 6C6.5 42.6 14.6 48 24 48z"/></svg>';
 function avStyle(){const u=FB.user,photo=FB.avatar||(u&&u.photoURL);return photo?`background-image:url('${esc(photo)}')`:''}
 function fbBlock(){
@@ -1615,7 +1631,7 @@ function showAccount(msg){clearInterval(S.tick);S.done=true;S.authpage=false;doc
  ${tg?`<div class="card"><h2>Score tracker</h2><div class="tgbox" style="max-width:none">${tg}</div></div>`:''}
  <div class="card"><h2>Account</h2>
  ${u?row('Cloud sync',FB.err?'Sync problem: '+esc(FB.err.code||FB.err.message||'unknown'):FB.sync?'Last synced at '+esc(FB.sync):'Syncing…','<button class="s" data-a="syncnow">Sync now</button>'):''}
- ${u?row('Username',FB.un?'@'+esc(FB.un)+' · friends find you with this':'<span style="color:#e53935;font-weight:600">! You have not picked a username yet</span>','<button class="s'+(FB.un?'':' unred')+'" data-a="unset">'+(FB.un?'Change':'Set username')+'</button>'):''}
+ ${u?row('Username',FB.un?'@'+esc(FB.un)+(isDevAccount(u.uid)&&FB.un==='a'?devFlair(FB.un,u.uid):'')+' · friends find you with this':'<span style="color:#e53935;font-weight:600">! You have not picked a username yet</span>','<button class="s'+(FB.un?'':' unred')+'" data-a="unset">'+(FB.un?'Change':'Set username')+'</button>'):''}
  ${u?row('Friends','Search for people by username and add them','<button class="s" data-a="friends">Friends</button>'):''}
  ${u?row('Social stats','Choose what friends and the global leaderboard can see','<button class="s" data-a="socialsettings">Sharing settings</button> <button class="s" data-a="leaderboard">Global ranking</button>'):''}
  ${u?row('Profile picture','Upload a picture for your profile and friends list','<button class="s" data-a="avatar">Change picture</button>'):''}
@@ -1747,12 +1763,15 @@ document.addEventListener('click',ev=>{const b=ev.target.closest('[data-a]');if(
    requests/<toUid>/<fromUid> = {u,t}
    friends/<uid>/<friendUid> = {u,t}
    See firebase-rules.json for the database rules these need. */
+const DEV_UID='IfdVmdLQphOyvwvOjsnEkUSOHlL2';
+const isDevAccount=uid=>String(uid||'')===DEV_UID;
+const devFlair=(username,uid)=>String(username||'').toLowerCase()==='a'&&(!uid||isDevAccount(uid))?'<span class="dev-flair" title="SAT QB+ Developer"><span class="dev-star">✦</span> DEVELOPER</span>':'';
 const UNRE=/^[a-z0-9_.]{3,20}$/,unNorm=s=>String(s||'').trim().toLowerCase().replace(/^@/,'');
 FB.un='';FB.fr=null;FB.unAsked=false;
 const dbr=p=>FB.m.Db.ref(FB.db,p),dbErr=e=>e&&(e.code==='PERMISSION_DENIED'||/permission/i.test(e.message||''))?'The database is not allowing this yet. The Firebase rules need updating (see firebase-rules.json).':'Something went wrong: '+((e&&(e.code||e.message))||'unknown');
 function unUI(){const b=document.getElementById('unb');if(b)b.hidden=!(FB.user&&FB.ready&&!FB.un)}
 async function unLoad(){FB.un='';if(!FB.user||!FB.ready)return;try{const s=await FB.m.Db.get(dbr('profiles/'+FB.user.uid+'/username'));FB.un=s.exists()?String(s.val()):''}catch(e){FB.unErr=e}}
-function unCheck(v){if(!v)return'Type a username first.';if(!UNRE.test(v))return'Use 3 to 20 characters: letters, numbers, _ or .';return''}
+function unCheck(v){if(!v)return'Type a username first.';if(v==='a')return FB.user&&isDevAccount(FB.user.uid)?'':'The username @a is reserved for the SAT QB+ developer.';if(!UNRE.test(v))return'Use 3 to 20 characters: letters, numbers, _ or .';return''}
 async function unClaim(v){
  const bad=unCheck(v);if(bad)return{ok:false,err:bad};if(!FB.user||!FB.ready)return{ok:false,err:'Sign in first.'};
  const{Db}=FB.m,uid=FB.user.uid;if(v===FB.un)return{ok:true};
@@ -1770,7 +1789,7 @@ async function svNext(){saveSv();
  if(S.sv<6)showSurvey(S.sv+1);else{ls('satdone','1');showTitle()}}
 function unAsk(){if(FB.unAsked||FB.un||!FB.user||!FB.ready)return;if(ls('satdone')!=='1'||S.authpage)return;if(document.body.dataset.q==='1')return;FB.unAsked=true;unModal()}
 function unModal(){if(document.getElementById('unm'))return;const d=document.createElement('div');d.id='unm';d.className='unm';
- d.innerHTML=`<div class="card"><h2>${FB.un?'Change your username':'Choose a username'}</h2><p class="m" style="margin:0">${FB.un?'Friends find you by your username.':'You need a username so friends can find and add you. This is separate from the name I call you.'} Use 3 to 20 letters, numbers, _ or .</p><input id="unin" type="text" placeholder="username" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false" value="${esc(FB.un||'')}"><div class="uerr" id="unerr"></div><div class="btns"><button class="p pill" data-a="unsave">Save</button><button class="pill" data-a="unlater">${FB.un?'Cancel':'Later'}</button></div></div>`;
+ d.innerHTML=`<div class="card"><h2>${FB.un?'Change your username':'Choose a username'}</h2><p class="m" style="margin:0">${FB.un?'Friends find you by your username.':'You need a username so friends can find and add you. This is separate from the name I call you.'} Use 3 to 20 letters, numbers, _ or . (@a is reserved for the developer).</p><input id="unin" type="text" placeholder="username" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false" value="${esc(FB.un||'')}"><div class="uerr" id="unerr"></div><div class="btns"><button class="p pill" data-a="unsave">Save</button><button class="pill" data-a="unlater">${FB.un?'Cancel':'Later'}</button></div></div>`;
  document.body.appendChild(d);const i=document.getElementById('unin');if(i){i.focus();i.select()}}
 function unClose(){const d=document.getElementById('unm');if(d)d.remove()}
 async function unSave(){const i=document.getElementById('unin'),e=document.getElementById('unerr');if(!i)return;const v=unNorm(i.value);
@@ -1856,8 +1875,8 @@ async function loadLeaderboard(mode='global'){
   const statMarkup=x=>{const items=statItems(x);return items.length?`<div class="rank-stats">${items.map(t=>`<span class="rank-stat">${t}</span>`).join('')}</div>`:'<span class="m sm">Sharing enabled</span>'};
   const avatar=x=>x.avatar?`<img class="podium-avatar" src="${esc(x.avatar)}" alt="">`:`<span class="podium-avatar">${esc((x.username||'?')[0].toUpperCase())}</span>`;
   const top=rows.slice(0,3);let html='';
-  if(top.length){const order=top.length>=3?[top[1],top[0],top[2]]:top.slice();html+=`<div class="podium">${order.map(x=>{const i=rows.indexOf(x);return `<div class="podium-card ${place[i]||''}"><div class="podium-place">${medal[i]||'🏅'}</div>${avatar(x)}<div class="podium-name">@${esc(x.username)}</div>${statMarkup(x)}</div>`}).join('')}</div>`}
-  html+=rows.slice(3,100).map((x,j)=>{const i=j+3;return `<div class="rankrow"><span class="ranknum">#${i+1}</span><div class="frw rank-user">${x.avatar?`<img class="fav" style="object-fit:cover" src="${esc(x.avatar)}" alt="">`:frAv(x.username)}<div class="rank-user-text"><b>@${esc(x.username)}</b>${statMarkup(x)}</div></div></div>`}).join('');
+  if(top.length){const order=top.length>=3?[top[1],top[0],top[2]]:top.slice();html+=`<div class="podium">${order.map(x=>{const i=rows.indexOf(x);return `<div class="podium-card ${place[i]||''}"><div class="podium-place">${medal[i]||'🏅'}</div>${avatar(x)}<div class="podium-name"><span class="${String(x.username).toLowerCase()==='a'?'dev-username':''}">@${esc(x.username)}</span>${devFlair(x.username,x.id)}</div>${statMarkup(x)}</div>`}).join('')}</div>`}
+  html+=rows.slice(3,100).map((x,j)=>{const i=j+3;return `<div class="rankrow"><span class="ranknum">#${i+1}</span><div class="frw rank-user">${x.avatar?`<img class="fav" style="object-fit:cover" src="${esc(x.avatar)}" alt="">`:frAv(x.username)}<div class="rank-user-text"><b class="${String(x.username).toLowerCase()==='a'?'dev-username':''}">@${esc(x.username)}</b>${devFlair(x.username,x.id)}${statMarkup(x)}</div></div></div>`}).join('');
   out.innerHTML=html;
  }catch(e){msg.textContent='Could not load rankings: '+socialErrorText(e)+'. Check that signed-in users can read profiles and your friends list.'}
 }
@@ -1871,7 +1890,7 @@ function showFriends(msg){
  let body;
  if(!u)body=`<p class="m" style="margin:0 0 12px">Sign in to see your friends and add new ones.</p><button class="p pill" data-a="gin">Sign in or sign up</button>`;
  else if(!FB.un)body=`<p class="m" style="margin:0 0 12px"><span style="color:#e53935;font-weight:700">!</span> Pick a username first so friends can find you.</p><button class="p pill" data-a="unset">Set username</button>`;
- else body=`<p class="m" style="margin:0 0 10px">You are <b>@${esc(FB.un)}</b>. Search for a username to add someone.</p><div class="fsr"><input id="fs" type="text" placeholder="Search usernames" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false"><button class="p s" data-a="fsearch">Search</button></div><div id="fres" style="margin-top:8px"></div>
+ else body=`<p class="m" style="margin:0 0 10px">You are <b class="${FB.un==='a'?'dev-username':''}">@${esc(FB.un)}</b>${devFlair(FB.un,FB.user.uid)}. Search for a username to add someone.</p><div class="fsr"><input id="fs" type="text" placeholder="Search usernames" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false"><button class="p s" data-a="fsearch">Search</button></div><div id="fres" style="margin-top:8px"></div>
   <div class="fsec" id="freqc" hidden><h2>Friend requests</h2><div id="freq"></div></div>
   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="s" data-a="leaderboard">Global ranking</button><button class="s" data-a="socialsettings">Sharing settings</button></div><div class="fsec"><h2>Your friends</h2><div id="flist"><p class="m" style="margin:0">Loading…</p></div></div>`;
  let d=document.getElementById('frm');if(!d){d=document.createElement('div');d.id='frm';d.className='friends-pop';document.body.appendChild(d)}
@@ -1890,8 +1909,8 @@ async function frLoad(){
  catch(e){const l=document.getElementById('flist');if(l)l.innerHTML=`<p class="m" style="margin:0;color:var(--bad)">${esc(dbErr(e))}</p>`}}
 function frRender(){const F=FB.fr;if(!F)return;const l=document.getElementById('flist'),rq=document.getElementById('freq'),rc=document.getElementById('freqc');if(!l)return;
  const fe=Object.entries(F.friends).sort((a,b)=>String(a[1].u).localeCompare(String(b[1].u))),re=Object.entries(F.req);
- l.innerHTML=fe.length?fe.map(([id,o])=>`<div class="acr"><div class="l frw">${frAv(o.u)}<b>@${esc(o.u||'unknown')}</b></div><button class="s" data-a="frem" data-id="${esc(id)}">Remove</button></div>`).join(''):'<p class="m" style="margin:0">No friends yet. Search a username above to add someone.</p>';
- if(rc){rc.hidden=!re.length;rq.innerHTML=re.map(([id,o])=>`<div class="acr"><div class="l frw">${frAv(o.u)}<b>@${esc(o.u||'unknown')}</b></div><div class="frb"><button class="p s" data-a="facc" data-id="${esc(id)}">Accept</button><button class="s" data-a="fdec" data-id="${esc(id)}">Decline</button></div></div>`).join('')}}
+ l.innerHTML=fe.length?fe.map(([id,o])=>`<div class="acr"><div class="l frw">${frAv(o.u)}<b class="${String(o.u).toLowerCase()==='a'?'dev-username':''}">@${esc(o.u||'unknown')}</b>${devFlair(o.u,id)}</div><button class="s" data-a="frem" data-id="${esc(id)}">Remove</button></div>`).join(''):'<p class="m" style="margin:0">No friends yet. Search a username above to add someone.</p>';
+ if(rc){rc.hidden=!re.length;rq.innerHTML=re.map(([id,o])=>`<div class="acr"><div class="l frw">${frAv(o.u)}<b class="${String(o.u).toLowerCase()==='a'?'dev-username':''}">@${esc(o.u||'unknown')}</b>${devFlair(o.u,id)}</div><div class="frb"><button class="p s" data-a="facc" data-id="${esc(id)}">Accept</button><button class="s" data-a="fdec" data-id="${esc(id)}">Decline</button></div></div>`).join('')}}
 async function frSearch(){
  const q=unNorm(($('#fs')||{}).value),out=document.getElementById('fres');if(!out)return;
  if(!q){out.innerHTML='';return}
@@ -1905,7 +1924,7 @@ async function frSearch(){
    if(FB.fr.friends[id])return'friend';if(FB.fr.req[id])return'incoming';
    try{const s=await Db.get(dbr('requests/'+id+'/'+me));return s.exists()?'sent':'none'}catch(e){return'none'}}));
   out.innerHTML=hits.map(([n,id],i)=>{const s=st[i],b=s==='friend'?'<span class="m sm">Friends ✓</span>':s==='sent'?'<span class="m sm">Requested ✓</span>':s==='incoming'?`<button class="p s" data-a="facc" data-id="${esc(id)}">Accept</button>`:`<button class="p s" data-a="fadd" data-id="${esc(id)}" data-n="${esc(n)}">Add friend</button>`;
-   return`<div class="acr"><div class="l frw">${frAv(n)}<b>@${esc(n)}</b></div>${b}</div>`}).join('')}
+   return`<div class="acr"><div class="l frw">${frAv(n)}<b class="${String(n).toLowerCase()==='a'?'dev-username':''}">@${esc(n)}</b>${devFlair(n,id)}</div>${b}</div>`}).join('')}
  catch(e){out.innerHTML=`<p class="uerr">${esc(dbErr(e))}</p>`}}
 async function frAdd(b){
  const{Db}=FB.m,me=FB.user.uid,id=b.dataset.id;b.disabled=true;
@@ -2628,4 +2647,33 @@ function grBankQs(){const out=[],L='ABCD',dm='Standard English Conventions';
  GQ.forEach((x,n)=>{const o=vcSeed([x[2],...x[3]],'g'+n);out.push(mk(n,x[0]==='sb'||x[0]==='pu'?'Boundaries':'Form, Structure, and Sense',x[1].replace('____','______'),o,o.indexOf(x[2]),x[4]))});
  grOwn().forEach(q=>{if(q.o.length<2||q.o.length>4)return;out.push(mk('u'+vcHash(q.q),'Form, Structure, and Sense',q.q,q.o,q.a,q.e))});return out}
 document.addEventListener('change',e=>{const t=e.target;if(t.id==='stgr')ls('satgron',t.checked?'1':'0');else if(t.id==='stgrb'||t.id==='grbk'){ls('satgrbank',t.checked?'1':'0');vcBankSync()}});
+/* ---------- daily SAT practice reminders ----------
+   Browser-only delivery: checks while this page is open. Closed-page delivery needs a push service. */
+(function initDailyPracticeReminders(){
+ const dayKey=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+ function reminderConfig(){let c={days:[1,2,3,4,5]};try{c=Object.assign(c,JSON.parse(ls('satstudy')||'{}'))}catch(_){}return c}
+ function practicedToday(now){let L=[];try{L=JSON.parse(ls('satlog')||'[]')}catch(_){}const key=dayKey(now);return Array.isArray(L)&&L.some(x=>x&&x.length>2&&dayKey(new Date(+x[2]))===key)}
+ function checkReminder(){
+  try{
+   if(ls('satreminders')!=='1'||!('Notification' in window)||Notification.permission!=='granted')return;
+   const now=new Date(),key=dayKey(now),time=/^([01]\d|2[0-3]):[0-5]\d$/.test(ls('satremindertime')||'')?ls('satremindertime'):'18:00';
+   if(ls('satremindersent')===key||practicedToday(now))return;
+   const cfg=reminderConfig(),days=Array.isArray(cfg.days)&&cfg.days.length?cfg.days:[1,2,3,4,5];
+   if(!days.includes(now.getDay()))return;
+   const testDate=ls('sattest');if(testDate){const d=new Date(testDate+'T23:59:59');if(!isNaN(+d)&&now>d)return}
+   const parts=time.split(':').map(Number);if(now.getHours()<parts[0]||(now.getHours()===parts[0]&&now.getMinutes()<parts[1]))return;
+   const messages=[
+    ['Your SAT streak is waiting 📚','A little practice today goes a long way. Ready for a quick SAT session?'],
+    ['Psst… SAT QB+ time 👀','Your study plan says today is a study day. Let’s get a few questions done.'],
+    ['Future-you says thanks ✨','Even a short practice session counts. Open SAT QB+ and keep moving toward your goal.'],
+    ['Quick SAT check-in 🎯','Got a few minutes? Your next practice session is ready when you are.']
+   ];
+   const m=messages[Math.floor((now.getDate()+now.getMonth())%messages.length)];
+   const n=new Notification(m[0],{body:m[1],tag:'satqbplus-daily-practice',renotify:false});
+   ls('satremindersent',key);n.onclick=()=>{try{window.focus()}catch(_){}n.close()};
+  }catch(_){/* notification support varies by browser / WebToApp */}
+ }
+ checkReminder();setInterval(checkReminder,60000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkReminder()});
+ window.SATQBCheckReminder=checkReminder;
+})();
 </script></body></html>
