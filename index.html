@@ -1788,7 +1788,7 @@ document.addEventListener('click',ev=>{const b=ev.target.closest('[data-a]');if(
    See firebase-rules.json for the database rules these need. */
 const DEV_UID='IfdVmdLQphOyvwvOjsnEkUSOHlL2';
 const isDevAccount=uid=>String(uid||'')===DEV_UID;
-const devFlair=(username,uid)=>String(username||'').toLowerCase()==='a'&&(!uid||isDevAccount(uid))?'<span class="dev-flair" title="SAT QB+ Developer"><span class="dev-star">✦</span> DEVELOPER</span>':'';
+const devFlair=(username,uid)=>String(username||'').toLowerCase()==='a'&&(!uid||isDevAccount(uid))?'<span class="dev-flair" title="Developer">DEV</span>':'';
 const UNRE=/^[a-z0-9_.]{3,20}$/,unNorm=s=>String(s||'').trim().toLowerCase().replace(/^@/,'');
 FB.un='';FB.fr=null;FB.unAsked=false;
 const dbr=p=>FB.m.Db.ref(FB.db,p),dbErr=e=>e&&(e.code==='PERMISSION_DENIED'||/permission/i.test(e.message||''))?'The database is not allowing this yet. The Firebase rules need updating (see firebase-rules.json).':'Something went wrong: '+((e&&(e.code||e.message))||'unknown');
@@ -1882,6 +1882,15 @@ async function loadLeaderboard(mode='global'){
     rows.push(clean);
    }
   });
+  // Resolve each displayed name from the canonical profile username, not only
+  // the older publicStats snapshot. This keeps both global and friends rankings
+  // current even if the snapshot's username failed to refresh during a rename.
+  await Promise.all(rows.map(async row=>{
+   try{
+    const current=await FB.m.Db.get(dbr('profiles/'+row.id+'/username'));
+    if(current.exists()&&String(current.val()).trim())row.username=String(current.val()).trim();
+   }catch(nameErr){console.warn('Could not refresh ranking username for '+row.id,nameErr)}
+  }));
   // Stable ranking on every device: visible SAT score, then visible answered
   // count, then visible accuracy, then username and UID as deterministic tie-breakers.
   rows.sort((a,b)=>
