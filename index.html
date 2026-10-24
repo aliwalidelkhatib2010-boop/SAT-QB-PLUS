@@ -1841,7 +1841,8 @@ async function publishSocial(){
  if(!FB.un)throw new Error('No username is loaded. Open Account, set/check your username, then try again.');
  const A=acctStats(),prefs=sharePrefs(),uid=FB.user.uid;
  const enabled=ls('satshareenabled')!=='0';
- const profile={username:FB.un,updatedAt:Date.now(),share:enabled?prefs:Object.fromEntries(Object.keys(SHARE_KEYS).map(k=>[k,false]))};
+ const audience=ls('satshareaudience')==='friends'?'friends':'global';
+ const profile={username:FB.un,updatedAt:Date.now(),audience,share:enabled?prefs:Object.fromEntries(Object.keys(SHARE_KEYS).map(k=>[k,false]))};
  const e=track('E'),m=track('M');
  profile.streak=enabled&&prefs.streak&&Number.isFinite(Number(A.streak))?Number(A.streak):null;
  const score=(Number(e&&e.cur)||Number(ls('sattse'))||0)+(Number(m&&m.cur)||Number(ls('sattsm'))||0);
@@ -1858,9 +1859,10 @@ async function publishSocial(){
  }catch(e){FB.socialErr=e;throw e}
 }
 function socialErrorText(e){return (e&&(e.code||e.message))?String(e.code||e.message):'Unknown Firebase error';}
-function showSocialSettings(msg){if(!FB.user){showFriends('Sign in to manage sharing settings.');return}const p=sharePrefs();app.innerHTML=`<div class="card c left"><h1>Social sharing</h1><p class="m">Choose which stats appear to friends and on the global ranking. Turn any option off to hide that stat. Your email and private practice data are never shown here.</p><div class="socialstats">${Object.entries(SHARE_KEYS).map(([k,v])=>`<label><input type="checkbox" data-share="${k}" ${p[k]?'checked':''}><span>${v}</span></label>`).join('')}</div><p class="m sm">Your username is shown so people can identify your ranking. Global ranking only includes accounts that publish stats.</p><div class="btns"><button class="p pill" data-a="sharesave">Save sharing</button><button class="pill" data-a="leaderboard">Global ranking</button><button class="pill" data-a="acct">Back</button></div><p class="m sm">${esc(msg||'')}</p></div>`}
+function showSocialSettings(msg){if(!FB.user){showFriends('Sign in to manage sharing settings.');return}const p=sharePrefs(),audience=ls('satshareaudience')==='friends'?'friends':'global';app.innerHTML=`<div class="card c left"><h1>Privacy &amp; sharing</h1><p class="m">Choose which stats to share and who can see your ranking. Your email and private practice data are never shown here.</p><div style="margin:14px 0;padding:12px;border:1px solid var(--bd);border-radius:12px"><b>Who can see my ranking?</b><div class="socialstats" style="margin-top:8px"><label><input type="radio" name="share-audience" data-share-audience="global" ${audience==='global'?'checked':''}><span>Global — everyone</span></label><label><input type="radio" name="share-audience" data-share-audience="friends" ${audience==='friends'?'checked':''}><span>Friends — friends only</span></label></div><p class="m sm">Friends-only accounts won't appear in the global ranking.</p></div><b>Choose which stats to share</b><div class="socialstats">${Object.entries(SHARE_KEYS).map(([k,v])=>`<label><input type="checkbox" data-share="${k}" ${p[k]?'checked':''}><span>${v}</span></label>`).join('')}</div><p class="m sm">Your username is shown so friends can identify you. Save to apply your privacy and stat-sharing choices.</p><div class="btns"><button class="p pill" data-a="sharesave">Save sharing</button><button class="pill" data-a="leaderboard">Global/Friends</button><button class="pill" data-a="acct">Back</button></div><p class="m sm">${esc(msg||'')}</p></div>`}
 async function saveShareSettings(){
  const p={};document.querySelectorAll('[data-share]').forEach(e=>p[e.dataset.share]=e.checked);
+ const audienceEl=document.querySelector('[data-share-audience]:checked');if(audienceEl)ls('satshareaudience',audienceEl.dataset.shareAudience);
  ls('satshareprefs',JSON.stringify(p));FB.socialErr=null;
  try{await cloudPush();if(FB.err)throw FB.err;await publishSocial();showSocialSettings('Sharing preferences saved to your account and synced to Firebase.')}
  catch(e){showSocialSettings('Could not confirm account sync: '+socialErrorText(e)+'. Your changes are still saved on this device; check your connection and try Save sharing again.')}
@@ -1881,6 +1883,7 @@ async function loadLeaderboard(mode='global'){
   snap.forEach(ch=>{
    if(allowed&&!allowed.has(ch.key))return;
    const v=ch.val()||{},x=v.publicStats||{};
+   if(mode!=='friends'&&x.audience==='friends')return;
    if(x.username&&x.share&&Object.values(x.share).some(Boolean)){
     // Only use values whose corresponding sharing toggle is on.
     const clean={id:ch.key,username:x.username,avatar:x.avatar||'',share:x.share||{}};
