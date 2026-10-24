@@ -623,6 +623,26 @@ button.tipsb{padding:8px 13px;font-size:.7rem;box-shadow:0 2px 8px #0003}
 button.tipsb svg{width:17px;height:17px}
 button.hintb{box-shadow:0 2px 8px #0003}
 @media(max-width:700px),(max-height:560px){button.tipsb{width:44px;height:44px;padding:0;margin:16px auto 0}button.tipsb svg{width:22px;height:22px}}
+
+/* Android/tight-screen polish: keep all animations while preventing narrow-screen overflow. */
+@media(max-width:520px){
+ .socialstats{grid-template-columns:minmax(0,1fr);gap:7px}
+ .socialstats label{padding:10px;min-width:0}
+ .podium{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;align-items:stretch}
+ .podium-card,.podium-card.first{padding:9px 3px 8px;transform:none;min-width:0}
+ .podium-card.first .podium-avatar,.podium-avatar{width:32px;height:32px}
+ .podium-name{font-size:clamp(.62rem,2.8vw,.76rem);overflow-wrap:anywhere}
+ .rank-stats{gap:3px}
+ .rank-stat{font-size:.65rem;padding:3px 4px;white-space:normal;overflow-wrap:anywhere}
+ .podium-score{font-size:.7rem;line-height:1.25}
+ .rankrow{grid-template-columns:26px minmax(0,1fr);padding:9px 0;gap:5px}
+ .rank-user{min-width:0;gap:7px}
+ .rank-user-text{min-width:0;overflow-wrap:anywhere}
+ .btns{gap:7px;flex-wrap:wrap}
+ .btns button{max-width:100%;white-space:normal}
+}
+@media(max-width:360px){.podium-place{font-size:1rem}.podium-card .rank-stat{font-size:.6rem}.podium-name{font-size:.62rem}}
+
 </style></head>
 <body>
 <div id="tbar"><span id="tl" style="display:flex;align-items:center;gap:10px"><button class="s" id="hmb" data-a="home" title="Home" aria-label="Home"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg></button><button class="s" id="pdfb" data-a="newfile">English / Math PDFs</button></span><span id="tr"><button class="s gbtn" id="gbtn" data-a="gin" hidden></button><button class="s" id="th" data-a="theme" title="Toggle light / dark" aria-label="Toggle light / dark theme">◐</button><button class="s" id="frb" data-a="friends" title="Friends" aria-label="Friends"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><path d="M16 4.7a3.5 3.5 0 0 1 0 6.6"/><path d="M18 14.8c2 .6 3.2 2.3 3.5 5.2"/></svg></button><div class="mw"><button class="av" id="pfp" data-a="pfp" title="Account" aria-label="Account"></button><span class="unb" id="unb" title="Set a username" hidden>!</span><div id="pm" hidden></div></div></span></div>
@@ -1446,7 +1466,7 @@ function gdraw(){const c=$('#gc');if(!c||!c.clientWidth)return;const w=c.clientW
  else if(ls('satdone')!=='1')showSurvey();else showTitle()})();
 /* ===== Firebase: Google sign-in + progress sync (needs your own hosting; see FIREBASE_CONFIG at the top) ===== */
 var FBres,FB={cfg:!!FIREBASE_CONFIG.apiKey,ready:false,user:null,err:null,m:null,sync:'',t:0,pulling:false,first:new Promise(r=>FBres=r)};
-var SYNC=['satstats','satlog','satsaved','satname','satdone','sattse','sattsm','sattge','sattgm','satbase','sattest','satstudy','satplanon','satcd','satftw','sattests','satvlog','satvsaved','satsess','satsessat'],SCAL=['satname','satdone','sattse','sattsm','sattge','sattgm','satbase','sattest','satstudy','satplanon','satcd','satftw'];
+var SYNC=['satstats','satlog','satsaved','satname','satdone','sattse','sattsm','sattge','sattgm','satbase','sattest','satstudy','satplanon','satcd','satftw','sattests','satvlog','satvsaved','satsess','satsessat','satshareprefs','satshareenabled'],SCAL=['satname','satdone','sattse','sattsm','sattge','sattgm','satbase','sattest','satstudy','satplanon','satcd','satftw'];
 const GSVG='<svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.4 30.2 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.8 6C12.3 13.5 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.4 5.7c4.3-4 6.9-9.9 6.9-17.1z"/><path fill="#FBBC05" d="M10.4 28.8c-.5-1.4-.8-2.9-.8-4.8s.3-3.3.8-4.8l-7.8-6C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.8-6z"/><path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.6l-7.4-5.7c-2 1.4-4.7 2.3-7.8 2.3-6.3 0-11.7-4-13.6-9.7l-7.8 6C6.5 42.6 14.6 48 24 48z"/></svg>';
 function avStyle(){const u=FB.user,photo=FB.avatar||(u&&u.photoURL);return photo?`background-image:url('${esc(photo)}')`:''}
 function fbBlock(){
@@ -1489,6 +1509,8 @@ async function cloudPull(){
    if(d.sattests){const have=new Set(tests.map(x=>x.id));(J(d.sattests)||[]).forEach(x=>{if(!have.has(x.id))tests.push(x)});tests.sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0);saveTests()}
    const cm=+D.mod||0,lm=+localStorage.getItem('satmod')||0;
    for(const k of SCAL){if(d[k]!=null){if(ls(k)==null||cm>lm)localStorage.setItem(k,d[k])}else if(cm>lm&&(k==='sattest'||k==='satstudy'))localStorage.removeItem(k)}
+   // Privacy choices are account settings, not device-only preferences.
+   for(const k of ['satshareprefs','satshareenabled']){if(d[k]!=null)localStorage.setItem(k,d[k])}
    if(cm>lm)localStorage.setItem('satmod',String(cm));
    {const rs=+d.satsessat||0,lsa=+localStorage.getItem('satsessat')||0;/* newest 'continue practicing' session wins, including it being finished or discarded */
     if(rs>lsa){if(d.satsess!=null)localStorage.setItem('satsess',d.satsess);else localStorage.removeItem('satsess');localStorage.setItem('satsessat',String(rs))}}
@@ -1785,8 +1807,8 @@ function showSocialSettings(msg){if(!FB.user){showFriends('Sign in to manage sha
 async function saveShareSettings(){
  const p={};document.querySelectorAll('[data-share]').forEach(e=>p[e.dataset.share]=e.checked);
  ls('satshareprefs',JSON.stringify(p));FB.socialErr=null;
- try{await publishSocial();showSocialSettings('Sharing preferences saved to Firebase.')}
- catch(e){showSocialSettings('Saved on this device, but Firebase failed: '+socialErrorText(e)+'. Check your Realtime Database rules and sign-in status.')}
+ try{await cloudPush();if(FB.err)throw FB.err;await publishSocial();showSocialSettings('Sharing preferences saved to your account and synced to Firebase.')}
+ catch(e){showSocialSettings('Could not confirm account sync: '+socialErrorText(e)+'. Your changes are still saved on this device; check your connection and try Save sharing again.')}
 }
 function showLeaderboard(msg,mode='global'){clearInterval(S.tick);S.done=true;document.body.dataset.q='';app.innerHTML=`<div class="card c left"><h1>${mode==='friends'?'Friends ranking':'Global ranking'}</h1><p class="m">Compare only statistics each person chose to share. You can switch between everyone and just your friends.</p><div class="btns" style="margin:10px 0 14px"><button class="${mode==='global'?'p ':''}pill" data-a="leaderboard">Global</button><button class="${mode==='friends'?'p ':''}pill" data-a="leaderboardfriends">Friends only</button></div><div class="m sm" id="lbmsg">${esc(msg||'Loading rankings…')}</div><div id="lbrows"></div><div class="btns"><button class="s" data-a="socialsettings">Sharing settings</button><button class="pill" data-a="acct">Back</button></div></div>`;loadLeaderboard(mode)}
 async function loadLeaderboard(mode='global'){
