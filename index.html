@@ -1120,6 +1120,7 @@ function showSettings(){clearInterval(S.tick);S.done=true;document.body.dataset.
  ${tg('strem',ls('satreminders')!=='0','Daily practice notifications','A gentle SAT QB+ reminder on your planned study days, only if you have not practiced yet that day. Requires notification permission and a working WebToApp notification bridge.')}
  <label class="row"><span class="t"><b>Remind me every</b><span class="m sm">Checks every 30 seconds while SAT QB+ is open and sends when your selected interval has elapsed. Checks pause when Android suspends the app.</span></span><select id="streminterval" class="s" style="max-width:140px">${[1,2,3,4,6,8,12,24].map(v=>`<option value="${v}"${v===(parseInt(ls('satremindinterval')||'4',10))?' selected':''}>${v===1?'1 hour':v+' hours'}</option>`).join('')}</select></label>
  <p class="m sm" id="stremstatus" style="margin:0">Checking notification permission… Reminders run while SAT QB+ is open. Delivery while the app is closed depends on WebToApp's notification integration.</p>${(FB.user&&FB.user.uid==='IfdVmdLQphOyvwvOjsnEkUSOHlL2'&&String(FB.un||'').toLowerCase()==='a')?'<button class="pill" type="button" id="stremtest" style="margin-top:8px">Send test notification</button>':''}
+ ${(FB.user&&FB.user.uid==='IfdVmdLQphOyvwvOjsnEkUSOHlL2'&&String(FB.un||'').toLowerCase()==='a')?'<p class="m sm" id="stfcm" style="margin:8px 0 0;word-break:break-all">FCM token: checking…</p><button class="pill" type="button" id="stfcmcopy" style="margin-top:8px;display:none">Copy FCM token</button>':''}
  <div class="sec">Practice setup screen</div>
  <label class="row"><span class="t"><b>Practice from / Section</b><span class="m sm">These two filters ask almost the same thing. Choose which one to show.</span></span><select id="stdup"><option value="nobank">Section only</option><option value="nosec">Practice from only</option><option value="both">Show both</option></select></label>
  <div class="sec">Hints</div>
@@ -2793,5 +2794,41 @@ document.addEventListener('change',e=>{const t=e.target;if(t.id==='stgr')ls('sat
  window.addEventListener('FlutterFcmToken',()=>{satUpdateNotificationStatus();if(satNotificationPermissionState()==='granted')checkReminder()});
  // Check permission automatically on startup; don't require a separate "check permission" button.
  setTimeout(()=>{satUpdateNotificationStatus();satAutoRequestNotificationPermission()},700);
+})();
+
+/* ---------- FCM token: read it from the app wrapper, show it to the developer, save it for server-side reminders ---------- */
+(function initFcmToken(){
+ let tok='',err='';
+ function fromObj(o){if(!o)return '';if(typeof o==='string')return o;return String(o.token||o.fcmToken||o.registrationToken||'')}
+ function detect(){
+  try{const F=window.FlutterFcm;if(F){const t=fromObj(F);if(t&&t.length>20)tok=t}}catch(_){}
+ }
+ async function save(){
+  try{
+   if(!tok||!FB||!FB.user||!FB.ready||!FB.m)return;
+   const mark=FB.user.uid+':'+tok;if(ls('satfcmsaved')===mark)return;
+   await FB.m.Db.set(FB.m.Db.ref(FB.db,'users/'+FB.user.uid+'/fcmToken'),tok);
+   ls('satfcmsaved',mark);err='';
+  }catch(e){err=(e&&(e.code||e.message))||'save failed'}
+ }
+ function paint(){
+  const el=document.getElementById('stfcm'),btn=document.getElementById('stfcmcopy');if(!el)return;
+  let keys='';try{keys=window.FlutterFcm?Object.keys(window.FlutterFcm).join(', '):''}catch(_){}
+  if(tok){
+   const saved=FB&&FB.user&&ls('satfcmsaved')===FB.user.uid+':'+tok;
+   el.textContent='FCM token found: '+tok.slice(0,12)+'…'+tok.slice(-6)+(saved?' (saved to your account)':err?' (could not save: '+err+')':FB&&FB.user?' (saving…)':' (sign in to save it)');
+   if(btn)btn.style.display='';
+  }else{
+   el.textContent=window.FlutterFcm?'window.FlutterFcm exists but no token was found. Properties: '+(keys||'none'):'window.FlutterFcm not found. This app wrapper is not exposing an FCM token to the page.';
+   if(btn)btn.style.display='none';
+  }
+ }
+ async function tick(){detect();await save();paint()}
+ window.addEventListener('FlutterFcmToken',e=>{try{const t=fromObj(e&&e.detail);if(t&&t.length>20)tok=t}catch(_){}tick()});
+ document.addEventListener('click',e=>{
+  const b=e.target.closest('#stfcmcopy');if(!b||!tok)return;
+  try{navigator.clipboard.writeText(tok).then(()=>{b.textContent='Copied'},()=>{b.textContent='Copy failed'})}catch(_){b.textContent='Copy failed'}
+ });
+ setInterval(tick,3000);setTimeout(tick,1500);
 })();
 </script></body></html>
