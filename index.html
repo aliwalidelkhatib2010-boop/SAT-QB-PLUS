@@ -1049,7 +1049,7 @@ const SV=[
  ()=>`<h1>Do you want vocab practice?</h1><p class="m" style="margin:0">Vocab practice adds a Vocab button with word quizzes, your own word list, and a Prefixes &amp; word clues lesson. You can change both of these later in Settings.</p>
   <label class="tgl" style="color:var(--tx);align-items:flex-start"><input type="checkbox" id="stvc" ${vcOn()?'checked':''} style="margin-top:5px"><span><b>Vocab practice</b><br><span class="m sm">Show the Vocab button on the home screen.</span></span></label>
   <label class="tgl" style="color:var(--tx);align-items:flex-start"><input type="checkbox" id="stvcb" ${vcBankOn()?'checked':''} style="margin-top:5px"><span><b>Add vocab questions to the question bank</b><br><span class="m sm">Mixes vocab questions in with your regular practice questions. Off is fine if you only want to practice vocab on its own.</span></span></label>`];
-function saveSv(){const onboardShares=[...document.querySelectorAll('[data-onboard-share]')];if(onboardShares.length){const p={};onboardShares.forEach(e=>p[e.dataset.onboardShare]=e.checked);ls('satshareprefs',JSON.stringify(p));const en=$('#onboard-share-enabled');if(en)ls('satshareenabled',en.checked?'1':'0')}const td=$('#ttd');if(td)ls('sattest',td.value||null);const sd=document.querySelectorAll('.sdchk');if(sd.length){const dy=[...sd].filter(x=>x.checked).map(x=>+x.value);ls('satstudy',JSON.stringify({days:dy.length?dy:[1,2,3,4,5],mins:+(($('#smin')||{}).value)||45}))}const pl=$('#stpl');if(pl)ls('satplanon',pl.checked?'1':'0');const fw=$('#stftw');if(fw)ls('satftw',fw.value);const rem=$('#strem');if(rem)ls('satreminders',rem.checked?'1':'0');const remt=$('#stremtime');if(remt&&/^([01]\d|2[0-3]):[0-5]\d$/.test(remt.value))ls('satremindertime',remt.value);const cdb=$('#stcd');if(cdb)ls('satcd',cdb.checked?'1':'0');const du=$('#stdup');if(du)ls('satdup',du.value);const wz=$('#stwz');if(wz)ls('satwiz',wz.checked?'1':'0');const en=$('#sten');if(en)ls('satenter',en.checked?'1':'0');const sw1=$('#stsw');if(sw1)ls('satsw',sw1.checked?'1':'0');const sw2=$('#stswa');if(sw2)ls('satswa',sw2.checked?'1':'0');const sa=$('#stsa');if(sa)ls('satstartall',sa.checked?'1':'0');const g=id=>{const e=$('#'+id);return e?e.value:null},nm=g('sn');if(nm!==null)ls('satname',nm.trim()||null);
+function saveSv(){const onboardShares=[...document.querySelectorAll('[data-onboard-share]')];if(onboardShares.length){const p={};onboardShares.forEach(e=>p[e.dataset.onboardShare]=e.checked);ls('satshareprefs',JSON.stringify(p));const en=$('#onboard-share-enabled');if(en)ls('satshareenabled',en.checked?'1':'0')}const td=$('#ttd');if(td)ls('sattest',td.value||null);const sd=document.querySelectorAll('.sdchk');if(sd.length){const dy=[...sd].filter(x=>x.checked).map(x=>+x.value);ls('satstudy',JSON.stringify({days:dy.length?dy:[1,2,3,4,5],mins:+(($('#smin')||{}).value)||45}))}const pl=$('#stpl');if(pl)ls('satplanon',pl.checked?'1':'0');const fw=$('#stftw');if(fw)ls('satftw',fw.value);const rem=$('#strem');if(rem)ls('satreminders',rem.checked?'1':'0');const remt=$('#stremtime');if(remt&&/^([01]\d|2[0-3]):[0-5]\d$/.test(remt.value))ls('satremindinterval',remt.value);const cdb=$('#stcd');if(cdb)ls('satcd',cdb.checked?'1':'0');const du=$('#stdup');if(du)ls('satdup',du.value);const wz=$('#stwz');if(wz)ls('satwiz',wz.checked?'1':'0');const en=$('#sten');if(en)ls('satenter',en.checked?'1':'0');const sw1=$('#stsw');if(sw1)ls('satsw',sw1.checked?'1':'0');const sw2=$('#stswa');if(sw2)ls('satswa',sw2.checked?'1':'0');const sa=$('#stsa');if(sa)ls('satstartall',sa.checked?'1':'0');const g=id=>{const e=$('#'+id);return e?e.value:null},nm=g('sn');if(nm!==null)ls('satname',nm.trim()||null);
  for(const[id,K]of[['tse','sattse'],['tsm','sattsm'],['tge','sattge'],['tgm','sattgm']]){const v=g(id);if(v===null)continue;let x=Math.round(+v/10)*10;x=x?Math.min(800,Math.max(200,x)):0;const old=+ls(K)||0;ls(K,x?String(x):null);if((K==='sattse'||K==='sattsm')&&x!==old)ls('satbase',String(Date.now()))}}
 function showSurvey(step=0){clearInterval(S.tick);S.done=true;S.sv=step;document.body.dataset.q='';
  app.innerHTML=`<div class="ttl"><div class="logo">SAT</div><div class="card" style="width:100%;text-align:left;display:flex;flex-direction:column;gap:14px;margin:0">${SV[step]()}<div class="m sm">Step ${step+1} of 7</div><div class="btns" style="justify-content:flex-start">${step?'<button class="pill" data-a="svb">Back</button>':''}<button class="p pill" data-a="svn">${step<6?'Next':'Finish'}</button></div></div></div>`;
@@ -1118,8 +1118,8 @@ function showSettings(){clearInterval(S.tick);S.done=true;document.body.dataset.
  <label class="row"><span class="t"><b>Full practice tests per week</b><span class="m sm">How many full tests your study plan schedules each week. Choose 0 to turn them off.</span></span><select id="stftw">${[0,1,2,3,4].map(v=>`<option value="${v}"${v===(ls('satftw')==null?1:+ls('satftw'))?' selected':''}>${v}</option>`).join('')}</select></label>
  <div class="sec">Daily practice reminders</div>
  ${tg('strem',ls('satreminders')!=='0','Daily practice notifications','A gentle SAT QB+ reminder on your planned study days, only if you have not practiced yet that day. Notifications require permission from your browser.')}
- <label class="row"><span class="t"><b>Reminder time</b><span class="m sm">Uses your device’s local time. Follows the study days selected in your Calendar / study plan.</span></span><input id="stremtime" type="time" class="s" value="${/^([01]\d|2[0-3]):[0-5]\d$/.test(ls('satremindertime')||'')?ls('satremindertime'):'18:00'}" style="max-width:140px"></label>
- <p class="m sm" id="stremstatus" style="margin:0">${('Notification' in window)?(Notification.permission==='granted'?'Notification permission is allowed.':Notification.permission==='denied'?'Notifications are blocked in browser settings.':'Permission has not been granted yet.'):'This Android WebView may not expose browser notifications. The app wrapper may need native notification support.'} Reminders can run while SAT QB+ is open. Notifications while it is closed require native Android scheduled notifications or a properly configured push service.</p><button class="pill" type="button" id="strempermission">Enable notification permission</button>
+ <label class="row"><span class="t"><b>Remind me every</b><span class="m sm">Repeats at this interval while SAT QB+ is running. The first reminder starts after the selected interval.</span></span><select id="streminterval" class="s" style="max-width:140px">${[1,2,3,4,6,8,12,24].map(v=>`<option value="${v}"${v===(parseInt(ls('satremindinterval')||'4',10))?' selected':''}>${v===1?'1 hour':v+' hours'}</option>`).join('')}</select></label>
+ <p class="m sm" id="stremstatus" style="margin:0">Checking notification permission… Reminders run while SAT QB+ is open. Delivery while the app is closed depends on WebToApp's notification integration.</p>${(FB.user&&FB.user.uid==='IfdVmdLQphOyvwvOjsnEkUSOHlL2'&&String(FB.un||'').toLowerCase()==='a')?'<button class="pill" type="button" id="stremtest" style="margin-top:8px">Send test notification</button>':''}
  <div class="sec">Practice setup screen</div>
  <label class="row"><span class="t"><b>Practice from / Section</b><span class="m sm">These two filters ask almost the same thing. Choose which one to show.</span></span><select id="stdup"><option value="nobank">Section only</option><option value="nosec">Practice from only</option><option value="both">Show both</option></select></label>
  <div class="sec">Hints</div>
@@ -1154,18 +1154,48 @@ async function satSendNotification(title,body){
  return false;
 }
 document.addEventListener('click',async e=>{
- const b=e.target.closest('#strempermission');if(!b)return;
+ const b=e.target.closest('#stremtest');if(!b)return;
+ // Test notification is intentionally limited to the developer account while its username is @a.
+ if(!FB.user||FB.user.uid!=='IfdVmdLQphOyvwvOjsnEkUSOHlL2'||String(FB.un||'').toLowerCase()!=='a')return;
  const status=document.getElementById('stremstatus');
- const perm=await satAskNotificationPermission();
- if(perm==='granted'||perm&&perm.display==='granted'||perm&&perm.receive==='granted'){
-  ls('satreminders','1');const t=document.getElementById('strem');if(t)t.checked=true;
-  if(status)status.textContent=satNativeNotificationAvailable()?'Native notification support detected. Reminders can use the app notification bridge. Closed-app reminders still require native scheduling in the wrapper.':'Permission granted. Browser reminders can run while SAT QB+ is open.';
-  if(window.SATQBCheckReminder)window.SATQBCheckReminder();
- }else if(status){status.textContent=perm==='denied'?'Notifications are blocked. Allow them in Android app settings.':perm==='unsupported'?'This WebView has no notification API or recognized native notification() bridge. Enable notifications in your app wrapper.':'Permission could not be confirmed. Check Android notification permission and wrapper support.';}
+ const ok=await satSendNotification('SAT QB+ test notification 🔔','Notifications are working on this device.');
+ if(status)status.textContent=ok?'Test notification sent. Check your notification shade.':'Could not send a test notification. Check WebToApp notification support and Android permission.';
 });
+function satNotificationPermissionState(){
+ try{
+  if(window.FlutterFcm&&window.FlutterFcm.permission){const p=String(window.FlutterFcm.permission).toLowerCase();if(p==='authorized'||p==='provisional'||p==='granted')return 'granted';if(p==='denied')return 'denied';}
+  if(window.Android&&typeof window.Android.hasNotificationPermission==='function')return window.Android.hasNotificationPermission()?'granted':'denied';
+  if(window.Android&&typeof window.Android.getNotificationPermissionState==='function')return String(window.Android.getNotificationPermissionState()).toLowerCase();
+  if('Notification' in window)return Notification.permission;
+  return satNativeNotificationAvailable()?'granted':'unsupported';
+ }catch(_){return 'unknown'}
+}
+function satUpdateNotificationStatus(message){
+ const status=document.getElementById('stremstatus');if(!status)return;
+ if(message){status.textContent=message;return;}
+ const p=satNotificationPermissionState();
+ status.textContent=p==='granted'?'Notifications are enabled. SAT QB+ will send reminders at your selected interval while it is running.':p==='denied'?'Notifications are blocked by device/app settings. Allow them in Android Settings to receive reminders.':p==='default'?'Notification permission has not been granted yet. SAT QB+ will request it automatically when supported.':'Notification status could not be confirmed in this WebView. Check WebToApp notification integration.';
+}
+async function satAutoRequestNotificationPermission(){
+ try{
+  if(ls('satreminders')==='0')return;
+  const state=satNotificationPermissionState();
+  if(state==='granted'){ls('satreminders','1');satUpdateNotificationStatus();if(window.SATQBCheckReminder)window.SATQBCheckReminder();return;}
+  if(state==='denied'||state==='unsupported') {satUpdateNotificationStatus();return;}
+  // Avoid repeatedly triggering permission prompts. Browser engines may require a user gesture;
+  // WebToApp/native wrappers can handle this request if they expose a permission bridge.
+  if(ls('satrempermissionasked')==='1'){satUpdateNotificationStatus();return;}
+  ls('satrempermissionasked','1');
+  const perm=await satAskNotificationPermission();
+  const granted=perm==='granted'||perm==='authorized'||perm==='provisional'||!!(perm&&perm.display==='granted')||!!(perm&&perm.receive==='granted');
+  if(granted){ls('satreminders','1');if(window.SATQBCheckReminder)window.SATQBCheckReminder();satUpdateNotificationStatus('Notifications are enabled. SAT QB+ will send reminders at your selected interval while it is running.');}
+  else satUpdateNotificationStatus(perm==='denied'?'Notifications are blocked by device/app settings. Allow them in Android Settings.':'Permission prompt was not available automatically in this WebView.');
+ }catch(_){satUpdateNotificationStatus()}
+}
 document.addEventListener('change',async e=>{
  if(e.target.id==='stdup')ls('satdup',e.target.value);
- if(e.target.id==='strem'){ls('satreminders',e.target.checked?'1':'0')}
+ if(e.target.id==='strem'){ls('satreminders',e.target.checked?'1':'0');if(e.target.checked&&!ls('satreminderlastcheck'))ls('satreminderlastcheck',String(Date.now()))}
+ if(e.target.id==='streminterval'){ls('satremindinterval',String(Math.max(1,Math.min(24,parseInt(e.target.value,10)||4))));ls('satreminderlastcheck',String(Date.now()));ls('satremindersent','')}
  if(e.target.id==='strem'&&e.target.checked){
   const status=document.getElementById('stremstatus'),perm=await satAskNotificationPermission();
   const granted=perm==='granted'||!!(perm&&perm.display==='granted')||!!(perm&&perm.receive==='granted');
@@ -1537,7 +1567,7 @@ function gdraw(){const c=$('#gc');if(!c||!c.clientWidth)return;const w=c.clientW
  else if(ls('satdone')!=='1')showSurvey();else showTitle()})();
 /* ===== Firebase: Google sign-in + progress sync (needs your own hosting; see FIREBASE_CONFIG at the top) ===== */
 var FBres,FB={cfg:!!FIREBASE_CONFIG.apiKey,ready:false,user:null,err:null,m:null,sync:'',t:0,pulling:false,first:new Promise(r=>FBres=r)};
-var SYNC=['satnotes','satstats','satlog','satsaved','satname','satdone','sattse','sattsm','sattge','sattgm','satbase','sattest','satstudy','satplanon','satcd','satftw','sattests','satvlog','satvsaved','satsess','satsessat','satshareprefs','satshareenabled','satreminders','satremindertime'],SCAL=['satname','satdone','sattse','sattsm','sattge','sattgm','satbase','sattest','satstudy','satplanon','satcd','satftw','satreminders','satremindertime'];
+var SYNC=['satnotes','satstats','satlog','satsaved','satname','satdone','sattse','sattsm','sattge','sattgm','satbase','sattest','satstudy','satplanon','satcd','satftw','sattests','satvlog','satvsaved','satsess','satsessat','satshareprefs','satshareenabled','satreminders','satremindinterval'],SCAL=['satname','satdone','sattse','sattsm','sattge','sattgm','satbase','sattest','satstudy','satplanon','satcd','satftw','satreminders','satremindinterval'];
 const GSVG='<svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.4 30.2 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.8 6C12.3 13.5 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.4 5.7c4.3-4 6.9-9.9 6.9-17.1z"/><path fill="#FBBC05" d="M10.4 28.8c-.5-1.4-.8-2.9-.8-4.8s.3-3.3.8-4.8l-7.8-6C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.8-6z"/><path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.6l-7.4-5.7c-2 1.4-4.7 2.3-7.8 2.3-6.3 0-11.7-4-13.6-9.7l-7.8 6C6.5 42.6 14.6 48 24 48z"/></svg>';
 function avStyle(){const u=FB.user,photo=FB.avatar||(u&&u.photoURL);return photo?`background-image:url('${esc(photo)}')`:''}
 function fbBlock(){
@@ -2735,23 +2765,27 @@ document.addEventListener('change',e=>{const t=e.target;if(t.id==='stgr')ls('sat
    if(ls('satreminders')!=='1')return;
    const nativeReady=satNativeNotificationAvailable();
    if(!nativeReady&&(!('Notification' in window)||Notification.permission!=='granted'))return;
-   const now=new Date(),key=dayKey(now),time=/^([01]\d|2[0-3]):[0-5]\d$/.test(ls('satremindertime')||'')?ls('satremindertime'):'18:00';
-   if(ls('satremindersent')===key||practicedToday(now))return;
+   const now=Date.now(),interval=Math.max(1,Math.min(24,parseInt(ls('satremindinterval')||'4',10)||4))*60*60*1000;
+   let last=Number(ls('satreminderlastsent')||0);
+   if(!last){ls('satreminderlastsent',String(now));return;}
+   if(now-last<interval)return;
    const cfg=reminderConfig(),days=Array.isArray(cfg.days)&&cfg.days.length?cfg.days:[1,2,3,4,5];
-   if(!days.includes(now.getDay()))return;
-   const testDate=ls('sattest');if(testDate){const d=new Date(testDate+'T23:59:59');if(!isNaN(+d)&&now>d)return}
-   const parts=time.split(':').map(Number);if(now.getHours()<parts[0]||(now.getHours()===parts[0]&&now.getMinutes()<parts[1]))return;
+   if(!days.includes(new Date(now).getDay()))return;
+   const testDate=ls('sattest');if(testDate){const d=new Date(testDate+'T23:59:59');if(!isNaN(+d)&&new Date(now)>d)return}
    const messages=[
     ['Your SAT streak is waiting 📚','A little practice today goes a long way. Ready for a quick SAT session?'],
     ['Psst… SAT QB+ time 👀','Your study plan says today is a study day. Let’s get a few questions done.'],
     ['Future-you says thanks ✨','Even a short practice session counts. Open SAT QB+ and keep moving toward your goal.'],
     ['Quick SAT check-in 🎯','Got a few minutes? Your next practice session is ready when you are.']
    ];
-   const m=messages[Math.floor((now.getDate()+now.getMonth())%messages.length)];
-   satSendNotification(m[0],m[1]).then(ok=>{if(ok)ls('satremindersent',key)});
+   const m=messages[Math.floor(Math.random()*messages.length)];
+   satSendNotification(m[0],m[1]).then(ok=>{if(ok)ls('satreminderlastsent',String(Date.now()))});
   }catch(_){/* notification support varies by browser / WebToApp */}
  }
- checkReminder();setInterval(checkReminder,60000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkReminder()});
+ checkReminder();setInterval(checkReminder,60000);document.addEventListener('visibilitychange',()=>{if(!document.hidden){satUpdateNotificationStatus();checkReminder()}});
  window.SATQBCheckReminder=checkReminder;
+ window.addEventListener('FlutterFcmToken',()=>{satUpdateNotificationStatus();if(satNotificationPermissionState()==='granted')checkReminder()});
+ // Check permission automatically on startup; don't require a separate "check permission" button.
+ setTimeout(()=>{satUpdateNotificationStatus();satAutoRequestNotificationPermission()},700);
 })();
 </script></body></html>
