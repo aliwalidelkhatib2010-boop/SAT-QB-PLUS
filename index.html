@@ -1127,23 +1127,50 @@ function showSettings(){clearInterval(S.tick);S.done=true;document.body.dataset.
  <p class="m sm tipp">Tip: use A&minus; / A+ while practicing to change the text size.</p>
  <div class="btns" style="margin-top:14px"><button class="p pill" data-a="svs">Save</button><button class="pill" data-a="navback">Back</button></div></div>`;
  $('#stdup').value=ls('satdup')||'nobank'}
+// Android WebView notification bridge. WebToApp builds differ, so support common bridge names.
+function satNativeNotificationAvailable(){
+ return !!((window.Android && (typeof window.Android.notification==='function'||typeof window.Android.showNotification==='function'||typeof window.Android.notify==='function')) || typeof window.notification==='function' || (window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.LocalNotifications));
+}
+async function satAskNotificationPermission(){
+ try{
+  if(window.Android&&typeof window.Android.requestNotificationPermission==='function')return await window.Android.requestNotificationPermission();
+  if(window.Android&&typeof window.Android.requestNotificationsPermission==='function')return await window.Android.requestNotificationsPermission();
+  const cap=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.LocalNotifications;
+  if(cap&&typeof cap.requestPermissions==='function')return await cap.requestPermissions();
+  if('Notification' in window){if(Notification.permission==='default')return await Notification.requestPermission();return Notification.permission;}
+  return satNativeNotificationAvailable()?'granted':'unsupported';
+ }catch(_){return 'error'}
+}
+async function satSendNotification(title,body){
+ try{
+  if(window.Android&&typeof window.Android.notification==='function'){window.Android.notification(title,body);return true;}
+  if(window.Android&&typeof window.Android.showNotification==='function'){window.Android.showNotification(title,body);return true;}
+  if(window.Android&&typeof window.Android.notify==='function'){window.Android.notify(title,body);return true;}
+  if(typeof window.notification==='function'){window.notification(title,body);return true;}
+  const cap=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.LocalNotifications;
+  if(cap&&typeof cap.schedule==='function'){await cap.schedule({notifications:[{id:Math.floor(Date.now()%2147483000),title,body}]});return true;}
+  if('Notification' in window&&Notification.permission==='granted'){const n=new Notification(title,{body,tag:'satqbplus-daily-practice',renotify:false});n.onclick=()=>{try{window.focus()}catch(_){}n.close()};return true;}
+ }catch(_){}
+ return false;
+}
 document.addEventListener('click',async e=>{
  const b=e.target.closest('#strempermission');if(!b)return;
  const status=document.getElementById('stremstatus');
- if(!('Notification' in window)){if(status)status.textContent='This Android WebView does not expose the Notification API. Browser HTML cannot grant Android notification permission; the WebToApp wrapper must add native notification support.';return}
- try{const perm=Notification.permission==='default'?await Notification.requestPermission():Notification.permission;if(perm==='granted'){ls('satreminders','1');const t=document.getElementById('strem');if(t)t.checked=true;if(status)status.textContent='Permission granted. Reminders are enabled while SAT QB+ is open.';if(window.SATQBCheckReminder)window.SATQBCheckReminder()}else{if(status)status.textContent=perm==='denied'?'Notifications are blocked. Allow them in Android app settings or site settings.':'Permission was not granted. Reminders stay enabled as a preference, but notifications cannot appear until permission is granted.'}}catch(_){if(status)status.textContent='Permission request failed in this WebView. Native notification permission support may need to be added to the Android wrapper.'}
+ const perm=await satAskNotificationPermission();
+ if(perm==='granted'||perm&&perm.display==='granted'||perm&&perm.receive==='granted'){
+  ls('satreminders','1');const t=document.getElementById('strem');if(t)t.checked=true;
+  if(status)status.textContent=satNativeNotificationAvailable()?'Native notification support detected. Reminders can use the app notification bridge. Closed-app reminders still require native scheduling in the wrapper.':'Permission granted. Browser reminders can run while SAT QB+ is open.';
+  if(window.SATQBCheckReminder)window.SATQBCheckReminder();
+ }else if(status){status.textContent=perm==='denied'?'Notifications are blocked. Allow them in Android app settings.':perm==='unsupported'?'This WebView has no notification API or recognized native notification() bridge. Enable notifications in your app wrapper.':'Permission could not be confirmed. Check Android notification permission and wrapper support.';}
 });
 document.addEventListener('change',async e=>{
  if(e.target.id==='stdup')ls('satdup',e.target.value);
  if(e.target.id==='strem'){ls('satreminders',e.target.checked?'1':'0')}
  if(e.target.id==='strem'&&e.target.checked){
-  const status=document.getElementById('stremstatus');
-  if(!('Notification' in window)){e.target.checked=false;if(status)status.textContent='This browser does not support notifications.';return}
-  if(Notification.permission==='default'){
-   try{const perm=await Notification.requestPermission();if(perm!=='granted'){e.target.checked=false;if(status)status.textContent=perm==='denied'?'Notifications were blocked. Allow them in your browser settings, then try again.':'Permission was not granted, so reminders remain off.'}}
-   catch(_){e.target.checked=false;if(status)status.textContent='Could not request notification permission in this browser.'}
-  }else if(Notification.permission==='denied'){e.target.checked=false;if(status)status.textContent='Notifications are blocked in browser settings. Allow them there before enabling reminders.'}
-  else if(status)status.textContent='Browser notifications are allowed. Reminders follow your selected study days and only appear if you have not practiced that day.';
+  const status=document.getElementById('stremstatus'),perm=await satAskNotificationPermission();
+  const granted=perm==='granted'||!!(perm&&perm.display==='granted')||!!(perm&&perm.receive==='granted');
+  if(!granted){e.target.checked=false;ls('satreminders','0');if(status)status.textContent=perm==='denied'?'Notifications are blocked. Allow them in Android app settings, then try again.':perm==='unsupported'?'This WebView needs a native notification() bridge from the app wrapper.':'Could not confirm notification permission. Check Android app settings.';}
+  else if(status)status.textContent=satNativeNotificationAvailable()?'Native notification support detected.':'Browser notification permission is allowed; reminders run while the app is open.';
  }
 });
 new MutationObserver(pfpUpdate).observe(app,{childList:true});pfpUpdate();
@@ -2696,7 +2723,8 @@ function grBankQs(){const out=[],L='ABCD',dm='Standard English Conventions';
  grOwn().forEach(q=>{if(q.o.length<2||q.o.length>4)return;out.push(mk('u'+vcHash(q.q),'Form, Structure, and Sense',q.q,q.o,q.a,q.e))});return out}
 document.addEventListener('change',e=>{const t=e.target;if(t.id==='stgr')ls('satgron',t.checked?'1':'0');else if(t.id==='stgrb'||t.id==='grbk'){ls('satgrbank',t.checked?'1':'0');vcBankSync()}});
 /* ---------- daily SAT practice reminders ----------
-   Browser-only delivery: checks while this page is open. Closed-page delivery needs a push service. */
+   Uses common Android notification() bridges when exposed; otherwise browser notifications.
+   Checks while page is open. Reliable closed-app reminders require native scheduled notifications. */
 (function initDailyPracticeReminders(){
  try{if(ls('satreminders')==null)ls('satreminders','1')}catch(_){}
  const dayKey=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
@@ -2704,7 +2732,9 @@ document.addEventListener('change',e=>{const t=e.target;if(t.id==='stgr')ls('sat
  function practicedToday(now){let L=[];try{L=JSON.parse(ls('satlog')||'[]')}catch(_){}const key=dayKey(now);return Array.isArray(L)&&L.some(x=>x&&x.length>2&&dayKey(new Date(+x[2]))===key)}
  function checkReminder(){
   try{
-   if(ls('satreminders')!=='1'||!('Notification' in window)||Notification.permission!=='granted')return;
+   if(ls('satreminders')!=='1')return;
+   const nativeReady=satNativeNotificationAvailable();
+   if(!nativeReady&&(!('Notification' in window)||Notification.permission!=='granted'))return;
    const now=new Date(),key=dayKey(now),time=/^([01]\d|2[0-3]):[0-5]\d$/.test(ls('satremindertime')||'')?ls('satremindertime'):'18:00';
    if(ls('satremindersent')===key||practicedToday(now))return;
    const cfg=reminderConfig(),days=Array.isArray(cfg.days)&&cfg.days.length?cfg.days:[1,2,3,4,5];
@@ -2718,8 +2748,7 @@ document.addEventListener('change',e=>{const t=e.target;if(t.id==='stgr')ls('sat
     ['Quick SAT check-in 🎯','Got a few minutes? Your next practice session is ready when you are.']
    ];
    const m=messages[Math.floor((now.getDate()+now.getMonth())%messages.length)];
-   const n=new Notification(m[0],{body:m[1],tag:'satqbplus-daily-practice',renotify:false});
-   ls('satremindersent',key);n.onclick=()=>{try{window.focus()}catch(_){}n.close()};
+   satSendNotification(m[0],m[1]).then(ok=>{if(ok)ls('satremindersent',key)});
   }catch(_){/* notification support varies by browser / WebToApp */}
  }
  checkReminder();setInterval(checkReminder,60000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkReminder()});
