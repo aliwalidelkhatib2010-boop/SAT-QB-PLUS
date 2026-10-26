@@ -1117,8 +1117,8 @@ function showSettings(){clearInterval(S.tick);S.done=true;document.body.dataset.
  ${tg('stcd',ls('satcd')!=='0','Countdown on the home screen','Shows how many days are left until your test. You can turn this off and keep the Calendar.')}
  <label class="row"><span class="t"><b>Full practice tests per week</b><span class="m sm">How many full tests your study plan schedules each week. Choose 0 to turn them off.</span></span><select id="stftw">${[0,1,2,3,4].map(v=>`<option value="${v}"${v===(ls('satftw')==null?1:+ls('satftw'))?' selected':''}>${v}</option>`).join('')}</select></label>
  <div class="sec">Daily practice reminders</div>
- ${tg('strem',ls('satreminders')!=='0','Daily practice notifications','A gentle SAT QB+ reminder on your planned study days, only if you have not practiced yet that day. Notifications require permission from your browser.')}
- <label class="row"><span class="t"><b>Remind me every</b><span class="m sm">Repeats at this interval while SAT QB+ is running. The first reminder starts after the selected interval.</span></span><select id="streminterval" class="s" style="max-width:140px">${[1,2,3,4,6,8,12,24].map(v=>`<option value="${v}"${v===(parseInt(ls('satremindinterval')||'4',10))?' selected':''}>${v===1?'1 hour':v+' hours'}</option>`).join('')}</select></label>
+ ${tg('strem',ls('satreminders')!=='0','Daily practice notifications','A gentle SAT QB+ reminder on your planned study days, only if you have not practiced yet that day. Requires notification permission and a working WebToApp notification bridge.')}
+ <label class="row"><span class="t"><b>Remind me every</b><span class="m sm">Checks every 30 seconds while SAT QB+ is open and sends when your selected interval has elapsed. Checks pause when Android suspends the app.</span></span><select id="streminterval" class="s" style="max-width:140px">${[1,2,3,4,6,8,12,24].map(v=>`<option value="${v}"${v===(parseInt(ls('satremindinterval')||'4',10))?' selected':''}>${v===1?'1 hour':v+' hours'}</option>`).join('')}</select></label>
  <p class="m sm" id="stremstatus" style="margin:0">Checking notification permission… Reminders run while SAT QB+ is open. Delivery while the app is closed depends on WebToApp's notification integration.</p>${(FB.user&&FB.user.uid==='IfdVmdLQphOyvwvOjsnEkUSOHlL2'&&String(FB.un||'').toLowerCase()==='a')?'<button class="pill" type="button" id="stremtest" style="margin-top:8px">Send test notification</button>':''}
  <div class="sec">Practice setup screen</div>
  <label class="row"><span class="t"><b>Practice from / Section</b><span class="m sm">These two filters ask almost the same thing. Choose which one to show.</span></span><select id="stdup"><option value="nobank">Section only</option><option value="nosec">Practice from only</option><option value="both">Show both</option></select></label>
@@ -1174,7 +1174,7 @@ function satUpdateNotificationStatus(message){
  const status=document.getElementById('stremstatus');if(!status)return;
  if(message){status.textContent=message;return;}
  const p=satNotificationPermissionState();
- status.textContent=p==='granted'?'Notifications are enabled. SAT QB+ will send reminders at your selected interval while it is running.':p==='denied'?'Notifications are blocked by device/app settings. Allow them in Android Settings to receive reminders.':p==='default'?'Notification permission has not been granted yet. SAT QB+ will request it automatically when supported.':'Notification status could not be confirmed in this WebView. Check WebToApp notification integration.';
+ status.textContent=p==='granted'?'Notifications are enabled. SAT QB+ will check for reminders while it is open.':p==='denied'?'Notifications are blocked by device/app settings. Allow them in Android Settings to receive reminders.':p==='default'?'Notification permission has not been granted yet. SAT QB+ will request it automatically when supported.':'Notification status could not be confirmed in this WebView. Check WebToApp notification integration.';
 }
 async function satAutoRequestNotificationPermission(){
  try{
@@ -1188,7 +1188,7 @@ async function satAutoRequestNotificationPermission(){
   ls('satrempermissionasked','1');
   const perm=await satAskNotificationPermission();
   const granted=perm==='granted'||perm==='authorized'||perm==='provisional'||!!(perm&&perm.display==='granted')||!!(perm&&perm.receive==='granted');
-  if(granted){ls('satreminders','1');if(window.SATQBCheckReminder)window.SATQBCheckReminder();satUpdateNotificationStatus('Notifications are enabled. SAT QB+ will send reminders at your selected interval while it is running.');}
+  if(granted){ls('satreminders','1');if(window.SATQBCheckReminder)window.SATQBCheckReminder();satUpdateNotificationStatus('Notifications are enabled. SAT QB+ will check for reminders while it is open.');}
   else satUpdateNotificationStatus(perm==='denied'?'Notifications are blocked by device/app settings. Allow them in Android Settings.':'Permission prompt was not available automatically in this WebView.');
  }catch(_){satUpdateNotificationStatus()}
 }
@@ -1200,7 +1200,7 @@ document.addEventListener('change',async e=>{
   const status=document.getElementById('stremstatus'),perm=await satAskNotificationPermission();
   const granted=perm==='granted'||!!(perm&&perm.display==='granted')||!!(perm&&perm.receive==='granted');
   if(!granted){e.target.checked=false;ls('satreminders','0');if(status)status.textContent=perm==='denied'?'Notifications are blocked. Allow them in Android app settings, then try again.':perm==='unsupported'?'This WebView needs a native notification() bridge from the app wrapper.':'Could not confirm notification permission. Check Android app settings.';}
-  else if(status)status.textContent=satNativeNotificationAvailable()?'Native notification support detected.':'Browser notification permission is allowed; reminders run while the app is open.';
+  else if(status)status.textContent=satNativeNotificationAvailable()?'Native notification support detected.':'Browser notification permission is allowed; reminders are checked while the app is open.';
  }
 });
 new MutationObserver(pfpUpdate).observe(app,{childList:true});pfpUpdate();
@@ -2782,7 +2782,13 @@ document.addEventListener('change',e=>{const t=e.target;if(t.id==='stgr')ls('sat
    satSendNotification(m[0],m[1]).then(ok=>{if(ok)ls('satreminderlastsent',String(Date.now()))});
   }catch(_){/* notification support varies by browser / WebToApp */}
  }
- checkReminder();setInterval(checkReminder,60000);document.addEventListener('visibilitychange',()=>{if(!document.hidden){satUpdateNotificationStatus();checkReminder()}});
+ checkReminder();
+ // Foreground polling: re-check at short intervals and whenever Android/WebView returns to the page.
+ setInterval(()=>{if(!document.hidden)checkReminder()},30000);
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden){satUpdateNotificationStatus();checkReminder()}});
+ window.addEventListener('focus',()=>{satUpdateNotificationStatus();checkReminder()});
+ window.addEventListener('pageshow',()=>{satUpdateNotificationStatus();checkReminder()});
+ window.addEventListener('online',checkReminder);
  window.SATQBCheckReminder=checkReminder;
  window.addEventListener('FlutterFcmToken',()=>{satUpdateNotificationStatus();if(satNotificationPermissionState()==='granted')checkReminder()});
  // Check permission automatically on startup; don't require a separate "check permission" button.
