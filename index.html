@@ -240,6 +240,32 @@ img.pva{object-fit:cover}
 .devrow .dm{flex:1;min-width:0}.devrow .dm b,.devrow .dm span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .devrow .ds{font-size:.78rem;color:var(--mut);text-align:right;flex:none}
 .devraw{max-height:280px;overflow:auto;font:12px/1.4 ui-monospace,monospace;background:var(--hd);border-radius:10px;padding:10px;white-space:pre-wrap;word-break:break-all}
+.dm3{position:relative;height:34px;margin:6px 0 0}
+.dmbar{position:absolute;left:11px;right:11px;top:13px;height:8px;border-radius:99px;overflow:hidden;display:flex}
+.dmbar i{display:block;height:100%}.dmbar .de{background:#2eb85c}.dmbar .dmm{background:#f5a623}.dmbar .dh{background:#e53935}
+.dm3 input[type=range]{position:absolute;left:0;top:0;width:100%;height:34px;margin:0;padding:0;border:0;background:none;-webkit-appearance:none;appearance:none;pointer-events:none}
+.dm3 input[type=range]::-webkit-slider-runnable-track{background:none;height:34px}
+.dm3 input[type=range]::-moz-range-track{background:none;height:34px}
+.dm3 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;pointer-events:auto;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid #555;margin-top:6px;cursor:grab;box-shadow:0 1px 4px #0005}
+.dm3 input[type=range]::-moz-range-thumb{pointer-events:auto;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid #555;cursor:grab}
+.pcard{border:1px solid var(--bd);border-radius:20px;overflow:hidden;background:var(--card);text-align:left}
+.pbn{height:130px;background-size:cover;background-position:center}
+.pbd{padding:0 clamp(16px,3vw,28px) 18px}
+.pavw{margin-top:-46px;margin-bottom:8px}
+.pavx{width:92px;height:92px;border-radius:50%;object-fit:cover;background:var(--ac);color:var(--bg);display:grid;place-items:center;font-weight:800;font-size:2.2rem;border:4px solid var(--card);box-sizing:border-box}
+.pnm{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.pnm h1{font-size:1.5rem;margin:0}
+.pst{display:inline-block;margin:8px 0 0;padding:4px 12px;border-radius:999px;font-size:.9rem}
+.pbio{margin:10px 0 0;line-height:1.45}
+.ptags,.pbdgs{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.ptag{border:1.5px solid;border-radius:999px;padding:3px 10px;font-size:.82rem;font-weight:600}
+.pbdg{background:var(--hd);border-radius:999px;padding:3px 10px;font-size:.82rem}
+.pacts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.pstats{margin-top:14px}
+.cefld{display:flex;flex-direction:column;gap:8px;margin-top:18px}.cefld>b{font-size:.95rem}
+.cegrid{display:flex;flex-wrap:wrap;gap:8px}
+.cesw{width:46px;height:30px;border-radius:8px;border:2px solid var(--bd);cursor:pointer;padding:0;color:var(--mut)}.cesw.on{border-color:var(--tx);box-shadow:0 0 0 2px var(--card) inset}
+.ceacc{width:32px;height:32px;border-radius:50%;border:3px solid transparent;cursor:pointer;padding:0}.ceacc.on{border-color:var(--tx);box-shadow:0 0 0 2px var(--card) inset}
+.cechip{border:1.5px solid var(--bd);border-radius:999px;padding:5px 12px;cursor:pointer;background:var(--card)}.cechip.on{background:var(--hd);border-color:var(--ac)}
+textarea.ceta{font:inherit;color:inherit;background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;width:100%;box-sizing:border-box;min-height:84px;resize:vertical;text-align:left}
 .dev-flair{display:inline-flex;align-items:center;gap:3px;margin-left:5px;padding:2px 7px;border-radius:999px;vertical-align:middle;font-size:.68em;font-weight:900;letter-spacing:.025em;color:#17100a;background:linear-gradient(110deg,#fff0a8,#f5c34d 48%,#fff2b8);border:1px solid #d39b21;box-shadow:0 0 0 1px #f5c34d33,0 2px 8px #e7b63b33;white-space:nowrap}.dev-flair .dev-star{font-size:1.05em}.podium-name .dev-flair{margin-top:3px}.rank-user-text .dev-flair{font-size:.65em}.dev-username{color:#e4b83f!important;text-shadow:0 0 12px #e4b83f44}
 .friends-pop{position:fixed;z-index:190;width:min(520px,calc(100vw - 24px));max-height:calc(100vh - 100px);overflow:auto;background:transparent;padding:0}.friends-pop .frcard{width:100%!important;max-height:calc(100vh - 100px);overflow:auto;box-shadow:0 12px 40px #0005}.frcard{width:min(520px,100%)!important;max-height:85vh;overflow:auto}
 @media(max-width:600px){.friends-pop{left:8px!important;right:8px!important;top:calc(env(safe-area-inset-top,0px) + 56px)!important;width:auto!important;max-height:calc(100dvh - env(safe-area-inset-top,0px) - 68px)!important}.friends-pop .frcard{padding:14px!important;border-radius:14px!important;max-height:calc(100dvh - env(safe-area-inset-top,0px) - 68px)!important;font-size:.94rem}.friends-pop .frh{margin-bottom:8px}.friends-pop .fsec{padding-top:8px;margin-top:9px}.friends-pop .fsec h2{font-size:.98rem}.friends-pop .fsr{gap:6px}.friends-pop .fsr input{padding:8px 10px}.friends-pop .acr{padding:7px 0}.friends-pop .fav{width:28px;height:28px;margin-right:7px}.friends-pop .dev-flair{font-size:.6em}.friends-pop button{min-height:34px;padding:6px 10px}.friends-pop .m{line-height:1.4}}.frh{display:flex;justify-content:space-between;align-items:center}.frh h2{margin:0}.fsec{border-top:1px solid var(--bd);padding-top:12px;margin-top:14px}.fsec h2{margin:0 0 6px;font-size:1.05rem}.fsec[hidden]{display:none}
@@ -1060,16 +1086,25 @@ function tgHTML(){
 const nameOf=()=>ls('satname')||'',hi=()=>esc(nameOf());
 const fld=(id,lb,key,ph)=>`<label class="tgl">${lb} <input id="${id}" type="number" min="200" max="800" step="10" placeholder="${ph}" value="${tgv(key)||''}"></label>`;
 const nameFld=()=>`<label class="tgl">Your name <input id="sn" type="text" style="width:200px" placeholder="Name" autocomplete="given-name" value="${esc(nameOf())}"></label>`;
-const dmOn=()=>ls('satdmon')==='1',dmHard=()=>{const r=ls('satdmhard'),v=r==null?50:+r;return isNaN(v)?50:Math.min(100,Math.max(0,Math.round(v/5)*5))};
-const dmText=p=>`Hard ${p}% · Medium ${100-p}%`;
-const dmBox=()=>{const p=dmHard(),on=dmOn();return `<label class="tgl" style="color:var(--tx);align-items:flex-start"><input type="checkbox" id="dmon" ${on?'checked':''} style="margin-top:5px"><span><b>Mix the difficulty for me</b><br><span class="m sm">Off gives you a normal random mix of Easy, Medium and Hard.</span></span></label><div class="dmbox${on?'':' off'}" id="dmbox"><div class="dmlab"><span>More Medium</span><span>More Hard</span></div><input type="range" id="dmh" min="0" max="100" step="5" value="${p}" style="width:100%" aria-label="Share of Hard questions"><div class="dmout" id="dmv">${dmText(p)}</div></div>`};
-function dmPick(set,n){const p=dmHard()/100,H=shuf(set.filter(q=>q.diff==='Hard')),M=shuf(set.filter(q=>q.diff==='Medium')),O=shuf(set.filter(q=>q.diff!=='Hard'&&q.diff!=='Medium'));
- n=Math.min(n,set.length);let h=Math.min(Math.round(n*p),H.length),m=Math.min(n-Math.round(n*p),M.length);
- let out=[...H.slice(0,h),...M.slice(0,m)];
- if(out.length<n){const rest=shuf([...H.slice(h),...M.slice(m)]);out=out.concat(rest.slice(0,n-out.length))}
+const dmClamp=(r,d)=>{const v=r==null?d:+r;return isNaN(v)?d:Math.min(100,Math.max(0,Math.round(v/5)*5))};
+const dmOn=()=>ls('satdmon')==='1';
+const dmHasEasy=()=>!S.qs||!S.qs.length||S.qs.some(q=>q.diff==='Easy');
+const dmVals=()=>{let e=dmHasEasy()?dmClamp(ls('satdmeasy'),0):0,h=dmClamp(ls('satdmhard'),50);if(e+h>100)h=100-e;return[e,100-e-h,h]};
+const dmText=(e,h)=>(dmHasEasy()?`Easy ${e}% · `:'')+`Medium ${100-e-h}% · Hard ${h}%`;
+const dmLine=()=>{const[e,,h]=dmVals();return dmText(e,h)};
+const dmBox=()=>{const[e,m,h]=dmVals(),on=dmOn(),he=dmHasEasy();
+ return `<label class="tgl" style="color:var(--tx);align-items:flex-start"><input type="checkbox" id="dmon" ${on?'checked':''} style="margin-top:5px"><span><b>Mix the difficulty for me</b><br><span class="m sm">Off gives you a normal random mix of Easy, Medium and Hard.</span></span></label><div class="dmbox${on?'':' off'}" id="dmbox"><div class="dmlab"><span>${he?'Easier':''}</span><span>Harder</span></div><div class="dm3"><div class="dmbar" id="dmbar"><i class="de" style="width:${e}%"></i><i class="dmm" style="width:${m}%"></i><i class="dh" style="width:${h}%"></i></div>${he?`<input type="range" id="dme" min="0" max="100" step="5" value="${e}" aria-label="End of the Easy section">`:''}<input type="range" id="dmh" min="0" max="100" step="5" value="${100-h}" aria-label="Start of the Hard section"></div><div class="dmout" id="dmv">${dmText(e,h)}</div>${he?'<div class="m sm" style="text-align:center">Green is Easy, yellow is Medium, red is Hard. Drag the two handles.</div>':'<div class="m sm" style="text-align:center">Your question bank has no Easy questions, so this is just Medium and Hard.</div>'}</div>`};
+function dmPick(set,n){const[pe,,ph]=dmVals(),E=shuf(set.filter(q=>q.diff==='Easy')),M=shuf(set.filter(q=>q.diff==='Medium')),H=shuf(set.filter(q=>q.diff==='Hard')),O=shuf(set.filter(q=>q.diff!=='Easy'&&q.diff!=='Medium'&&q.diff!=='Hard'));
+ n=Math.min(n,set.length);const we=Math.round(n*pe/100),wh=Math.round(n*ph/100),ne=Math.min(we,E.length),nh=Math.min(wh,H.length),nm=Math.min(Math.max(0,n-we-wh),M.length);
+ let out=[...E.slice(0,ne),...H.slice(0,nh),...M.slice(0,nm)];
+ if(out.length<n){const rest=[M.slice(nm),pe>ph?E.slice(ne):H.slice(nh),pe>ph?H.slice(nh):E.slice(ne)];for(const r of rest){if(out.length>=n)break;out=out.concat(r.slice(0,n-out.length))}}
  if(out.length<n)out=out.concat(O.slice(0,n-out.length));
- return out}
-document.addEventListener('input',e=>{const t=e.target;if(t&&t.id==='dmh'){const p=+t.value,o=$('#dmv'),c=$('#dmon'),bx=$('#dmbox');if(o)o.textContent=dmText(p);if(c&&!c.checked)c.checked=true;if(bx)bx.classList.remove('off')}});
+ return out.slice(0,n)}
+function dmSync(src){const a=$('#dme'),b=$('#dmh');if(!b)return;let e=a?+a.value:0,hs=+b.value;
+ if(src==='e'&&e>hs){hs=e;b.value=hs}else if(src==='h'&&hs<e){e=hs;if(a)a.value=e}
+ const bar=$('#dmbar');if(bar){bar.children[0].style.width=e+'%';bar.children[1].style.width=(hs-e)+'%';bar.children[2].style.width=(100-hs)+'%'}
+ const o=$('#dmv');if(o)o.textContent=dmText(e,100-hs);const c=$('#dmon'),bx=$('#dmbox');if(c&&!c.checked)c.checked=true;if(bx)bx.classList.remove('off')}
+document.addEventListener('input',e=>{const t=e.target;if(t&&(t.id==='dme'||t.id==='dmh'))dmSync(t.id==='dme'?'e':'h')});
 document.addEventListener('change',e=>{const t=e.target;if(t&&t.id==='dmon'){const bx=$('#dmbox');if(bx)bx.classList.toggle('off',!t.checked)}});
 const SV=[
  ()=>`<h1>Welcome! What should I call you?</h1><p class="m" style="margin:0">A few quick questions so I can track your progress. You can change any of this later from the profile icon at the top right.</p>${nameFld()}`,
@@ -1078,11 +1113,11 @@ const SV=[
  ()=>`<h1>What score are you aiming for?</h1><p class="m" style="margin:0">Pick a target for each section (up to 800). You can leave these blank and it will track toward 800.</p><div class="tgrow">${fld('tge','English target','sattge','800')}${fld('tgm','Math target','sattgm','800')}</div>`,
  ()=>`<h1>When is your test?</h1><p class="m" style="margin:0">Pick your SAT date and I will count down the days and build a study plan. Leave it empty if you do not have a date yet.</p>${dateFld()}`,
  ()=>`<h1>How do you want to study?</h1><p class="m" style="margin:0">Choose the days you can study and how long each session should be. Your plan is built around this.</p>${daysFld()}`,
- ()=>`<h1>How hard should your questions be?</h1><p class="m" style="margin:0">Slide to choose how many Hard questions you get compared with Medium ones in your practice sets. You can change this any time in Settings. Leave it off for a normal random mix.</p>${dmBox()}`,
+ ()=>`<h1>How hard should your questions be?</h1><p class="m" style="margin:0">Drag the handles to choose how many Easy, Medium and Hard questions you want in your practice sets. You can change this any time in Settings. Leave it off for a normal random mix.</p>${dmBox()}`,
  ()=>`<h1>Do you want vocab practice?</h1><p class="m" style="margin:0">Vocab practice adds a Vocab button with word quizzes, your own word list, and a Prefixes &amp; word clues lesson. You can change both of these later in Settings.</p>
   <label class="tgl" style="color:var(--tx);align-items:flex-start"><input type="checkbox" id="stvc" ${vcOn()?'checked':''} style="margin-top:5px"><span><b>Vocab practice</b><br><span class="m sm">Show the Vocab button on the home screen.</span></span></label>
   <label class="tgl" style="color:var(--tx);align-items:flex-start"><input type="checkbox" id="stvcb" ${vcBankOn()?'checked':''} style="margin-top:5px"><span><b>Add vocab questions to the question bank</b><br><span class="m sm">Mixes vocab questions in with your regular practice questions. Off is fine if you only want to practice vocab on its own.</span></span></label>`];
-function saveSv(){const onboardShares=[...document.querySelectorAll('[data-onboard-share]')];if(onboardShares.length){const p={};onboardShares.forEach(e=>p[e.dataset.onboardShare]=e.checked);ls('satshareprefs',JSON.stringify(p));const en=$('#onboard-share-enabled');if(en)ls('satshareenabled',en.checked?'1':'0')}const dmo=$('#dmon');if(dmo){ls('satdmon',dmo.checked?'1':'0');const dh=$('#dmh');if(dh)ls('satdmhard',String(dh.value))}const td=$('#ttd');if(td)ls('sattest',td.value||null);const sd=document.querySelectorAll('.sdchk');if(sd.length){const dy=[...sd].filter(x=>x.checked).map(x=>+x.value);ls('satstudy',JSON.stringify({days:dy.length?dy:[1,2,3,4,5],mins:+(($('#smin')||{}).value)||45}))}const pl=$('#stpl');if(pl)ls('satplanon',pl.checked?'1':'0');const fw=$('#stftw');if(fw)ls('satftw',fw.value);const rem=$('#strem');if(rem)ls('satreminders',rem.checked?'1':'0');const remt=$('#stremtime');if(remt&&/^([01]\d|2[0-3]):[0-5]\d$/.test(remt.value))ls('satremindinterval',remt.value);const cdb=$('#stcd');if(cdb)ls('satcd',cdb.checked?'1':'0');const du=$('#stdup');if(du)ls('satdup',du.value);const wz=$('#stwz');if(wz)ls('satwiz',wz.checked?'1':'0');const en=$('#sten');if(en)ls('satenter',en.checked?'1':'0');const sw1=$('#stsw');if(sw1)ls('satsw',sw1.checked?'1':'0');const sw2=$('#stswa');if(sw2)ls('satswa',sw2.checked?'1':'0');const sa=$('#stsa');if(sa)ls('satstartall',sa.checked?'1':'0');const g=id=>{const e=$('#'+id);return e?e.value:null},nm=g('sn');if(nm!==null)ls('satname',nm.trim()||null);
+function saveSv(){const onboardShares=[...document.querySelectorAll('[data-onboard-share]')];if(onboardShares.length){const p={};onboardShares.forEach(e=>p[e.dataset.onboardShare]=e.checked);ls('satshareprefs',JSON.stringify(p));const en=$('#onboard-share-enabled');if(en)ls('satshareenabled',en.checked?'1':'0')}const dmo=$('#dmon');if(dmo){ls('satdmon',dmo.checked?'1':'0');const dh=$('#dmh'),de=$('#dme');if(dh)ls('satdmhard',String(100-(+dh.value)));if(de)ls('satdmeasy',String(de.value))}const td=$('#ttd');if(td)ls('sattest',td.value||null);const sd=document.querySelectorAll('.sdchk');if(sd.length){const dy=[...sd].filter(x=>x.checked).map(x=>+x.value);ls('satstudy',JSON.stringify({days:dy.length?dy:[1,2,3,4,5],mins:+(($('#smin')||{}).value)||45}))}const pl=$('#stpl');if(pl)ls('satplanon',pl.checked?'1':'0');const fw=$('#stftw');if(fw)ls('satftw',fw.value);const rem=$('#strem');if(rem)ls('satreminders',rem.checked?'1':'0');const remt=$('#stremtime');if(remt&&/^([01]\d|2[0-3]):[0-5]\d$/.test(remt.value))ls('satremindinterval',remt.value);const cdb=$('#stcd');if(cdb)ls('satcd',cdb.checked?'1':'0');const du=$('#stdup');if(du)ls('satdup',du.value);const wz=$('#stwz');if(wz)ls('satwiz',wz.checked?'1':'0');const en=$('#sten');if(en)ls('satenter',en.checked?'1':'0');const sw1=$('#stsw');if(sw1)ls('satsw',sw1.checked?'1':'0');const sw2=$('#stswa');if(sw2)ls('satswa',sw2.checked?'1':'0');const sa=$('#stsa');if(sa)ls('satstartall',sa.checked?'1':'0');const g=id=>{const e=$('#'+id);return e?e.value:null},nm=g('sn');if(nm!==null)ls('satname',nm.trim()||null);
  for(const[id,K]of[['tse','sattse'],['tsm','sattsm'],['tge','sattge'],['tgm','sattgm']]){const v=g(id);if(v===null)continue;let x=Math.round(+v/10)*10;x=x?Math.min(800,Math.max(200,x)):0;const old=+ls(K)||0;ls(K,x?String(x):null);if((K==='sattse'||K==='sattsm')&&x!==old)ls('satbase',String(Date.now()))}}
 function showSurvey(step=0){clearInterval(S.tick);S.done=true;S.sv=step;document.body.dataset.q='';
  app.innerHTML=`<div class="ttl"><div class="logo">SAT</div><div class="card" style="width:100%;text-align:left;display:flex;flex-direction:column;gap:14px;margin:0">${SV[step]()}<div class="m sm">Step ${step+1} of 8</div><div class="btns" style="justify-content:flex-start">${step?'<button class="pill" data-a="svb">Back</button>':''}<button class="p pill" data-a="svn">${step<7?'Next':'Finish'}</button></div></div></div>`;
@@ -1137,7 +1172,7 @@ function showSettings(){clearInterval(S.tick);S.done=true;document.body.dataset.
  ${tg('stwz',ls('satwiz')!=='0','Guided setup','Ask a few quick questions to build your practice set, then show the full menu to confirm. Turn off to go straight to the full menu.')}
  ${tg('sten',ls('satenter')!=='0','Press Enter to check my answer, then go to the next question','Practice mode only. Pick or type an answer, press Enter to check it, then press Enter again to move on to the next question.')}
  <div class="sec">Difficulty mix</div>
- <div class="row col"><span class="t"><b>Hard vs Medium questions</b><span class="m sm">Choose how many of the questions in each practice set are Hard. The rest are Medium. This only applies when the Difficulty filter is on &ldquo;All difficulties&rdquo; and you press Start (not Start all). Easy questions are left out while this is on.</span></span>${dmBox()}</div>
+ <div class="row col"><span class="t"><b>Easy / Medium / Hard mix</b><span class="m sm">Drag the two handles to choose how many Easy, Medium and Hard questions each practice set has. Anything at 0% is left out. This only applies when the Difficulty filter is on &ldquo;All difficulties&rdquo; and you press Start (not Start all).</span></span>${dmBox()}</div>
  ${tg('stsa',ls('satstartall')==='1','Show the &ldquo;Start all&rdquo; button','Adds a button to the practice setup screen that starts every question matching your filters at once.')}
  <div class="sec">Stopwatch</div>
  ${tg('stsw',swOn(),'Stopwatch','Adds a real stopwatch to the question screen: Start / Stop, Lap and Reset, down to hundredths of a second. It runs separately from the session timer and pauses when you pause.')}
@@ -1314,7 +1349,7 @@ function fill(id,key,base){const cur=val(id),v=[...new Set(base.map(q=>q[key]).f
 function upd(){fill('ft','test',S.qs.filter(q=>!val('fk')||q.src===val('fk')));const t=val('ft'),b=S.qs.filter(q=>(!val('fk')||q.src===val('fk'))&&(!t||q.test===t));fill('fd','domain',b);const d=val('fd');fill('fs','skill',b.filter(q=>!d||q.domain===d));
  const bp=S.qs.filter(q=>(!vo()||vcIsBank(q))&&(!val('fk')||q.src===val('fk'))&&(!val('ft')||q.test===val('ft'))&&(!val('fd')||q.domain===val('fd'))&&(!val('fs')||q.skill===val('fs'))&&(!val('fx')||q.diff===val('fx'))),nn=bp.filter(q=>!(q.id in stats)).length,mm=bp.filter(q=>stats[q.id]===0).length,fo=$('#fw').options;
  fo[0].text='All questions ('+bp.length+')';fo[1].text='Not answered yet ('+nn+')';fo[2].text='Previously missed ('+mm+')';
- const n=pool().length;$('#av').textContent=n+' questions match these filters'+(dmOn()&&!val('fx')?' · difficulty mix: '+dmText(dmHard()):'');const ga=$('[data-a=goall]');if(ga)ga.textContent='Start all '+n}
+ const n=pool().length;$('#av').textContent=n+' questions match these filters'+(dmOn()&&!val('fx')?' · difficulty mix: '+dmLine():'');const ga=$('[data-a=goall]');if(ga)ga.textContent='Start all '+n}
 function start(all){
  const set=pool();if(!set.length)return;if($('#fr').checked)set.sort(()=>Math.random()-.5);
  S.set=all?set:set.slice(0,nAll(val('fc'),20));
@@ -1611,7 +1646,7 @@ function gdraw(){const c=$('#gc');if(!c||!c.clientWidth)return;const w=c.clientW
  else if(ls('satdone')!=='1')showSurvey();else showTitle()})();
 /* ===== Firebase: Google sign-in + progress sync (needs your own hosting; see FIREBASE_CONFIG at the top) ===== */
 var FBres,FB={cfg:!!FIREBASE_CONFIG.apiKey,ready:false,user:null,err:null,m:null,sync:'',t:0,pulling:false,first:new Promise(r=>FBres=r)};
-var SYNC=['satnotes','satstats','satlog','satsaved','satname','satdone','sattse','sattsm','sattge','sattgm','satbase','sattest','satstudy','satplanon','satcd','satftw','sattests','satvlog','satvsaved','satsess','satsessat','satshareprefs','satshareenabled','satreminders','satremindinterval','satdmon','satdmhard'],SCAL=['satname','satdone','sattse','sattsm','sattge','sattgm','satbase','sattest','satstudy','satplanon','satcd','satftw','satreminders','satremindinterval','satdmon','satdmhard'];
+var SYNC=['satnotes','satstats','satlog','satsaved','satname','satdone','sattse','sattsm','sattge','sattgm','satbase','sattest','satstudy','satplanon','satcd','satftw','sattests','satvlog','satvsaved','satsess','satsessat','satshareprefs','satshareenabled','satreminders','satremindinterval','satdmon','satdmhard','satdmeasy'],SCAL=['satname','satdone','sattse','sattsm','sattge','sattgm','satbase','sattest','satstudy','satplanon','satcd','satftw','satreminders','satremindinterval','satdmon','satdmhard','satdmeasy'];
 const GSVG='<svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.4 30.2 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.8 6C12.3 13.5 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.4 5.7c4.3-4 6.9-9.9 6.9-17.1z"/><path fill="#FBBC05" d="M10.4 28.8c-.5-1.4-.8-2.9-.8-4.8s.3-3.3.8-4.8l-7.8-6C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.8-6z"/><path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.6l-7.4-5.7c-2 1.4-4.7 2.3-7.8 2.3-6.3 0-11.7-4-13.6-9.7l-7.8 6C6.5 42.6 14.6 48 24 48z"/></svg>';
 function avStyle(){const u=FB.user,photo=FB.avatar||(u&&u.photoURL);return photo?`background-image:url('${esc(photo)}')`:''}
 function fbBlock(){
@@ -1754,7 +1789,7 @@ function showAccount(msg){clearInterval(S.tick);S.done=true;S.authpage=false;doc
  prov=u?(u.providerData||[]).map(p=>p.providerId==='google.com'?'Google':p.providerId==='password'?'Email':p.providerId).join(', '):'',
  av=`<span class="av big" style="${avStyle()}">${(FB.avatar||(u&&u.photoURL))?'':esc(n?n[0].toUpperCase():(u&&u.email?u.email[0].toUpperCase():'👤'))}</span>`,
  row=(t,d,b)=>`<div class="acr"><div class="l"><b>${t}</b><span class="m">${d}</span></div>${b}</div>`,tg=tgHTML();
- app.innerHTML=`<div class="acct"><div class="card"><div class="who">${av}<div><b>${n?esc(n):'Your account'}</b><div class="m">${u?esc(u.email||'')+(prov?' · '+esc(prov):''):'Not signed in'}</div></div></div></div>
+ app.innerHTML=`<div class="acct">${u?myCardHTML(u):`<div class="card"><div class="who">${av}<div><b>${n?esc(n):'Your account'}</b><div class="m">Not signed in</div></div></div></div>`}
  ${u?'':`<div class="card"><h2>Sign in to sync</h2><p class="m" style="margin:0 0 12px">You&rsquo;re using SAT Practice without an account, so your progress only lives on this device.</p><button class="p pill" data-a="gin">Sign in or sign up</button></div>`}
  <div class="card"><h2>Your progress</h2><div class="acs"><div><b>${A.g.n}</b><span>of ${A.g.t} questions done</span></div><div><b>${A.acc==null?'—':A.acc+'%'}</b><span>accuracy (${A.tot} attempts)</span></div><div><b>${A.streak}</b><span>day streak</span></div><div><b>${A.days}</b><span>days practiced</span></div></div>
  ${A.weak?`<p class="m" style="margin:12px 0 0">Weakest domain: <b>${esc(A.weak[0])}</b> (${Math.round(A.weak[1]*100)}% of ${A.weak[2]}).${A.strong?` Strongest: <b>${esc(A.strong[0])}</b> (${Math.round(A.strong[1]*100)}%).`:''}</p>`:''}</div>
@@ -1764,10 +1799,8 @@ function showAccount(msg){clearInterval(S.tick);S.done=true;S.authpage=false;doc
  ${u?row('Username',FB.un?'@'+esc(FB.un)+(isDevAccount(u.uid)&&FB.un==='a'?devFlair(FB.un,u.uid):'')+' · friends find you with this':'<span style="color:#e53935;font-weight:600">! You have not picked a username yet</span>','<button class="s'+(FB.un?'':' unred')+'" data-a="unset">'+(FB.un?'Change':'Set username')+'</button>'):''}
  ${u?row('Friends',FB.reqN?'<span style="color:#e53935;font-weight:600">! You have '+FB.reqN+' friend request'+(FB.reqN>1?'s':'')+'</span>':'Search for people by username and add them','<button class="s" data-a="friends">Friends'+(FB.reqN?'<span class="frbadge inl">!</span>':'')+'</button>'):''}
  ${u?row('Social stats','Choose what friends and the global leaderboard can see','<button class="s" data-a="socialsettings">Sharing settings</button> <button class="s" data-a="leaderboard">Global ranking</button>'):''}
- ${u?row('Profile picture','Upload a picture for your profile and friends list','<button class="s" data-a="avatar">Change picture</button>'):''}
- ${u&&FB.un?row('Public profile','What other people see when they open your profile','<button class="s" data-a="viewp" data-id="'+esc(u.uid)+'" data-n="'+esc(FB.un)+'">View</button>'):''}
  ${u&&isDevAccount(u.uid)?row('Developer panel','See every signed-in user, their scores and details','<button class="s" data-a="devpanel">Open</button>'):''}
- ${row('Profile and goals','Your name, current scores and targets','<button class="s" data-a="profile">Edit profile</button>')}
+ ${row('Study goals','Your name, current scores and targets','<button class="s" data-a="profile">Edit goals</button>')}
  ${row('Settings','Guided setup, Enter to check, Start all button','<button class="s" data-a="settings">Settings</button>')}
  ${ls('satplanon')!=='0'||ls('satcd')!=='0'?row('Test day and study plan',ls('sattest')?(daysTo(ls('sattest'))>=0?daysTo(ls('sattest'))+' days left · ':'Passed · ')+fmtD(parseD(ls('sattest'))):'No test date set','<span style="display:flex;gap:8px">'+(ls('satplanon')!=='0'?'<button class="s" data-a="cal">Calendar</button>':'')+'<button class="s" data-a="profile">Change</button></span>'):''}
  ${row('Download my data','Save your progress as a file you can keep as a backup','<button class="s" data-a="export">Download</button>')}
@@ -1794,7 +1827,7 @@ document.addEventListener('click',async ev=>{const b=ev.target.closest('[data-a]
  try{const{Au,Db}=FB.m,u=FB.user;
   if(u.providerData.some(p=>p.providerId==='password')){const pw=prompt('Enter your password to confirm deleting your account:');if(!pw){showAccount();return}await Au.reauthenticateWithCredential(u,Au.EmailAuthProvider.credential(u.email,pw))}
   else await Au.reauthenticateWithPopup(u,new Au.GoogleAuthProvider());
-  clearTimeout(FB.t);FB.t=0;try{if(FB.un)await Db.remove(Db.ref(FB.db,'usernames/'+FB.un));await Db.remove(Db.ref(FB.db,'profiles/'+u.uid));await Db.remove(Db.ref(FB.db,'friends/'+u.uid));await Db.remove(Db.ref(FB.db,'requests/'+u.uid))}catch(e){}await Db.remove(Db.ref(FB.db,'users/'+u.uid));await Au.deleteUser(u);
+  clearTimeout(FB.t);FB.t=0;try{if(FB.un)await Db.remove(Db.ref(FB.db,'usernames/'+FB.un));await Db.remove(Db.ref(FB.db,'profiles/'+u.uid));await Db.remove(Db.ref(FB.db,'friends/'+u.uid));await Db.remove(Db.ref(FB.db,'requests/'+u.uid))}catch(e){}for(const pth of['userIndex','banners','privateStats','statAccess','statReq']){try{await Db.remove(Db.ref(FB.db,pth+'/'+u.uid))}catch(e){}}await Db.remove(Db.ref(FB.db,'users/'+u.uid));await Au.deleteUser(u);
   FB.user=null;FB.sync='';fbUI();showTitle()}
  catch(e){showAccount(e.code==='auth/popup-closed-by-user'?'Cancelled.':(AUTHERR[e.code]||'Could not delete: '+(e.code||e.message)))}});
 const GRP=['showAccount','showProfile','showSettings','showAuth','showCalendar','showLogTest','showDev','showDevUser'],TRK=['showTitle','showSetup','showReady','showWiz','showUpload','showFullSetup','results','showSurvey'];
@@ -1977,10 +2010,11 @@ async function loadLeaderboard(mode='global'){
  try{
   // Ranking reads a shared, already-published snapshot. Do not overwrite it just
   // because this device opened the page: local progress can differ between devices.
-  let allowed=null;
+  let allowed=null,grants=new Set();
   if(mode==='friends'){
    const fs=await FB.m.Db.get(dbr('friends/'+FB.user.uid));
-   allowed=new Set([FB.user.uid,...(fs.exists()?Object.keys(fs.val()||{}):[])]);
+   try{const gs=await FB.m.Db.get(dbr('statGrants/'+FB.user.uid));if(gs.exists())grants=new Set(Object.keys(gs.val()||{}))}catch(e){}
+   allowed=new Set([FB.user.uid,...(fs.exists()?Object.keys(fs.val()||{}):[]),...grants]);
   }
   const snap=await FB.m.Db.get(dbr('profiles')),rows=[];
   snap.forEach(ch=>{
@@ -1994,6 +2028,12 @@ async function loadLeaderboard(mode='global'){
     rows.push(clean);
    }
   });
+  /* people who accepted my stats request show up here with their full stats, only for me */
+  if(grants.size){const have=new Set(rows.map(r=>r.id));
+   await Promise.all([...grants].filter(id=>!have.has(id)).map(async id=>{try{const ps=await FB.m.Db.get(dbr('privateStats/'+id));if(!ps.exists())return;
+    const v=snap.child(id).val()||{},x=v.publicStats||{},pv=ps.val()||{},un=v.username||x.username;if(!un)return;
+    const row={id,username:un,avatar:v.avatar||x.avatar||'',share:{}};
+    ['score','streak','answered','accuracy','days'].forEach(k=>{row[k]=pv[k]!=null&&Number.isFinite(Number(pv[k]))?Number(pv[k]):null});rows.push(row)}catch(e){}}))}
   // Resolve each displayed name from the canonical profile username, not only
   // the older publicStats snapshot. This keeps both global and friends rankings
   // current even if the snapshot's username failed to refresh during a rename.
@@ -2122,11 +2162,11 @@ function socialTick(force){if(!FB.user||!FB.ready)return;const n=Date.now();if(!
 
 /* ---- friend-request badge (red !) ---- */
 function frBadgeUI(){const n=FB.reqN||0,b=document.getElementById('frbadge');if(b){b.hidden=!n;b.title=n+' friend request'+(n===1?'':'s')}}
-function frWatch(){frUnwatch();if(!FB.user||!FB.ready)return;const{Db}=FB.m,uid=FB.user.uid;
+function frWatch(){frUnwatch();if(!FB.user||!FB.ready)return;const{Db}=FB.m,uid=FB.user.uid;loadMyCard();
  try{FB.u1=Db.onValue(dbr('requests/'+uid),s=>{const v=s.exists()?(s.val()||{}):{};FB.reqN=Object.keys(v).length;frBadgeUI();const m=$('#pm');if(m&&!m.hidden)m.innerHTML=pmHTML();if(document.getElementById('frm')&&FB.un)frLoad()},()=>{})}catch(e){}
  try{FB.u2=Db.onValue(dbr('statReq/'+uid),s=>{FB.srq=s.exists()?Object.entries(s.val()||{}):[];srMaybe()},()=>{})}catch(e){}
  if(!FB.srTm)FB.srTm=setInterval(srMaybe,15000)}
-function frUnwatch(){['u1','u2'].forEach(k=>{if(FB[k]){try{FB[k]()}catch(e){}FB[k]=null}});FB.reqN=0;FB.srq=[];frBadgeUI()}
+function frUnwatch(){['u1','u2'].forEach(k=>{if(FB[k]){try{FB[k]()}catch(e){}FB[k]=null}});FB.reqN=0;FB.srq=[];FB.card=null;FB.banner='';FB.cardLoaded=null;frBadgeUI()}
 
 /* ---- "X wants to see your stats" popup ---- */
 FB.srSkip={};
@@ -2138,7 +2178,7 @@ function srMaybe(){if(!FB.user||!FB.ready)return;const q=(FB.srq||[]).filter(([i
  d.innerHTML=`<div class="card"><h2>Stats request</h2><p class="m" style="margin:0"><b>@${esc((o&&o.u)||'Someone')}</b> would like to see your stats. If you share, they can see your day streak, SAT score, questions answered, accuracy and days practiced. You can stop sharing any time in Sharing settings.</p><div class="btns"><button class="p pill" data-a="srshare" data-id="${esc(id)}">Share with @${esc((o&&o.u)||'them')}</button><button class="pill" data-a="srnot" data-id="${esc(id)}">Not now</button><button class="pill" data-a="srdec" data-id="${esc(id)}">Decline</button></div><div class="uerr" id="srerr"></div></div>`;
  document.body.appendChild(d)}
 async function srShare(id){const{Db}=FB.m,me=FB.user.uid,e=document.getElementById('srerr');
- try{await publishPrivate();await Db.set(dbr('statAccess/'+me+'/'+id),true);await Db.remove(dbr('statReq/'+me+'/'+id))}catch(err){if(e)e.textContent=dbErr(err);return}
+ try{await publishPrivate();await Db.set(dbr('statAccess/'+me+'/'+id),true);await Db.set(dbr('statGrants/'+id+'/'+me),true);await Db.remove(dbr('statReq/'+me+'/'+id))}catch(err){if(e)e.textContent=dbErr(err);return}
  FB.srSkip[id]=1;srClose();srMaybe()}
 async function srDecline(id){try{await FB.m.Db.remove(dbr('statReq/'+FB.user.uid+'/'+id))}catch(e){}FB.srSkip[id]=1;srClose();srMaybe()}
 
@@ -2160,7 +2200,8 @@ async function showPeek(uid,name){
  const me=FB.user.uid,mine=uid===me,{Db}=FB.m;
  app.innerHTML='<div class="card c left"><h1>Profile</h1><p class="m">Loading…</p></div>';
  const get=async p=>{try{const s=await Db.get(dbr(p));return s.exists()?s.val():null}catch(e){return undefined}};
- const[un,av,pub,priv,req]=await Promise.all([get('profiles/'+uid+'/username'),get('profiles/'+uid+'/avatar'),get('profiles/'+uid+'/publicStats'),mine?null:get('privateStats/'+uid),mine?null:get('statReq/'+uid+'/'+me)]);
+ if(mine)await loadMyCard();
+ const[un,av,pub,priv,req,card,bn]=await Promise.all([get('profiles/'+uid+'/username'),get('profiles/'+uid+'/avatar'),get('profiles/'+uid+'/publicStats'),mine?null:get('privateStats/'+uid),mine?null:get('statReq/'+uid+'/'+me),mine?FB.card:get('profiles/'+uid+'/card'),mine?FB.banner:get('banners/'+uid)]);
  if(!FB.fr&&FB.un){try{await frLoad()}catch(e){}}
  const isFr=!!(FB.fr&&FB.fr.friends&&FB.fr.friends[uid]),uname=String(un||name||'unknown');
  let st=null;
@@ -2168,17 +2209,16 @@ async function showPeek(uid,name){
  else if(priv&&typeof priv==='object')st=priv;
  else if(pub&&pub.share&&(pub.audience!=='friends'||isFr)){st={};PV_LABELS.forEach(([k])=>{if(pub.share[k]&&pub[k]!=null)st[k]=pub[k]})}
  const items=st?PV_LABELS.filter(([k])=>st[k]!=null).map(([k,l,u])=>`<div><b>${esc(st[k])}${u||''}</b><span>${l}</span></div>`):[];
- const isDev=isDevAccount(me),dn=uname.toLowerCase()==='a'?'dev-username':'';
- const head=`<div class="pvh">${av?`<img class="pva" src="${esc(av)}" alt="">`:`<span class="pva">${esc(uname[0].toUpperCase())}</span>`}<div><h1 style="margin:0" class="${dn}">@${esc(uname)}</h1>${devFlair(uname,uid)}<div class="m sm">${mine?'This is you':isFr?'Friends ✓':''}</div></div></div>`;
+ const isDev=isDevAccount(me);
  let body;
  if(items.length)body=`<div class="acs">${items.join('')}</div>${st.updatedAt?`<p class="m sm" style="margin:10px 0 0">Updated ${esc(relT(st.updatedAt))}</p>`:''}`;
- else if(mine)body='<p class="m">You are not sharing any stats right now. Open Sharing settings to choose what others can see.</p>';
+ else if(mine)body='<p class="m" style="margin:0">You are not sharing any stats right now. Open Sharing settings to choose what others can see.</p>';
  else body=`<div class="pmb"><p class="m" style="margin:0 0 10px">@${esc(uname)} is not sharing their stats.</p>${req?'<span class="m sm">Request sent ✓ They will see it next time they open the app.</span>':`<button class="p pill" data-a="pvreq" data-id="${esc(uid)}" data-n="${esc(uname)}">Request stats</button>`}</div>`;
  const acts=[];
  if(!mine&&!isFr&&FB.un)acts.push(`<button class="p pill" data-a="fadd" data-id="${esc(uid)}" data-n="${esc(uname)}">Add friend</button>`);
- if(mine){acts.push('<button class="pill" data-a="socialsettings">Sharing settings</button>');acts.push('<button class="pill" data-a="avatar">Change picture</button>')}
+ if(mine){acts.push('<button class="p pill" data-a="cardedit">Edit profile</button>');acts.push('<button class="pill" data-a="socialsettings">Sharing settings</button>')}
  if(isDev&&!mine)acts.push(`<button class="pill" data-a="devuser" data-id="${esc(uid)}">Developer details</button>`);
- app.innerHTML=`<div class="card c left">${head}${body}<div class="btns" style="margin-top:14px">${acts.join('')}<button class="pill" data-a="pvback">Back</button></div><div class="m sm" id="fmsg" style="margin-top:8px"></div></div>`}
+ app.innerHTML=`<div class="acct" style="margin-top:2vh">${pCard({uname,title:'@'+esc(uname),flair:devFlair(uname,uid),dev:uname.toLowerCase()==='a',av:av||(mine&&FB.user.photoURL)||'',card:card||null,banner:bn||'',sub:mine?'This is you':isFr?'Friends ✓':'',badges:pBadges(st,false),extra:`<div class="pstats">${body}</div><div class="pacts">${acts.join('')}<button class="pill" data-a="pvback">Back</button></div><div class="m sm" id="fmsg" style="margin-top:8px"></div>`})}</div>`}
 
 /* ---- developer panel ---- */
 const DEV={rows:[]};
@@ -2213,7 +2253,7 @@ async function showDevUser(uid){
  const raw={};Object.keys(D).forEach(k=>{const v=D[k];raw[k]=typeof v==='string'&&v.length>300?'('+v.length+' characters)':v});
  app.innerHTML=`<div class="card c left"><div class="pvh">${av?`<img class="pva" src="${esc(av)}" alt="">`:`<span class="pva">${esc((row.name||un||row.email||'?')[0].toUpperCase())}</span>`}<div><h1 style="margin:0">${esc(D.satname||row.name||un||'User')}</h1><div class="m sm">${un?'@'+esc(un)+' · ':''}${esc(row.email||'')}</div><div class="m sm">Last active ${esc(relT(row.last))}</div></div></div>
  <div class="acs"><div><b>${L.tot}</b><span>attempts</span></div><div><b>${L.acc==null?'—':L.acc+'%'}</b><span>accuracy</span></div><div><b>${L.streak}</b><span>day streak</span></div><div><b>${L.days}</b><span>days practiced</span></div></div>
- <div style="margin-top:12px">${kv('Starting scores (English / Math)',esc(D.sattse||'—')+' / '+esc(D.sattsm||'—'))}${kv('Targets (English / Math)',esc(D.sattge||'—')+' / '+esc(D.sattgm||'—'))}${kv('Test date',esc(D.sattest||''))}${kv('Study plan',(D.satplanon==='0'?'off':'on')+(sd?' · '+esc(sd):'')+(study.mins?' · '+esc(study.mins)+' min':''))}${kv('Full tests per week',esc(D.satftw||''))}${kv('Difficulty mix',D.satdmon==='1'?esc(D.satdmhard||50)+'% Hard':'off')}${kv('Reminders',D.satreminders==='0'?'off':'on'+(D.satremindinterval?' · every '+esc(D.satremindinterval)+' h':''))}${kv('Questions answered (unique)',Object.keys(stt).length)}${kv('Saved practices',sv.length)}${kv('Question notes',Object.keys(notes).length)}${kv('Full tests logged',tests.length)}${kv('Sharing',D.satshareenabled==='0'?'off':Object.entries(shp).filter(([k,v])=>v).map(([k])=>esc(k)).join(', ')||'default')}${kv('Friends',friends)}</div>
+ <div style="margin-top:12px">${kv('Starting scores (English / Math)',esc(D.sattse||'—')+' / '+esc(D.sattsm||'—'))}${kv('Targets (English / Math)',esc(D.sattge||'—')+' / '+esc(D.sattgm||'—'))}${kv('Test date',esc(D.sattest||''))}${kv('Study plan',(D.satplanon==='0'?'off':'on')+(sd?' · '+esc(sd):'')+(study.mins?' · '+esc(study.mins)+' min':''))}${kv('Full tests per week',esc(D.satftw||''))}${kv('Difficulty mix',D.satdmon==='1'?'Easy '+esc(D.satdmeasy||0)+'% · Hard '+esc(D.satdmhard||50)+'%':'off')}${kv('Reminders',D.satreminders==='0'?'off':'on'+(D.satremindinterval?' · every '+esc(D.satremindinterval)+' h':''))}${kv('Questions answered (unique)',Object.keys(stt).length)}${kv('Saved practices',sv.length)}${kv('Question notes',Object.keys(notes).length)}${kv('Full tests logged',tests.length)}${kv('Sharing',D.satshareenabled==='0'?'off':Object.entries(shp).filter(([k,v])=>v).map(([k])=>esc(k)).join(', ')||'default')}${kv('Friends',friends)}</div>
  <h3 style="margin:14px 0 4px">Recent activity</h3><p class="m sm" style="margin:0">${days||'No activity yet.'}</p>
  <h3 style="margin:14px 0 4px">Last 10 answers</h3><p class="m sm" style="margin:0">${rec||'None yet.'}</p>
  <details style="margin-top:14px"><summary>Raw data</summary><div class="devraw">${esc(JSON.stringify(raw,null,1))}</div></details>
@@ -2221,17 +2261,98 @@ async function showDevUser(uid){
 
 document.addEventListener('input',e=>{if(e.target&&e.target.id==='devq')devRender()});
 document.addEventListener('click',async ev=>{const b=ev.target.closest('[data-a]');if(!b)return;const a=b.dataset.a;
- if(a==='viewp'){if(document.getElementById('frm'))frClose();const m=$('#pm');if(m)m.hidden=true;FB.pvFrom=app.querySelector('#lbrows')?'lb':app.querySelector('#devl')||app.querySelector('.devraw')?'dev':'';showPeek(b.dataset.id,b.dataset.n)}
- else if(a==='pvback'){FB.pvFrom==='lb'?showLeaderboard():FB.pvFrom==='dev'?showDev():navBack()}
+ if(a==='viewp'){if(document.getElementById('frm'))frClose();const m=$('#pm');if(m)m.hidden=true;FB.pvFrom=app.querySelector('#lbrows')?'lb':app.querySelector('#devl')||app.querySelector('.devraw')?'dev':app.querySelector('[data-a=resetprog]')?'acct':'';showPeek(b.dataset.id,b.dataset.n)}
+ else if(a==='pvback'){FB.pvFrom==='lb'?showLeaderboard():FB.pvFrom==='dev'?showDev():FB.pvFrom==='acct'?showAccount():navBack()}
  else if(a==='pvreq'){b.disabled=true;try{await FB.m.Db.set(dbr('statReq/'+b.dataset.id+'/'+FB.user.uid),{u:FB.un||'',t:Date.now()});b.outerHTML='<span class="m sm">Request sent ✓ They will see it next time they open the app.</span>'}catch(e){b.disabled=false;fmsg(dbErr(e))}}
  else if(a==='srshare')srShare(b.dataset.id);
  else if(a==='srnot'){FB.srSkip[b.dataset.id]=1;srClose();srMaybe()}
  else if(a==='srdec')srDecline(b.dataset.id);
- else if(a==='srrev'){try{await FB.m.Db.remove(dbr('statAccess/'+FB.user.uid+'/'+b.dataset.id));srAccessUI()}catch(e){alert(dbErr(e))}}
+ else if(a==='srrev'){try{await FB.m.Db.remove(dbr('statAccess/'+FB.user.uid+'/'+b.dataset.id));try{await FB.m.Db.remove(dbr('statGrants/'+b.dataset.id+'/'+FB.user.uid))}catch(e){}srAccessUI()}catch(e){alert(dbErr(e))}}
  else if(a==='devpanel'){const m=$('#pm');if(m)m.hidden=true;showDev()}
  else if(a==='devrefresh')showDev();
  else if(a==='devuser'){if(!app.querySelector('#devl'))FB.pvFrom='dev';showDevUser(b.dataset.id)}
  else if(a==='devback')showDev()});
+
+/* ===== profile cards: banner, bio, picture, accent, status, tags, badges ===== */
+const PGRAD=['#667eea,#764ba2','#f6d365,#fda085','#2193b0,#6dd5ed','#11998e,#38ef7d','#cc2b5e,#753a88','#232526,#515355','#ff9a9e,#fecfef','#00c6ff,#0072ff'];
+const PACC=['#4f7cff','#e53935','#ff9800','#2eb85c','#9c27b0','#00bcd4','#ff4081','#8d6e63'];
+const PTAGS=[['early','🌅','Early bird'],['owl','🦉','Night owl'],['grind','💪','Grinder'],['math','➗','Math nerd'],['words','📚','Word nerd'],['coffee','☕','Coffee-powered'],['chill','😌','Chill studier'],['comp','🏆','Competitive']];
+const PEMO=['😀','😎','🤓','🔥','💪','📚','🎯','😴','☕','🚀','🧠','🎧'];
+const goalTotal=()=>(Number(ls('sattge'))||0)+(Number(ls('sattgm'))||0);
+function pBanner(c,b){c=c||{};const a=PACC.includes(c.accent)?c.accent:PACC[0];
+ if(b)return`background:url('${esc(b)}') center/cover`;
+ return`background:linear-gradient(135deg,${PGRAD[c.grad]||a+','+a+'88'})`}
+function pBadges(st,dev){const o=[];if(dev)o.push('🛠️ Developer');if(!st)return o;
+ const s=Number(st.streak)||0,n=Number(st.answered)||0,ac=Number(st.accuracy)||0,d=Number(st.days)||0;
+ if(s>=30)o.push('👑 30-day streak');else if(s>=7)o.push('⚡ 7-day streak');else if(s>=3)o.push('🔥 3-day streak');
+ if(n>=1000)o.push('🏆 1000 solved');else if(n>=500)o.push('🚀 500 solved');else if(n>=100)o.push('💯 100 solved');
+ if(n>=50&&ac>=80)o.push('🎯 Sharpshooter');if(d>=10)o.push('📅 Consistent');return o}
+function pCard(o){const c=o.card||{},a=PACC.includes(c.accent)?c.accent:PACC[0];
+ const tags=(c.tags||[]).map(id=>PTAGS.find(t=>t[0]===id)).filter(Boolean).map(t=>`<span class="ptag" style="border-color:${a};color:${a}">${t[1]} ${t[2]}</span>`).join('');
+ const bd=(o.badges||[]).map(t=>`<span class="pbdg">${t}</span>`).join('');
+ const st=(c.status||c.emoji)?`<div class="pst" style="background:${a}26">${esc(c.emoji||'')} ${esc(c.status||'')}</div>`:'';
+ const bio=c.bio?`<p class="pbio">${esc(c.bio).replace(/\n/g,'<br>')}</p>`:'';
+ const avh=o.av?`<img class="pavx" style="box-shadow:0 0 0 3px ${a}" src="${esc(o.av)}" alt="">`:`<span class="pavx" style="box-shadow:0 0 0 3px ${a}">${esc((o.uname||'?')[0].toUpperCase())}</span>`;
+ const meta=[c.goal?'🎯 Aiming for '+esc(c.goal):'',c.since?'Joined '+new Date(c.since).toLocaleDateString([],{month:'short',year:'numeric'}):''].filter(Boolean).join(' · ');
+ return`<div class="pcard"><div class="pbn" style="${pBanner(c,o.banner)}"></div><div class="pbd"><div class="pavw">${avh}</div><div class="pnm"><h1 class="${o.dev?'dev-username':''}">${o.title}</h1>${o.flair||''}</div>${o.sub?`<div class="m sm">${o.sub}</div>`:''}${st}${bio}${tags?`<div class="ptags">${tags}</div>`:''}${bd?`<div class="pbdgs">${bd}</div>`:''}${meta?`<div class="m sm" style="margin-top:8px">${meta}</div>`:''}${o.extra||''}</div></div>`}
+function myCardHTML(u){const n=nameOf().trim(),prov=(u.providerData||[]).map(p=>p.providerId==='google.com'?'Google':p.providerId==='password'?'Email':p.providerId).join(', ');
+ return pCard({uname:FB.un||n||'?',title:esc(FB.un?'@'+FB.un:(n||'Your account')),flair:FB.un?devFlair(FB.un,u.uid):'',dev:!!FB.un&&FB.un.toLowerCase()==='a',av:FB.avatar||u.photoURL||'',card:FB.card,banner:FB.banner,sub:esc(u.email||'')+(prov?' · '+esc(prov):''),badges:pBadges(myStatsFull(),false),
+  extra:`<div class="pacts"><button class="p pill" data-a="cardedit">Edit profile</button><button class="pill" data-a="socialsettings">Sharing</button>${FB.un?`<button class="pill" data-a="viewp" data-id="${esc(u.uid)}" data-n="${esc(FB.un)}">View as others</button>`:''}</div>`})}
+async function loadMyCard(force){if(!FB.user||!FB.ready)return false;const uid=FB.user.uid;if(FB.cardLoaded===uid&&!force)return false;FB.cardLoaded=uid;
+ try{const{Db}=FB.m,[c,b]=await Promise.all([Db.get(dbr('profiles/'+uid+'/card')),Db.get(dbr('banners/'+uid)).catch(()=>null)]);FB.card=c.exists()?c.val():null;FB.banner=b&&b.exists()?b.val():'';return true}catch(e){FB.cardLoaded=null;return false}}
+{const _sa=showAccount;showAccount=function(msg){_sa(msg);if(FB.user&&FB.ready&&FB.cardLoaded!==FB.user.uid)loadMyCard().then(ch=>{const el=app.querySelector('.acct>.pcard');if(ch&&el)el.outerHTML=myCardHTML(FB.user)})}}
+
+/* ---- profile editor ---- */
+let CE=null;
+function ceImg(file,w,h,cb){const im=new Image(),url=URL.createObjectURL(file);im.onload=()=>{const c=document.createElement('canvas'),x=c.getContext('2d');c.width=w;c.height=h;const r=Math.max(w/im.width,h/im.height),sw=w/r,sh=h/r;x.drawImage(im,(im.width-sw)/2,(im.height-sh)/2,sw,sh,0,0,w,h);cb(c.toDataURL('image/jpeg',.74));URL.revokeObjectURL(url)};im.onerror=()=>URL.revokeObjectURL(url);im.src=url}
+function cePrev(){const o=document.getElementById('cepv');if(!o||!CE)return;const u=FB.user,c={...CE.c,goal:CE.c.goalOn?goalTotal():0};
+ o.innerHTML=pCard({uname:FB.un||'?',title:esc(FB.un?'@'+FB.un:(nameOf().trim()||'You')),flair:FB.un?devFlair(FB.un,u.uid):'',dev:!!FB.un&&FB.un.toLowerCase()==='a',av:CE.avatar||FB.avatar||u.photoURL||'',card:c,banner:CE.banner,badges:pBadges(myStatsFull(),false)})}
+function ceMark(){document.querySelectorAll('[data-a=cegrad]').forEach(b=>b.classList.toggle('on',!CE.banner&&+b.dataset.i===CE.c.grad));
+ document.querySelectorAll('[data-a=ceacc]').forEach(b=>b.classList.toggle('on',b.dataset.c===CE.c.accent));
+ document.querySelectorAll('[data-a=ceemo]').forEach(b=>b.classList.toggle('on',(b.dataset.e||'')===(CE.c.emoji||'')));
+ document.querySelectorAll('[data-a=cetag]').forEach(b=>b.classList.toggle('on',CE.c.tags.includes(b.dataset.t)));
+ const bc=document.getElementById('cebc');if(bc)bc.textContent=CE.c.bio.length+'/160'}
+async function showCardEdit(){
+ if(!FB.user||!FB.ready){showAccount();return}
+ clearInterval(S.tick);S.done=true;S.authpage=false;document.body.dataset.q='';window.scrollTo(0,0);
+ await loadMyCard();const c=FB.card||{};
+ CE={c:{bio:c.bio||'',status:c.status||'',emoji:c.emoji||'',accent:PACC.includes(c.accent)?c.accent:PACC[0],grad:c.grad!=null?c.grad:null,tags:(c.tags||[]).slice(0,3),goalOn:!!c.goal,since:c.since||0},banner:FB.banner||'',avatar:''};
+ const gt=goalTotal();
+ app.innerHTML=`<div class="acct"><div id="cepv"></div><div class="card"><h2>Edit your profile</h2><p class="m sm" style="margin:0">This is what other people see when they open your profile. Your stats still follow your sharing settings.</p>
+ <div class="cefld"><b>Banner</b><div class="cegrid"><button class="cesw" data-a="cegrad" data-i="-1" style="background:var(--hd)" title="Match accent color">∅</button>${PGRAD.map((g,i)=>`<button class="cesw" data-a="cegrad" data-i="${i}" style="background:linear-gradient(135deg,${g})"></button>`).join('')}</div><div class="m sm">Or use your own image (it is cropped to a wide banner):</div><input type="file" id="cebn" accept="image/png,image/jpeg,image/webp,image/gif"><div><button class="s" data-a="cebrm">Remove banner image</button></div></div>
+ <div class="cefld"><b>Profile picture</b><input type="file" id="ceav" accept="image/png,image/jpeg,image/webp,image/gif"></div>
+ <div class="cefld"><b>Status</b><div class="cegrid"><button class="cechip" data-a="ceemo" data-e="">None</button>${PEMO.map(e=>`<button class="cechip" data-a="ceemo" data-e="${e}">${e}</button>`).join('')}</div><input type="text" id="cest" maxlength="40" placeholder="What are you up to? e.g. grinding for March" value="${esc(CE.c.status)}" style="text-align:left"></div>
+ <div class="cefld"><b>Bio <span class="m sm" id="cebc"></span></b><textarea class="ceta" id="cebio" maxlength="160" placeholder="Tell people about yourself…">${esc(CE.c.bio)}</textarea></div>
+ <div class="cefld"><b>Accent color</b><div class="cegrid">${PACC.map(a=>`<button class="ceacc" data-a="ceacc" data-c="${a}" style="background:${a}"></button>`).join('')}</div></div>
+ <div class="cefld"><b>Vibe (pick up to 3)</b><div class="cegrid">${PTAGS.map(t=>`<button class="cechip" data-a="cetag" data-t="${t[0]}">${t[1]} ${t[2]}</button>`).join('')}</div></div>
+ ${gt?`<label class="tgl cefld" style="flex-direction:row;align-items:center;gap:10px"><input type="checkbox" id="cegoal" ${CE.c.goalOn?'checked':''}><span>Show my target score (${gt}) on my profile</span></label>`:''}
+ <div class="btns" style="margin-top:18px"><button class="p pill" data-a="cardsave">Save profile</button><button class="pill" data-a="acct">Cancel</button></div><div class="m sm" id="cemsg"></div></div></div>`;
+ cePrev();ceMark()}
+async function saveCardEdit(){const msg=document.getElementById('cemsg'),say=t=>{if(msg)msg.textContent=t};
+ if(!CE||!FB.user||!FB.ready)return;const{Db}=FB.m,uid=FB.user.uid;say('Saving…');
+ try{const g=CE.c.goalOn?goalTotal():0,since=CE.c.since||Date.parse(FB.user.metadata&&FB.user.metadata.creationTime)||Date.now();
+  const card={bio:CE.c.bio.trim().slice(0,160),status:CE.c.status.trim().slice(0,40),emoji:CE.c.emoji||'',accent:CE.c.accent,since};
+  if(CE.c.tags.length)card.tags=CE.c.tags;if(CE.c.grad!=null)card.grad=CE.c.grad;if(g)card.goal=g;
+  await Db.set(dbr('profiles/'+uid+'/card'),card);
+  if(CE.banner&&CE.banner!==FB.banner){if(CE.banner.length>140000)throw new Error('That banner image is too large. Try a different one.');await Db.set(dbr('banners/'+uid),CE.banner)}
+  else if(!CE.banner&&FB.banner)await Db.remove(dbr('banners/'+uid));
+  if(CE.avatar){await Db.set(dbr('profiles/'+uid+'/avatar'),CE.avatar);FB.avatar=CE.avatar;fbUI()}
+  FB.card=card;FB.banner=CE.banner;FB.cardLoaded=uid;socialTick(true);showAccount('Profile saved.')}
+ catch(e){say((e&&e.message&&!e.code?e.message:dbErr(e))+' If this says permission denied, add the new rules (banners) in Firebase.')}}
+document.addEventListener('input',e=>{const t=e.target;if(!CE||!t)return;if(t.id==='cebio'){CE.c.bio=t.value;ceMark();cePrev()}else if(t.id==='cest'){CE.c.status=t.value;cePrev()}});
+document.addEventListener('change',e=>{const t=e.target;if(!CE||!t)return;
+ if(t.id==='cegoal'){CE.c.goalOn=t.checked;cePrev()}
+ else if(t.id==='cebn'&&t.files&&t.files[0]){const f=t.files[0];if(f.size>8*1024*1024){const m=$('#cemsg');if(m)m.textContent='Please choose an image under 8 MB.';return}ceImg(f,720,240,d=>{CE.banner=d;ceMark();cePrev()})}
+ else if(t.id==='ceav'&&t.files&&t.files[0]){const f=t.files[0];if(f.size>8*1024*1024){const m=$('#cemsg');if(m)m.textContent='Please choose an image under 8 MB.';return}ceImg(f,256,256,d=>{CE.avatar=d;cePrev()})}});
+document.addEventListener('click',ev=>{const b=ev.target.closest('[data-a]');if(!b)return;const a=b.dataset.a;
+ if(a==='cardedit')showCardEdit();
+ else if(a==='cardsave')saveCardEdit();
+ else if(!CE||!document.getElementById('cepv'))return;
+ else if(a==='cegrad'){CE.c.grad=+b.dataset.i<0?null:+b.dataset.i;CE.banner='';ceMark();cePrev()}
+ else if(a==='cebrm'){CE.banner='';ceMark();cePrev()}
+ else if(a==='ceacc'){CE.c.accent=b.dataset.c;ceMark();cePrev()}
+ else if(a==='ceemo'){CE.c.emoji=b.dataset.e||'';ceMark();cePrev()}
+ else if(a==='cetag'){const t=b.dataset.t,i=CE.c.tags.indexOf(t);if(i>=0)CE.c.tags.splice(i,1);else if(CE.c.tags.length<3)CE.c.tags.push(t);ceMark();cePrev()}});
 
 fbInit();
 document.getElementById('gbtn').innerHTML=GSVG+' Sign in';
