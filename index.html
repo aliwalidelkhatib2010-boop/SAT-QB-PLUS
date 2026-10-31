@@ -724,6 +724,51 @@ button.hintb{box-shadow:0 2px 8px #0003}
 .cmdel{margin-left:auto}.cmdel.armed{background:var(--bad);border-color:var(--bad);color:#fff}
 .cmpost.ann{border-color:#e4b83f;border-width:2px;background:color-mix(in srgb,#e4b83f 12%,var(--card))}
 .cmtag{display:inline-block;margin-left:8px;padding:2px 9px;border-radius:999px;background:#e4b83f;color:#1b1b1b;font-size:.72rem;font-weight:700;vertical-align:middle}
+
+/* ===== v3: Twitter/Discord-style banner (3:1) with fade, avatar rings, chat ===== */
+.pcard{position:relative}
+.pbn{aspect-ratio:3/1;height:auto;position:relative}
+.pbn::after{content:"";position:absolute;left:0;right:0;bottom:0;height:62%;pointer-events:none;background:linear-gradient(to bottom,transparent 0,color-mix(in srgb,var(--card) 35%,transparent) 45%,color-mix(in srgb,var(--card) 80%,transparent) 80%,var(--card) 100%)}
+.phead{position:relative;z-index:1}
+.pavw.rg{position:relative;padding:7px;margin:-7px;border-radius:50%}
+.pavw.rg::before,.rgdot::before{content:"";position:absolute;inset:0;border-radius:50%;background:var(--rb);-webkit-mask:radial-gradient(farthest-side,#0000 calc(100% - 6px),#000 calc(100% - 5px));mask:radial-gradient(farthest-side,#0000 calc(100% - 6px),#000 calc(100% - 5px));z-index:0}
+.pavw.rg .pavx{position:relative;z-index:1}
+.pavw.rg::after{content:attr(data-ri);position:absolute;right:-4px;bottom:-2px;z-index:2;min-width:26px;height:26px;padding:0 5px;box-sizing:border-box;border-radius:999px;display:grid;place-items:center;font-size:.8rem;font-weight:800;line-height:1;background:var(--card);border:2px solid var(--rc,var(--ac));color:var(--tx)}
+.rgspin::before,.rgdot.rgspin::before{animation:rgspin 6s linear infinite}
+@keyframes rgspin{to{transform:rotate(1turn)}}
+@media(prefers-reduced-motion:reduce){.rgspin::before{animation:none!important}}
+.rgbtn{display:inline-flex;flex-direction:column;align-items:center;gap:6px;width:76px;padding:8px 4px;border:1.5px solid var(--bd);border-radius:12px;background:var(--card);cursor:pointer;color:inherit;font:inherit}
+.rgbtn small{font-size:.72rem;color:var(--mut);text-align:center;line-height:1.15}
+.rgbtn.on{border-color:var(--ac);background:var(--hd)}.rgbtn.on small{color:inherit;font-weight:600}
+.rgdot{position:relative;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:1.05rem;font-weight:800}
+.rgdot::after{content:"";position:absolute;inset:7px;border-radius:50%;background:var(--ac);opacity:.35}
+.rgdot>span{position:relative;z-index:1}
+.chwrap{display:flex;flex-direction:column;gap:10px}
+.chhd{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.chhd h1{margin:0;font-size:1.2rem;flex:1;min-width:0}
+#chlist{height:min(56vh,480px);overflow-y:auto;border:1px solid var(--bd);border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:6px;background:var(--bg)}
+.chm{max-width:78%;padding:8px 12px;border-radius:16px;line-height:1.4;overflow-wrap:anywhere;white-space:pre-wrap;font-size:.95rem;align-self:flex-start;background:var(--card);border:1px solid var(--bd);text-align:left}
+.chm.me{align-self:flex-end;background:var(--ac);color:var(--bg);border-color:transparent}
+.chm small{display:block;margin-top:3px;font-size:.68rem;opacity:.7;white-space:normal}
+.chm .chx{margin-left:8px;cursor:pointer;background:none;border:0;color:inherit;opacity:.7;font-size:.68rem;padding:0;text-decoration:underline}
+.chrow{display:flex;gap:8px;align-items:flex-end}.chrow textarea{flex:1;min-height:44px;max-height:120px;resize:none;box-sizing:border-box;padding:10px;border:1px solid var(--bd);border-radius:12px;background:var(--bg);color:inherit;font:inherit;line-height:1.35}
+
+/* ===== v4: background loading, locked start buttons, progress bar ===== */
+.pdfbar.ind i{width:35%;position:relative;animation:pdfind 1.1s ease-in-out infinite alternate}
+@keyframes pdfind{from{left:0}to{left:65%}}
+#pdfnote{min-width:230px}#pdfnote .bar{margin:8px 0 0}#pdfnote i{transition:width .2s}
+body[data-ld="1"] :is([data-a=begin],[data-a=fullsetup],[data-a=setup],[data-a=go],[data-a=goall],[data-a=fullgo],[data-a=resume],[data-a=retry],[data-a=finsess],[data-a=newfile],.drop){opacity:.45;filter:grayscale(1);cursor:not-allowed}
+
+/* ===== v5: full-screen profile picture + comments ===== */
+.pcard .pavw{cursor:zoom-in}
+#pfv{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:rgba(0,0,0,.86);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);cursor:zoom-out;animation:pfvin .18s ease-out;overflow:hidden}
+@keyframes pfvin{from{opacity:0}to{opacity:1}}
+#pfv .pavw{margin:0;transform-origin:center;cursor:zoom-out}
+.cmcb{margin-left:0}
+.cmcs{margin-top:10px;padding-top:10px;border-top:1px solid var(--bd);text-align:left}
+.cmc{padding:6px 0}.cmch{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.cmct{margin:2px 0 0;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.4;font-size:.93rem}
+.cmcx{margin-left:auto;cursor:pointer;background:none;border:0;color:var(--mut);font-size:.72rem;text-decoration:underline;padding:0}.cmcx.armed{color:var(--bad);font-weight:700}
+.cmcrow{display:flex;gap:8px;margin-top:8px}.cmcin{flex:1;min-width:0;box-sizing:border-box;padding:9px 12px;border:1px solid var(--bd);border-radius:999px;background:var(--bg);color:inherit;font:inherit;text-align:left}
 </style></head>
 <body>
 <div id="tbar"><span id="tl" style="display:flex;align-items:center;gap:10px"><button class="s" id="hmb" data-a="home" title="Home" aria-label="Home"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg></button><button class="s" id="pdfb" data-a="newfile">English / Math PDFs</button></span><span id="tr"><button class="s gbtn" id="gbtn" data-a="gin" hidden></button><button class="s" id="th" data-a="theme" title="Toggle light / dark" aria-label="Toggle light / dark theme">◐</button><button class="s" id="cmb" data-a="community" title="Community" aria-label="Community"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M21 12a8 8 0 0 1-11.7 7.1L3.5 20.5l1.4-4.9A8 8 0 1 1 21 12Z"/><path d="M8.5 11h7"/><path d="M8.5 14.5h4.5"/></svg></button><button class="s" id="frb" data-a="friends" title="Friends" aria-label="Friends"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><path d="M16 4.7a3.5 3.5 0 0 1 0 6.6"/><path d="M18 14.8c2 .6 3.2 2.3 3.5 5.2"/></svg><span class="frbadge" id="frbadge" hidden>!</span></button><div class="mw"><button class="av" id="pfp" data-a="pfp" title="Account" aria-label="Account"></button><span class="unb" id="unb" title="Set a username" hidden>!</span><div id="pm" hidden></div></div></span></div>
@@ -746,6 +791,30 @@ const ls=(k,v)=>{try{const r=v===undefined?localStorage.getItem(k):v===null?loca
 let stats={};try{stats=JSON.parse(ls('satstats')||'{}')}catch(e){}
 let questionNotes={};try{questionNotes=JSON.parse(ls('satnotes')||'{}')||{}}catch(e){}
 function saveQuestionNotes(){ls('satnotes',JSON.stringify(questionNotes))}
+let myAns={};try{myAns=JSON.parse(ls('satmyans')||'{}')||{}}catch(e){}
+const saveMyAns=()=>ls('satmyans',JSON.stringify(myAns));
+/* answers typed in by the user when the PDF's answer key could not be read; q.ca0 keeps what the PDF said */
+function maApply(q){if(!q)return;if(q.ca0===undefined)q.ca0=q.ca||'';q.ca=myAns[q.id]||q.ca0}
+function maHTML(q){if(!q||q.vc||q.gr)return'';const own=myAns[q.id];
+ if(own)return `<div class="maw m sm" style="margin:8px 0">Using the answer you saved: <b>${esc(own)}</b>. <button class="lnk" data-a="mach">Change</button> <button class="lnk" data-a="maclr">Remove</button></div>`;
+ if(!q.ca)return `<div class="maw" style="margin:8px 0"><button class="s" data-a="maset">Input the correct answer for this question (for future reference)</button></div>`;
+ return''}
+function maForm(q){const L=q.mc?(q.ch&&q.ch.length?q.ch.map(c=>c.L):'ABCD'.split('')):null;
+ return L?`<span class="m sm">Which choice is correct?</span> <span class="cegrid" style="display:inline-flex;margin-left:6px">${L.map(l=>`<button class="s" data-a="masave" data-v="${esc(l)}">${esc(l)}</button>`).join('')}<button class="s" data-a="macan">Cancel</button></span>`
+  :`<input type="text" id="mainp" maxlength="30" placeholder="Correct answer" autocomplete="off" style="text-align:left;max-width:200px"> <button class="p s" data-a="masave">Save</button> <button class="s" data-a="macan">Cancel</button>`}
+function maSave(v){const q=S.set[S.i];if(!q)return;v=String(v||'').trim().slice(0,30);if(!v)return;if(q.mc){v=v.toUpperCase();if(!/^[A-D]$/.test(v))return}
+ myAns[q.id]=v;saveMyAns();maRegrade(q)}
+function maClear(){const q=S.set[S.i];if(!q)return;delete myAns[q.id];saveMyAns();maRegrade(q)}
+function maRegrade(q){maApply(q);if(S.chk[q.id]&&S.ans[q.id]){const ok=right(q,S.ans[q.id]);stats[q.id]=ok?1:0;saveStats();
+  for(let i=satlog.length-1;i>=0;i--)if(satlog[i][0]===q.id){satlog[i][1]=ok?1:0;ls('satlog',JSON.stringify(satlog));break}}
+ show()}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a;
+ if(a==='maset'||a==='mach'){const q=S.set[S.i],w=b.closest('.maw');if(q&&w){w.innerHTML=maForm(q);const i=w.querySelector('#mainp');if(i)i.focus()}}
+ else if(a==='masave'){const i=document.getElementById('mainp');maSave(b.dataset.v||(i&&i.value))}
+ else if(a==='maclr')maClear();
+ else if(a==='macan'){const q=S.set[S.i],w=b.closest('.maw');if(q&&w)w.outerHTML=maHTML(q)||''}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target&&e.target.id==='mainp'){e.preventDefault();maSave(e.target.value)}});
+
 function initQuestionNote(q){const area=$('#qnoteText'),status=$('#qnoteStatus'),launch=$('#qnoteLaunch'),drawer=$('#qnoteDrawer');if(!area)return;area.value=questionNotes[q.id]||'';if(drawer)drawer.classList.remove('open');if(launch)launch.hidden=ls('satqnotesbtn')==='0';let timer=null;area.oninput=()=>{const v=area.value;if(v.trim())questionNotes[q.id]=v;else delete questionNotes[q.id];saveQuestionNotes();if(status)status.textContent='Saved on this device'+(FB&&FB.user?' · syncing to your account…':'');clearTimeout(timer);timer=setTimeout(()=>{if(status)status.textContent='Saved'+(FB&&FB.user?' to your account':' on this device')},900)}}
 document.addEventListener('click',e=>{if(e.target.closest('#qnoteLaunch')){const d=document.getElementById('qnoteDrawer');if(d)d.classList.add('open')}if(e.target.closest('#qnoteClose')){const d=document.getElementById('qnoteDrawer');if(d)d.classList.remove('open')}});
 const saveStats=()=>ls('satstats',JSON.stringify(stats));
@@ -1041,9 +1110,9 @@ function wrapLines(o,k){
 
 /* ---------- answer checking ---------- */
 const norm=s=>{s=String(s).replace(/\u2212/g,'-').replace(/[\s,$%]/g,'');const m=s.match(/^(-?\d*\.?\d+)\/(-?\d*\.?\d+)$/);return m?+m[1]/+m[2]:(s!==''&&!isNaN(+s)?+s:s.toLowerCase())};
-function right(q,a){if(!a||!q.ca)return false;if(q.mc)return a===q.ca[0];
+function right(q,a){maApply(q);if(!a||!q.ca)return false;if(q.mc)return a===q.ca[0];
  return q.ca.split(/\s+or\s+|;|,\s+/i).some(c=>{const x=norm(c),y=norm(a);return typeof x==='number'&&typeof y==='number'?Math.abs(x-y)<1e-6:x===y})}
-function paint(){const q=S.set[S.i];if(!q)return;const done=S.mode==='review'||S.chk[q.id];
+function paint(){const q=S.set[S.i];if(!q)return;maApply(q);const done=S.mode==='review'||S.chk[q.id];
  document.querySelectorAll('.ch').forEach(b=>{const L=b.dataset.l,s=S.ans[q.id]===L;b.className='ch'+(done?(L===q.ca[0]?' ok':s?' bad':''):s?' sel':'')+(S.xo[q.id+L]?' xo':'')});
  const nv=document.querySelector('.nv.cur');if(nv&&!done)nv.classList.toggle('an',!!S.ans[q.id])}
 function check(){const q=S.set[S.i];if(!S.ans[q.id])return;S.chk[q.id]=1;stats[q.id]=right(q,S.ans[q.id])?1:0;rec(q,stats[q.id]);saveStats();show()}
@@ -1062,16 +1131,17 @@ function showUpload(note=''){document.body.dataset.q='';
 async function parseBuf(buf,st,pb){
  const doc=await pdfjsLib.getDocument({data:new Uint8Array(buf.slice(0))}).promise,qs=[],cache=new Map();
  /* questions that run onto the next page are stitched into one tall page so choices, answer key and rationale are never cut */
- const gi=async n=>{if(cache.has(n))return cache.get(n);const p=await doc.getPage(n),vp=p.getViewport({scale:1}),tc=await p.getTextContent();p.cleanup();
+ const gi=n=>{if(cache.has(n))return cache.get(n);const pr=(async()=>{const p=await doc.getPage(n),vp=p.getViewport({scale:1}),tc=await p.getTextContent();p.cleanup();
   const its=tc.items.filter(i=>i.str.trim()).map(i=>{const t=pdfjsLib.Util.transform(vp.transform,i.transform);return{s:i.str,x:t[4],y:t[5],h:Math.hypot(t[2],t[3])||10,w:i.width*vp.scale}});
-  const r={its,H:vp.height,q:/Question ID:\s*[0-9a-f]+/i.test(grp(its,2.5).map(l=>l.t).join('\n'))};cache.set(n,r);cache.delete(n-4);return r};
- for(let n=1;n<=doc.numPages;n++){const a=await gi(n);
+  const r={its,H:vp.height,q:/Question ID:\s*[0-9a-f]+/i.test(grp(its,2.5).map(l=>l.t).join('\n'))};return r})();pr.catch(()=>{});cache.set(n,pr);cache.delete(n-12);return pr};
+ for(let n=1;n<=doc.numPages;n++){for(let j=n+1;j<=Math.min(doc.numPages,n+4);j++)gi(j);const a=await gi(n);
   if(a.q){let its=a.its.slice(),off=a.H;const pg=[{n,H:a.H}];
    while(n+1<=doc.numPages){const b=await gi(n+1);if(b.q)break;its=its.concat(b.its.map(i=>({...i,y:i.y+off})));off+=b.H;pg.push({n:n+1,H:b.H});n++}
    const q=parsePage(pg[0].n,its,pg);if(q)qs.push(q)}
-  if(n%8===0||n===doc.numPages){st(`Reading page ${n} of ${doc.numPages}…`);if(pb)pb.style.width=(n/doc.numPages*100)+'%';await new Promise(r=>setTimeout(r))}}
+  if(n%8===0||n===doc.numPages){st(`Reading page ${n} of ${doc.numPages}…`,n/doc.numPages);if(pb)pb.style.width=(n/doc.numPages*100)+'%';await new Promise(r=>setTimeout(r))}}
  return{doc,qs}}
 async function load(file,k){
+ if(S.ldLocal||S.dl){const e=document.querySelector(`.st[data-k="${k}"]`);if(e)e.textContent='Still loading your saved banks. Try again in a moment.';return}
  const st=t=>{const e=document.querySelector(`.st[data-k="${k}"]`);if(e)e.textContent=t},pb=document.querySelector(`.pb[data-k="${k}"]`);
  try{st('Opening PDF…');const buf=await file.arrayBuffer(),{doc,qs}=await parseBuf(buf,st,pb);
   if(!qs.length){st('No questions were found. This site expects pages that start with “Question ID:”.');return}
@@ -1079,7 +1149,7 @@ async function load(file,k){
   S.docs[k]=doc;S.qs=S.qs.filter(q=>q.src!==k).concat(qs);vcBankSync();
   try{await idb('put','pdf_'+k,buf);await idb('put','index_'+k,{v:10,qs})}catch(e){}
   const base=`${SRC[k]} document loaded: ${qs.length} questions.`;showUpload(base);
-  if(FB.user&&FB.ready){const say=t=>{const e=document.getElementById('st');if(e)e.textContent=base+' '+t};say('Saving to your account…');if(await pdfPut(k,buf,qs.length,say))say('Saved to your account, so you will not need to upload it again.')}
+  if(FB.user&&FB.ready){const say=(t,p)=>{const e=document.getElementById('st');if(e)e.textContent=base+' '+t;const pb2=document.querySelector(`.pb[data-k="${k}"]`);if(pb2&&typeof p==='number')pb2.style.width=Math.round(p*100)+'%'};say('Saving to your account…');if(await pdfPut(k,buf,qs.length,say))say('Saved to your account, so you will not need to upload it again.')}
  }catch(e){st('Could not read that file: '+(e&&e.message||e))}}
 async function removeBank(k){delete S.docs[k];S.qs=S.qs.filter(q=>q.src!==k);vcBankSync();for(const c of[...pc.keys()])if(c[0]===k)pc.delete(c);
  try{await idb('put','pdf_'+k,null);await idb('put','index_'+k,null)}catch(e){}
@@ -1164,7 +1234,7 @@ function showTitle(){
  app.innerHTML=`<div class="ttl"><div class="logo">SAT</div><h1>${nameOf()?'Hey, '+hi():'SAT Practice'}</h1><p class="m">${nameOf()?'Ready to practice?':'Bluebook-style practice from your own question bank.'}</p>${cdHTML()}
  ${has?`<div class="stat"><div><b>${S.qs.length}</b><span>questions</span></div><div><b>${g.p}%</b><span>completed</span></div></div><p class="m sm" style="margin:0"></p>`:''}
  ${tg?`<div class="tgbox" id="tgt">${tg}</div>`:''}
- <div class="btns"><button class="p pill big" data-a="begin">${has?(ss?'Continue':'Start practicing'):'Upload question bank'}</button>${has?'<button class="pill big" data-a="fullsetup">Full practice test</button>':''}${vcBtn()}</div>
+ <div class="btns"><button class="p pill big" data-a="begin">${has?(ss?'Continue':'Start practicing'):(S.ldLocal||S.dl?'Loading question bank…':'Upload question bank')}</button>${has?'<button class="pill big" data-a="fullsetup">Full practice test</button>':''}${vcBtn()}</div>
   <p class="m sm" style="margin:6px 0 0;font-size:.75rem;opacity:.85">This is our new website (https://www.satqbplus.freedev.app). The old domain now redirects here.${apkLink()}</p>
   </div><button class="s tipsb" data-vc="tips" title="Tips &amp; tricks" aria-label="Tips &amp; tricks"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg><span class="tl">Tips &amp; tricks</span></button>`}
 
@@ -1425,7 +1495,7 @@ async function show(){
   }else spr();
   paint();
   if(done){const ok=right(q,S.ans[q.id]),a=S.ans[q.id];
-   fb.innerHTML=`<div class="bn ${ok?'ok':'bad'}">${!q.ca?'I couldn’t read the answer key for this one. Press “Original page” to check it.':a?(ok?`Correct. The answer is ${esc(q.ca)}.`:`You ${q.mc?'selected answer':'entered'} ${esc(a)}. The correct answer is ${esc(q.ca)}`):`You didn’t answer this one. The correct answer is ${esc(q.ca)}`}</div>${q.r?'<h3>Rationale</h3><div id="rb" class="qtx"></div>':''}`;
+   fb.innerHTML=`<div class="bn ${ok?'ok':'bad'}">${!q.ca?'I couldn’t read the answer key for this one. Press “Original page” to check it.':a?(ok?`Correct. The answer is ${esc(q.ca)}.`:`You ${q.mc?'selected answer':'entered'} ${esc(a)}. The correct answer is ${esc(q.ca)}`):`You didn’t answer this one. The correct answer is ${esc(q.ca)}`}</div>${maHTML(q)}${q.r?'<h3>Rationale</h3><div id="rb" class="qtx"></div>':''}`;
    if(q.r){const re=await piece(q,q.rt,q.r[0],q.r[1],0);if(tok!==S.tok)return;const rb=$('#rb');rb.append(re);
     for(const n of q.ex){const c=await pageCanvas(n,q.src);if(tok!==S.tok)return;rb.append(crop(c,0,0,1e4,c.height/SC))}}}
   if(S.orig){const c=await qCanvas(q);if(tok!==S.tok)return;$('#og').innerHTML='<h3>Original page</h3>';$('#og').append(crop(c,0,Math.max(0,q.q[0]-18),1e4,q.qe))}
@@ -1656,24 +1726,36 @@ function gdraw(){const c=$('#gc');if(!c||!c.clientWidth)return;const w=c.clientW
  for(const v of G.v){const px=ox+v.x*G.s;g.strokeStyle=v.col;g.beginPath();g.moveTo(px,0);g.lineTo(px,h);g.stroke()}
  for(const q of G.p){g.beginPath();g.arc(ox+q.x*G.s,oy-q.y*G.s,5,0,7);g.fillStyle=q.col;g.fill();g.strokeStyle='#fff';g.lineWidth=1.5;g.stroke()}}
 
-(async()=>{app.innerHTML='<div class="ttl m">Loading your saved question banks…</div>';
- const get=async k=>{try{const n=k?'_'+k:'',[b,ix]=await Promise.all([idb('get','pdf'+n),idb('get','index'+n)]);return b&&ix&&ix.qs?{b,ix}:null}catch(e){return null}};
- const add=async(k,b,ix,mig)=>{try{const doc=await pdfjsLib.getDocument({data:new Uint8Array(b.slice(0))}).promise;let qs=ix.qs;
-   if(ix.v<10){const r=await parseBuf(b,t=>{app.innerHTML=`<div class="ttl m">Updating your saved question bank… ${esc(t)}</div>`});qs=r.qs}
-   qs.forEach(q=>q.src=k);S.docs[k]=doc;S.qs=S.qs.concat(qs);
-   if(mig||ix.v!==10){try{await idb('put','pdf_'+k,b);await idb('put','index_'+k,{v:10,qs});if(mig){await idb('put','pdf',null);await idb('put','index',null)}}catch(e){}}
-  }catch(e){}};
- for(const k of['E','M']){const r=await get(k);if(r)await add(k,r.b,r.ix,false)}
- if(!S.qs.length){const r=await get('');if(r){const L=r.ix.qs,m=L.filter(q=>/Math/i.test(q.test)).length>L.length/2?'M':'E';await add(m,r.b,r.ix,true)}}
- vcBankSync();
- await Promise.race([FB.first,new Promise(r=>setTimeout(r,4000))]);
- if(FB.user){pdfUI=t=>{app.innerHTML='<div class="ttl m">'+esc(t||'Loading your saved question banks…')+'</div>'};try{await pdfSyncOnce()}catch(e){}pdfUI=null;pdfSay('')}
- if(S.authpage)return;
- if(FB.ready&&!FB.user&&ls('satauthseen')!=='1')showAuth('up',false);
- else if(ls('satdone')!=='1')showSurvey();else showTitle()})();
+function ldSet(){const on=!!(S.ldLocal||S.dl);if(on)document.body.dataset.ld='1';else delete document.body.dataset.ld}
+document.addEventListener('click',e=>{if(document.body.dataset.ld!=='1')return;const b=e.target.closest&&e.target.closest('[data-a=begin],[data-a=fullsetup],[data-a=setup],[data-a=go],[data-a=goall],[data-a=fullgo],[data-a=resume],[data-a=retry],[data-a=finsess],[data-a=newfile],.drop');if(!b)return;e.preventDefault();e.stopImmediatePropagation();pdfSay('Still loading your question banks. Practice unlocks in a moment.',2500,false)},true);
+(async()=>{S.ldLocal=1;ldSet();
+ app.innerHTML='<div class="ttl m">Loading your account…<div class="bar pdfbar ind" style="max-width:240px;margin:12px auto 0"><i></i></div></div>';
+ pdfSay('Loading your question banks…');
+ /* question banks load in the background, both at once, while the account loads in parallel */
+ S.localP=(async()=>{
+  const get=async k=>{try{const n=k?'_'+k:'',[b,ix]=await Promise.all([idb('get','pdf'+n),idb('get','index'+n)]);return b&&ix&&ix.qs?{b,ix}:null}catch(e){return null}};
+  const add=async(k,b,ix,mig)=>{try{const doc=await pdfjsLib.getDocument({data:new Uint8Array(b.slice(0))}).promise;let qs=ix.qs;
+    if(ix.v<10){const r=await parseBuf(b,(t,p)=>pdfSay('Updating your saved question bank… '+t,0,p));qs=r.qs}
+    qs.forEach(q=>q.src=k);S.docs[k]=doc;S.qs=S.qs.concat(qs);
+    if(mig||ix.v!==10){try{await idb('put','pdf_'+k,b);await idb('put','index_'+k,{v:10,qs});if(mig){await idb('put','pdf',null);await idb('put','index',null)}}catch(e){}}
+   }catch(e){}};
+  try{
+   await Promise.all(['E','M'].map(async k=>{const r=await get(k);if(r)await add(k,r.b,r.ix,false)}));
+   if(!S.qs.length){const r=await get('');if(r){const L=r.ix.qs,m=L.filter(q=>/Math/i.test(q.test)).length>L.length/2?'M':'E';await add(m,r.b,r.ix,true)}}
+   S.qs.sort((x,y)=>x.src===y.src?0:x.src==='E'?-1:1);
+   vcBankSync()}catch(e){}
+  S.ldLocal=0;ldSet();if(!S.dl)pdfSay('');pdfRefresh()})();
+ await null;/* let the rest of the script (Firebase setup) finish defining FB first */
+ const ok=await Promise.race([FB.first.then(()=>1),new Promise(r=>setTimeout(()=>r(0),4000))]);
+ if(!S.authpage){
+  if(ok&&FB.ready&&!FB.user&&ls('satauthseen')!=='1')showAuth('up',false);
+  else if(ls('satdone')!=='1')showSurvey();else showTitle()}
+ await S.localP;
+ if(FB.user){try{await pdfSyncOnce()}catch(e){}}
+ S.dl=0;ldSet();pdfRefresh()})();
 /* ===== Firebase: Google sign-in + progress sync (needs your own hosting; see FIREBASE_CONFIG at the top) ===== */
 var FBres,FB={cfg:!!FIREBASE_CONFIG.apiKey,ready:false,user:null,err:null,m:null,sync:'',t:0,pulling:false,first:new Promise(r=>FBres=r)};
-var SYNC=['satnotes','satstats','satlog','satsaved','satname','satdone','sattse','sattsm','sattge','sattgm','satbase','sattest','satstudy','satplanon','satcd','satftw','sattests','satvlog','satvsaved','satsess','satsessat','satshareprefs','satshareenabled','satreminders','satremindinterval','satdmon','satdmhard','satdmeasy'],SCAL=['satname','satdone','sattse','sattsm','sattge','sattgm','satbase','sattest','satstudy','satplanon','satcd','satftw','satreminders','satremindinterval','satdmon','satdmhard','satdmeasy'];
+var SYNC=['satnotes','satmyans','satstats','satlog','satsaved','satname','satdone','sattse','sattsm','sattge','sattgm','satbase','sattest','satstudy','satplanon','satcd','satftw','sattests','satvlog','satvsaved','satsess','satsessat','satshareprefs','satshareenabled','satreminders','satremindinterval','satdmon','satdmhard','satdmeasy'],SCAL=['satname','satdone','sattse','sattsm','sattge','sattgm','satbase','sattest','satstudy','satplanon','satcd','satftw','satreminders','satremindinterval','satdmon','satdmhard','satdmeasy'];
 const GSVG='<svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.4 30.2 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.8 6C12.3 13.5 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.4 5.7c4.3-4 6.9-9.9 6.9-17.1z"/><path fill="#FBBC05" d="M10.4 28.8c-.5-1.4-.8-2.9-.8-4.8s.3-3.3.8-4.8l-7.8-6C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.8-6z"/><path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.6l-7.4-5.7c-2 1.4-4.7 2.3-7.8 2.3-6.3 0-11.7-4-13.6-9.7l-7.8 6C6.5 42.6 14.6 48 24 48z"/></svg>';
 function avStyle(){const u=FB.user,photo=FB.avatar||(u&&u.photoURL);return photo?bgStyle(photo,1):''}
 function fbBlock(){
@@ -1687,7 +1769,8 @@ async function fbInit(){
  if(!FB.cfg){fbUI();FBres();return}
  try{const V='10.12.2',u=n=>`https://www.gstatic.com/firebasejs/${V}/firebase-${n}.js`,[A,Au,Db]=await Promise.all([import(u('app')),import(u('auth')),import(u('database'))]);
   FB.m={A,Au,Db};const app=A.initializeApp(FIREBASE_CONFIG);FB.auth=Au.getAuth(app);FB.db=Db.getDatabase(app);FB.ready=true;
-  Au.onAuthStateChanged(FB.auth,async u=>{FB.user=u;FB.err=null;fbUI();if(u)await cloudPull();if(u){await unLoad();try{const av=await Db.get(Db.ref(FB.db,'profiles/'+u.uid+'/avatar'));FB.avatar=av.exists()?av.val():''}catch(e){FB.avatar=''}fbUI();unAsk();frWatch()}else{FB.un='';FB.fr=null;frUnwatch()}FBres();if(u)pdfSyncOnce().then(ch=>{if(ch)pdfRefresh()});
+  Au.onAuthStateChanged(FB.auth,async u=>{FB.user=u;FB.err=null;if(u){let c='';try{c=localStorage.getItem('satun_'+u.uid)||''}catch(e){}FB.un=c;FB.unOk=false}fbUI();
+   if(u){const avP=Db.get(Db.ref(FB.db,'profiles/'+u.uid+'/avatar')).then(av=>{FB.avatar=av.exists()?av.val():''}).catch(()=>{FB.avatar=''});await Promise.all([unLoad(),cloudPull(),avP]);fbUI();unAsk();frWatch()}else{FB.un='';FB.unOk=false;FB.fr=null;frUnwatch()}FBres();if(u)pdfSyncOnce().then(ch=>{if(ch)pdfRefresh()});
    if(u&&S.authpage){S.authpage=false;ls('satauthseen','1');ls('satdone')==='1'?showTitle():showSurvey()}});
   Au.getRedirectResult(FB.auth).catch(e=>{FB.err=e;fbUI()});
  }catch(e){FB.ready=false;fbUI();FBres()}}
@@ -1711,6 +1794,7 @@ async function cloudPull(){
  try{const uref='users/'+FB.user.uid,[snap,msnap]=await Promise.all([Db.get(Db.ref(FB.db,uref+'/data')),Db.get(Db.ref(FB.db,uref+'/mod'))]);
   if(snap.exists()){const D={mod:msnap.val()},d=snap.val()||{};
    if(d.satnotes){const remoteNotes=J(d.satnotes)||{};questionNotes={...remoteNotes,...questionNotes};saveQuestionNotes()}
+   if(d.satmyans){myAns={...(J(d.satmyans)||{}),...myAns};saveMyAns()}
    if(d.satlog){const m=new Map();[...(J(d.satlog)||[]),...satlog].forEach(x=>m.set(x[0]+'|'+x[2],x));satlog=[...m.values()].sort((a,b)=>a[2]-b[2]).slice(-6000);ls('satlog',JSON.stringify(satlog))}
    if(d.satstats){const cs=J(d.satstats)||{};stats={...cs,...stats};if(d.satlog||satlog.length){const last={};satlog.forEach(x=>last[x[0]]=x[1]);Object.keys(last).forEach(k=>{if(k in cs||k in stats)stats[k]=last[k]})}saveStats()}
    if(d.satsaved){const have=new Set(saved.map(x=>String(x.id)));(J(d.satsaved)||[]).forEach(x=>{if(!have.has(String(x.id)))saved.push(x)});saveSaved()}
@@ -1733,45 +1817,47 @@ var PCH=786432,PMAX=60*1024*1024,pdfUI=null,pdfTm=0;
 function pdfRef(k,s){return FB.m.Db.ref(FB.db,'users/'+FB.user.uid+'/pdfs/'+k+(s?'/'+s:''))}
 function b64(blob){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(',')[1]||'');r.onerror=rej;r.readAsDataURL(blob)})}
 function unb64(s){const b=atob(s),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
-function pdfSay(t,keep){if(pdfUI){pdfUI(t);return}let e=document.getElementById('pdfnote');clearTimeout(pdfTm);
+function pdfSay(t,keep,p){if(pdfUI){pdfUI(t);return}let e=document.getElementById('pdfnote');clearTimeout(pdfTm);
  if(!t){if(e)e.remove();return}
- if(!e){e=document.createElement('div');e.id='pdfnote';e.style.cssText='position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:60;background:var(--card);color:var(--tx);border:1px solid var(--bd);border-radius:12px;padding:10px 16px;font-size:.85rem;box-shadow:0 6px 24px rgba(0,0,0,.25);max-width:92vw;text-align:center';document.body.appendChild(e)}
- e.textContent=t;if(keep)pdfTm=setTimeout(()=>pdfSay(''),keep)}
+ if(!e){e=document.createElement('div');e.id='pdfnote';e.style.cssText='position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:60;background:var(--card);color:var(--tx);border:1px solid var(--bd);border-radius:12px;padding:10px 16px;font-size:.85rem;box-shadow:0 6px 24px rgba(0,0,0,.25);max-width:92vw;text-align:center';e.innerHTML='<div class="pdfnt"></div><div class="bar pdfbar"><i></i></div>';document.body.appendChild(e)}
+ e.querySelector('.pdfnt').textContent=t;const bar=e.querySelector('.pdfbar'),i=bar.firstChild;
+ if(p===false)bar.style.display='none';else{bar.style.display='';if(typeof p==='number'){bar.classList.remove('ind');i.style.width=Math.max(3,Math.min(100,p*100))+'%'}else{bar.classList.add('ind');i.style.width=''}}
+ if(keep)pdfTm=setTimeout(()=>pdfSay(''),keep)}
 async function pdfPut(k,buf,nq,say){
  if(!FB.user||!FB.ready)return false;const{Db}=FB.m,uid=FB.user.uid;
  try{
   if(buf.byteLength>PMAX){say('This PDF is too large to save to your account ('+Math.round(buf.byteLength/1048576)+' MB), so it stays on this device only.');return false}
   const n=Math.ceil(buf.byteLength/PCH);await Db.remove(pdfRef(k));
-  for(let i=0;i<n;i++){await Db.set(pdfRef(k,'c/'+i),await b64(new Blob([buf.slice(i*PCH,(i+1)*PCH)])));say('Saving to your account… '+Math.round((i+1)/n*100)+'%')}
+  for(let i=0;i<n;i++){await Db.set(pdfRef(k,'c/'+i),await b64(new Blob([buf.slice(i*PCH,(i+1)*PCH)])));say('Saving to your account…',(i+1)/n)}
   const at=Date.now();await Db.set(pdfRef(k,'meta'),{n,size:buf.byteLength,q:nq||0,at});/* meta is written last, so a half-finished upload is never used */
   localStorage.setItem('satpdfat_'+k+'_'+uid,String(at));return true
  }catch(e){say('Could not save to your account: '+(e.code||e.message));return false}}
 async function pdfGet(k,say){
  const{Db}=FB.m,m=await Db.get(pdfRef(k,'meta'));if(!m.exists())return null;
  const M=m.val(),parts=new Array(M.n);
- for(let i=0;i<M.n;i+=4){const idx=[];for(let j=i;j<Math.min(M.n,i+4);j++)idx.push(j);
+ for(let i=0;i<M.n;i+=8){const idx=[];for(let j=i;j<Math.min(M.n,i+8);j++)idx.push(j);
   const sn=await Promise.all(idx.map(j=>Db.get(pdfRef(k,'c/'+j))));
   sn.forEach((s,x)=>{if(!s.exists())throw new Error('part '+idx[x]+' is missing');parts[idx[x]]=unb64(s.val())});
-  say(Math.round(Math.min(M.n,i+4)/M.n*100)+'%')}
+  say('',Math.min(M.n,i+8)/M.n)}
  const out=new Uint8Array(M.size);let off=0;for(const p of parts){out.set(p,off);off+=p.length}
  if(off!==M.size)throw new Error('saved PDF is incomplete');return{buf:out.buffer,at:M.at}}
 async function pdfSync(){
- if(!FB.user||!FB.ready)return false;const{Db}=FB.m,uid=FB.user.uid;let changed=false,bad=false;
+ if(!FB.user||!FB.ready)return false;if(S.localP)await S.localP;if(!S.qs.length){S.dl=1;ldSet()}const{Db}=FB.m,uid=FB.user.uid;let changed=false,bad=false;
  for(const k of['E','M']){
   try{
    const mt=await Db.get(pdfRef(k,'meta')),cl=mt.exists()?mt.val():null,lk='satpdfat_'+k+'_'+uid,la=+localStorage.getItem(lk)||0,have=!!S.docs[k],lab='Restoring your '+SRC[k]+' question bank… ';
    if(cl&&(!have||(la&&cl.at>la))){
-    pdfSay(lab);const r=await pdfGet(k,t=>pdfSay(lab+t));
-    if(r){const{doc,qs}=await parseBuf(r.buf,t=>pdfSay(lab+t));
+    S.dl=1;ldSet();pdfSay(lab);const r=await pdfGet(k,(t,p)=>pdfSay(lab+t,0,p));
+    if(r){const{doc,qs}=await parseBuf(r.buf,(t,p)=>pdfSay(lab+t,0,p));
      if(qs.length){qs.forEach(q=>q.src=k);for(const c of[...pc.keys()])if(c[0]===k)pc.delete(c);S.docs[k]=doc;S.qs=S.qs.filter(q=>q.src!==k).concat(qs);vcBankSync();
       await idb('put','pdf_'+k,r.buf);await idb('put','index_'+k,{v:10,qs});localStorage.setItem(lk,String(r.at));changed=true}}
    }else if(!cl&&have){
     const buf=await idb('get','pdf_'+k);
-    if(buf){pdfSay('Saving your '+SRC[k]+' question bank to your account…');if(!await pdfPut(k,buf,S.qs.filter(q=>q.src===k&&!q.vc).length,t=>pdfSay(t)))bad=true}
+    if(buf){pdfSay('Saving your '+SRC[k]+' question bank to your account…');if(!await pdfPut(k,buf,S.qs.filter(q=>q.src===k&&!q.vc).length,(t,p)=>pdfSay(t,0,p)))bad=true}
    }else if(cl&&have&&!la)localStorage.setItem(lk,String(cl.at))
-  }catch(e){bad=true;pdfSay('Could not sync your PDFs: '+(e.code||e.message))}}
+  }catch(e){bad=true;pdfSay('Could not sync your PDFs: '+(e.code||e.message),0,false)}}
  if(bad)pdfTm=setTimeout(()=>pdfSay(''),9000);else pdfSay('');
- return changed}
+ S.dl=0;ldSet();return changed}
 function pdfSyncOnce(){const u=FB.user;if(!u||!FB.ready)return Promise.resolve(false);if(FB.pfor!==u.uid){FB.pfor=u.uid;FB.pp=pdfSync().catch(()=>false)}return FB.pp}
 function pdfRefresh(){if(!S.done||document.body.dataset.q==='1'||document.body.dataset.q==='auth')return;if(app.querySelector('[data-a="begin"]'))showTitle();else if(app.querySelector('.drop'))showUpload()}
 /* pick up progress made on other devices whenever you come back to this tab */
@@ -1823,7 +1909,7 @@ function showAccount(msg){clearInterval(S.tick);S.done=true;S.authpage=false;doc
  ${tg?`<div class="card"><h2>Score tracker</h2><div class="tgbox" style="max-width:none">${tg}</div></div>`:''}
  <div class="card"><h2>Account</h2>
  ${u?row('Cloud sync',FB.err?'Sync problem: '+esc(FB.err.code||FB.err.message||'unknown'):FB.sync?'Last synced at '+esc(FB.sync):'Syncing…','<button class="s" data-a="syncnow">Sync now</button>'):''}
- ${u?row('Username',FB.un?'@'+esc(FB.un)+(isDevAccount(u.uid)&&FB.un==='a'?devFlair(FB.un,u.uid):'')+' · friends find you with this':'<span style="color:#e53935;font-weight:600">! You have not picked a username yet</span>','<button class="s'+(FB.un?'':' unred')+'" data-a="unset">'+(FB.un?'Change':'Set username')+'</button>'):''}
+ ${u?row('Username',FB.un?'@'+esc(FB.un)+(isDevAccount(u.uid)&&FB.un==='a'?devFlair(FB.un,u.uid):'')+' · friends find you with this':(FB.unOk?'<span style="color:#e53935;font-weight:600">! You have not picked a username yet</span>':'<span class="m sm">Loading…</span>'),'<button class="s'+(FB.un?'':' unred')+'" data-a="unset">'+(FB.un?'Change':'Set username')+'</button>'):''}
  ${u?row('Friends',FB.reqN?'<span style="color:#e53935;font-weight:600">! You have '+FB.reqN+' friend request'+(FB.reqN>1?'s':'')+'</span>':'Search for people by username and add them','<button class="s" data-a="friends">Friends'+(FB.reqN?'<span class="frbadge inl">!</span>':'')+'</button>'):''}
  ${u?row('Social stats','Choose what friends and the global leaderboard can see','<button class="s" data-a="socialsettings">Sharing settings</button> <button class="s" data-a="leaderboard">Ranking</button>'):''}
  ${u&&isDevAccount(u.uid)?row('Developer panel','See every signed-in user, their scores and details','<button class="s" data-a="devpanel">Open</button>'):''}
@@ -1962,7 +2048,8 @@ const UNRE=/^[a-z0-9_.]{3,20}$/,unNorm=s=>String(s||'').trim().toLowerCase().rep
 FB.un='';FB.fr=null;FB.unAsked=false;
 const dbr=p=>FB.m.Db.ref(FB.db,p),dbErr=e=>e&&(e.code==='PERMISSION_DENIED'||/permission/i.test(e.message||''))?'The database is not allowing this yet. The Firebase rules need updating (see firebase-rules.json).':'Something went wrong: '+((e&&(e.code||e.message))||'unknown');
 function unUI(){const b=document.getElementById('unb');if(b)b.hidden=!(FB.user&&FB.ready&&!FB.un)}
-async function unLoad(){FB.un='';if(!FB.user||!FB.ready)return;try{const s=await FB.m.Db.get(dbr('profiles/'+FB.user.uid+'/username'));FB.un=s.exists()?String(s.val()):''}catch(e){FB.unErr=e}}
+async function unLoad(){if(!FB.user||!FB.ready){FB.un='';return}const uid=FB.user.uid;FB.unOk=false;
+ for(let t=0;t<3;t++){try{const s=await FB.m.Db.get(dbr('profiles/'+uid+'/username'));FB.un=s.exists()?String(s.val()):'';try{localStorage.setItem('satun_'+uid,FB.un)}catch(e){}FB.unOk=true;FB.unErr=null;return}catch(e){FB.unErr=e;await new Promise(r=>setTimeout(r,500*(t+1)))}}}
 function unCheck(v){if(!v)return'Type a username first.';if(v==='a')return'';if(!UNRE.test(v))return'Use 3 to 20 characters: letters, numbers, _ or .';return''}
 async function unClaim(v){
  const bad=unCheck(v);if(bad)return{ok:false,err:bad};if(!FB.user||!FB.ready)return{ok:false,err:'Sign in first.'};
@@ -1977,7 +2064,7 @@ async function unClaim(v){
    const pub=await Db.get(pubRef);
    if(pub.exists())await Db.update(pubRef,{username:v,updatedAt:Date.now()});
   }catch(syncErr){console.warn('Could not sync leaderboard username:',syncErr)}
-  const old=FB.un;FB.un=v;
+  const old=FB.un;FB.un=v;FB.unOk=true;try{localStorage.setItem('satun_'+uid,v)}catch(e){}
   if(old&&old!==v){try{await Db.remove(dbr('usernames/'+old))}catch(e){}}
   return{ok:true}}
  catch(e){const t=e&&e.code==='PERMISSION_DENIED'&&'That username is taken, or the database rules are not updated yet.';return{ok:false,err:t||dbErr(e)}}}
@@ -1986,7 +2073,7 @@ async function svNext(){saveSv();
   if(!v&&!FB.un){if(m)m.textContent='Pick a username to continue.';return}
   if(v&&v!==FB.un){const r=await unClaim(v);if(!r.ok){if(m)m.textContent=r.err;return}}}
  if(S.sv<7)showSurvey(S.sv+1);else{ls('satdone','1');showTitle()}}
-function unAsk(){if(FB.unAsked||FB.un||!FB.user||!FB.ready)return;if(ls('satdone')!=='1'||S.authpage)return;if(document.body.dataset.q==='1')return;FB.unAsked=true;unModal()}
+function unAsk(){if(FB.unAsked||FB.un||!FB.unOk||!FB.user||!FB.ready)return;if(ls('satdone')!=='1'||S.authpage)return;if(document.body.dataset.q==='1')return;FB.unAsked=true;unModal()}
 function unModal(){if(document.getElementById('unm'))return;const d=document.createElement('div');d.id='unm';d.className='unm';
  d.innerHTML=`<div class="card"><h2>${FB.un?'Change your username':'Choose a username'}</h2><p class="m" style="margin:0">${FB.un?'Friends find you by your username.':'You need a username so friends can find and add you. This is separate from the name I call you.'} Use 1 to 20 letters, numbers, _ or .</p><input id="unin" type="text" placeholder="username" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false" value="${esc(FB.un||'')}"><div class="uerr" id="unerr"></div><div class="btns"><button class="p pill" data-a="unsave">Save</button><button class="pill" data-a="unlater">${FB.un?'Cancel':'Later'}</button></div></div>`;
  document.body.appendChild(d);const i=document.getElementById('unin');if(i){i.focus();i.select()}}
@@ -2130,7 +2217,7 @@ async function frLoad(){
 function frSharedHTML(F){const g=(F.grants||[]).filter(id=>!(F.friends&&F.friends[id]));if(!g.length)return'';return '<div style="margin-top:12px"><b>Shared their stats with you</b>'+g.map(id=>{const n=(F.gn&&F.gn[id])||'unknown';return `<div class="acr"><div class="l frw">${frAv(n)}<b>@${esc(n)}</b></div><div class="frb"><button class="s" data-a="viewp" data-id="${esc(id)}" data-n="${esc(n)}">Profile</button></div></div>`}).join('')+'</div>'}
 function frRender(){const F=FB.fr;if(!F)return;const l=document.getElementById('flist'),rq=document.getElementById('freq'),rc=document.getElementById('freqc');if(!l)return;
  const fe=Object.entries(F.friends).sort((a,b)=>String(a[1].u).localeCompare(String(b[1].u))),re=Object.entries(F.req);
- l.innerHTML=(fe.length?fe.map(([id,o])=>`<div class="acr"><div class="l frw">${frAv(o.u)}<b class="${String(o.u).toLowerCase()==='a'?'dev-username':''}">@${esc(o.u||'unknown')}</b>${devFlair(o.u,id)}${(F.grants||[]).includes(id)?'<span class="m sm" style="margin-left:6px">📊 shares stats with you</span>':''}</div><div class="frb"><button class="s" data-a="viewp" data-id="${esc(id)}" data-n="${esc(o.u||'')}">Profile</button><button class="s" data-a="frem" data-id="${esc(id)}">Remove</button></div></div>`).join(''):'<p class="m" style="margin:0">No friends yet. Search a username above to add someone.</p>')+frSharedHTML(F);
+ l.innerHTML=(fe.length?fe.map(([id,o])=>`<div class="acr"><div class="l frw">${frAv(o.u)}<b class="${String(o.u).toLowerCase()==='a'?'dev-username':''}">@${esc(o.u||'unknown')}</b>${devFlair(o.u,id)}${(F.grants||[]).includes(id)?'<span class="m sm" style="margin-left:6px">📊 shares stats with you</span>':''}</div><div class="frb"><button class="s" data-a="chat" data-id="${esc(id)}" data-n="${esc(o.u||'')}">Chat</button><button class="s" data-a="viewp" data-id="${esc(id)}" data-n="${esc(o.u||'')}">Profile</button><button class="s" data-a="frem" data-id="${esc(id)}">Remove</button></div></div>`).join(''):'<p class="m" style="margin:0">No friends yet. Search a username above to add someone.</p>')+frSharedHTML(F);
  if(rc){rc.hidden=!re.length;rq.innerHTML=re.map(([id,o])=>`<div class="acr"><div class="l frw">${frAv(o.u)}<b class="${String(o.u).toLowerCase()==='a'?'dev-username':''}">@${esc(o.u||'unknown')}</b>${devFlair(o.u,id)}</div><div class="frb"><button class="p s" data-a="facc" data-id="${esc(id)}">Accept</button><button class="s" data-a="fdec" data-id="${esc(id)}">Decline</button></div></div>`).join('')}}
 async function frSearch(){
  const q=unNorm(($('#fs')||{}).value),out=document.getElementById('fres');if(!out)return;
@@ -2253,6 +2340,7 @@ async function showPeek(uid,name,opts){
  else body=`<div class="pmb"><p class="m" style="margin:0 0 10px">@${esc(uname)} is not sharing their stats.</p>${req?'<span class="m sm">Request sent ✓ They will see it next time they open the app.</span>':`<button class="p pill" data-a="pvreq" data-id="${esc(uid)}" data-n="${esc(uname)}">Request stats</button>`}</div>`;
  const acts=[];
  if(!mine&&!isFr&&FB.un)acts.push(`<button class="p pill" data-a="fadd" data-id="${esc(uid)}" data-n="${esc(uname)}">Add friend</button>`);
+ if(!mine&&isFr)acts.push(`<button class="p pill" data-a="chat" data-id="${esc(uid)}" data-n="${esc(uname)}">Message</button>`);
  if(mine&&!as){acts.push('<button class="p pill" data-a="cardedit">Edit profile</button>')}
  if(mine)acts.push('<button class="pill" data-a="socialsettings">Sharing settings</button>');
  if(isDev&&!mine)acts.push(`<button class="pill" data-a="devuser" data-id="${esc(uid)}">Developer details</button>`);
@@ -2329,6 +2417,21 @@ const PBADGES=[
  ['days30','🗓️','Regular',s=>s.days>=30,'Practice on 30 different days','days'],
  ['sharp','🎯','Sharpshooter',s=>s.answered>=50&&s.accuracy>=80,'80% accuracy over 50+ questions','acc'],
  ['brain','🧠','Big brain',s=>s.answered>=100&&s.accuracy>=90,'90% accuracy over 100+ questions','acc']];
+const PRINGS=[
+ ['sat','Test day','conic-gradient(#2f6bff,#8fb2ff,#ffd04a,#2f6bff)','✏️',0,'#2f6bff'],
+ ['pi','Pi','conic-gradient(#8e2de2,#ff5ca8,#4a00e0,#8e2de2)','π',1,'#8e2de2'],
+ ['sigma','Sigma','conic-gradient(#00c6ff,#0072ff,#7be0ff,#00c6ff)','Σ',1,'#0072ff'],
+ ['root','Square root','conic-gradient(#11998e,#38ef7d,#11998e)','√',0,'#11998e'],
+ ['inf','Infinity','conic-gradient(#ff00cc,#3333ff,#00e5ff,#ff00cc)','∞',1,'#3333ff'],
+ ['graph','Graph paper','repeating-conic-gradient(#2eb85c 0 7deg,#0000 7deg 15deg)','📈',0,'#2eb85c'],
+ ['chalk','Chalkboard','repeating-conic-gradient(#e8efe8 0 10deg,#2f4f3f 10deg 20deg)','c²',0,'#2f4f3f'],
+ ['redpen','Red pen','conic-gradient(#e53935,#ff8a80,#b71c1c,#e53935)','✎',0,'#e53935'],
+ ['book','Bookworm','conic-gradient(#b8860b,#f1c27d,#8d6e63,#b8860b)','📖',0,'#b8860b'],
+ ['vocab','Vocab','conic-gradient(#ff9800,#ffd54f,#ff5722,#ff9800)','Aa',1,'#ff9800'],
+ ['hl','Highlighter','conic-gradient(#fff176,#ff80ab,#80d8ff,#b9f6ca,#fff176)','🖍️',1,'#ff80ab'],
+ ['1600','Perfect 1600','conic-gradient(#ffd700,#fff6b0,#d4a017,#fff6b0,#ffd700)','★',1,'#d4a017']];
+const ringOf=id=>PRINGS.find(r=>r[0]===id)||null;
+function ringAttrs(id){const r=ringOf(id);return r?{cls:' rg'+(r[4]?' rgspin':''),attr:` data-ri="${esc(r[3])}" style="--rb:${r[2]};--rc:${r[5]}"`}:{cls:'',attr:''}}
 const pnum=v=>Number(v)||0;
 const pEarned=st=>{const s=st?{streak:pnum(st.streak),answered:pnum(st.answered),accuracy:pnum(st.accuracy),days:pnum(st.days)}:{streak:0,answered:0,accuracy:0,days:0};return PBADGES.filter(b=>b[3](s)).map(b=>b[0])};
 function autoBadges(st){const e=pEarned(st),out=[];['streak','solved','days','acc'].forEach(g=>{const l=PBADGES.filter(b=>b[5]===g&&e.includes(b[0]));if(l.length)out.push(l[l.length-1][0])});return out}
@@ -2337,15 +2440,16 @@ function pBadgeList(card,st){const ids=card&&typeof card.badges==='string'?card.
 const goalTotal=()=>(Number(ls('sattge'))||0)+(Number(ls('sattgm'))||0);
 const stActive=c=>!!(c&&c.status&&c.statusAt&&Date.now()-c.statusAt<864e5);
 function pBanner(c,b){c=c||{};const a=PACC.includes(c.accent)?c.accent:PACC[0];
- if(b)return bgStyle(b,9/4);
+ if(b)return bgStyle(b,3);
  return`background:linear-gradient(135deg,${PGRAD[c.grad]||a+','+a+'88'})`}
 function pCard(o){const c=o.card||{},a=PACC.includes(c.accent)?c.accent:PACC[0];
+ const rg=ringAttrs(c.ring);
  const bd=(o.badges||[]).map(t=>`<span class="pbdg">${esc(t)}</span>`).join('');
  const st=stActive(c)?`<div class="pstb" style="--sb:${a}">${esc(c.status)}<small>${esc(relT(c.statusAt))}</small></div>`:'';
  const bio=c.bio?`<p class="pbio">${esc(c.bio).replace(/\n/g,'<br>')}</p>`:'';
  const avh=o.av?`<span class="pavx" style="${bgStyle(o.av,1)}"></span>`:`<span class="pavx">${esc((o.uname||'?')[0].toUpperCase())}</span>`;
  const meta=[c.goal?'Aiming for '+esc(c.goal):'',c.since?'Joined '+new Date(c.since).toLocaleDateString([],{month:'short',year:'numeric'}):''].filter(Boolean).join(' · ');
- return`<div class="pcard"><div class="pbn" style="${pBanner(c,o.banner)}"></div><div class="pbd"><div class="phead"><div class="pavw">${avh}</div>${st}</div><div class="pnm"><h1 class="${o.dev?'dev-username':''}">${o.title}</h1>${o.flair||''}</div>${o.sub?`<div class="m sm">${o.sub}</div>`:''}${bio}${bd?`<div class="pbdgs">${bd}</div>`:''}${meta?`<div class="m sm" style="margin-top:8px">${meta}</div>`:''}${o.extra||''}</div></div>`}
+ return`<div class="pcard"><div class="pbn" style="${pBanner(c,o.banner)}"></div><div class="pbd"><div class="phead"><div class="pavw${rg.cls}"${rg.attr}>${avh}</div>${st}</div><div class="pnm"><h1 class="${o.dev?'dev-username':''}">${o.title}</h1>${o.flair||''}</div>${o.sub?`<div class="m sm">${o.sub}</div>`:''}${bio}${bd?`<div class="pbdgs">${bd}</div>`:''}${meta?`<div class="m sm" style="margin-top:8px">${meta}</div>`:''}${o.extra||''}</div></div>`}
 function myCardHTML(u){const n=nameOf().trim(),prov=(u.providerData||[]).map(p=>p.providerId==='google.com'?'Google':p.providerId==='password'?'Email':p.providerId).join(', ');
  return pCard({uname:FB.un||n||'?',title:esc(FB.un?'@'+FB.un:(n||'Your account')),flair:FB.un?devFlair(FB.un,u.uid):'',dev:!!FB.un&&FB.un.toLowerCase()==='a',av:FB.avatar||u.photoURL||'',card:FB.card,banner:FB.banner,sub:esc(u.email||'')+(prov?' · '+esc(prov):''),badges:pBadgeList(FB.card,myStatsFull()),
   extra:`<div class="pacts"><button class="p pill" data-a="cardedit">Edit profile</button><button class="pill" data-a="socialsettings">Sharing</button>${FB.un?`<button class="pill" data-a="viewp" data-as="1" data-id="${esc(u.uid)}" data-n="${esc(FB.un)}">View as others</button>`:''}</div>`})}
@@ -2403,6 +2507,7 @@ function ceSay(t){const m=document.getElementById('cemsg');if(m)m.textContent=t|
 function cePrev(){const o=document.getElementById('cepv');if(!o||!CE)return;const u=FB.user,c={...CE.c,goal:CE.c.goalOn?goalTotal():0,badges:CE.c.badges.join(',')};
  o.innerHTML=pCard({uname:FB.un||'?',title:esc(FB.un?'@'+FB.un:(nameOf().trim()||'You')),flair:FB.un?devFlair(FB.un,u.uid):'',dev:!!FB.un&&FB.un.toLowerCase()==='a',av:CE.avatar||FB.avatar||u.photoURL||'',card:c,banner:CE.banner,badges:pBadgeList(c,myStatsFull())})}
 function ceMark(){document.querySelectorAll('[data-a=cegrad]').forEach(b=>b.classList.toggle('on',!CE.banner&&+b.dataset.i===CE.c.grad));
+ document.querySelectorAll('[data-a=cering]').forEach(b=>b.classList.toggle('on',b.dataset.r===(CE.c.ring||'')));
  document.querySelectorAll('[data-a=ceacc]').forEach(b=>b.classList.toggle('on',b.dataset.c===CE.c.accent));
  document.querySelectorAll('[data-a=cebadge]').forEach(b=>b.classList.toggle('on',CE.c.badges.includes(b.dataset.b)));
  const bc=document.getElementById('cebc');if(bc)bc.textContent=CE.c.bio.length+'/160';
@@ -2415,7 +2520,7 @@ async function showCardEdit(){
  clearInterval(S.tick);S.done=true;S.authpage=false;document.body.dataset.q='';window.scrollTo(0,0);
  await loadMyCard();const c=FB.card||{},ok=stActive(c),mine=myStatsFull(),earned=pEarned(mine);
  const bl=typeof c.badges==='string'?c.badges.split(',').filter(x=>PBADGES.some(b=>b[0]===x)):autoBadges(mine);
- CE={c:{bio:c.bio||'',status:ok?c.status:'',statusAt:ok?c.statusAt:0,accent:PACC.includes(c.accent)?c.accent:PACC[0],grad:c.grad!=null?c.grad:null,badges:bl.slice(0,6),goalOn:!!c.goal,since:c.since||0},banner:FB.banner||'',bSrc:'',avatar:'',aSrc:'',orig:{status:ok?c.status:'',statusAt:ok?c.statusAt:0}};
+ CE={c:{bio:c.bio||'',status:ok?c.status:'',statusAt:ok?c.statusAt:0,accent:PACC.includes(c.accent)?c.accent:PACC[0],grad:c.grad!=null?c.grad:null,badges:bl.slice(0,6),goalOn:!!c.goal,since:c.since||0,ring:ringOf(c.ring)?c.ring:''},banner:FB.banner||'',bSrc:'',avatar:'',aSrc:'',orig:{status:ok?c.status:'',statusAt:ok?c.statusAt:0}};
  const gt=goalTotal();
  app.innerHTML=`<div class="acct"><div id="cepv"></div>
  <div class="card"><h2>Banner</h2><p class="m sm" style="margin:0">Pick a color style or upload your own image or GIF. The crop frame is exactly what shows on your profile.</p>
@@ -2423,6 +2528,8 @@ async function showCardEdit(){
   <div class="pacts"><button class="s" data-a="cebup">Upload image</button><button class="s" data-a="cebcrop" hidden>Adjust crop</button><button class="s" data-a="cebrm" hidden>Remove image</button></div></div>
  <div class="card"><h2>Profile picture</h2><p class="m sm" style="margin:0">Upload a photo or GIF, then drag and zoom to choose what shows in the circle.</p>
   <div class="pacts"><button class="s" data-a="ceaup">Upload photo</button><button class="s" data-a="ceacrop" hidden>Adjust crop</button></div></div>
+ <div class="card"><h2>Profile picture ring</h2><p class="m sm" style="margin:0">A ring around your picture, like Discord. Pick a math, English or SAT style.</p>
+  <div class="cegrid" style="margin-top:10px"><button class="rgbtn" data-a="cering" data-r=""><span class="rgdot" style="--rb:var(--bd)"><span>–</span></span><small>None</small></button>${PRINGS.map(r=>`<button class="rgbtn" data-a="cering" data-r="${r[0]}"><span class="rgdot${r[4]?' rgspin':''}" style="--rb:${r[2]}"><span>${esc(r[3])}</span></span><small>${esc(r[1])}</small></button>`).join('')}</div></div>
  <div class="card"><h2>Status</h2><p class="m sm" style="margin:0" id="cestl"></p>
   <input type="text" id="cest" maxlength="60" placeholder="What are you up to right now?" value="${esc(CE.c.status)}" style="text-align:left;margin-top:10px">
   <div class="cegrid" style="margin-top:10px">${ST_SUG.map(t=>`<button class="cechip" data-a="cesug" data-t="${esc(t)}">${esc(t)}</button>`).join('')}<button class="cechip" data-a="cestclr">Clear</button></div></div>
@@ -2434,19 +2541,19 @@ async function showCardEdit(){
  <div class="card"><div class="btns"><button class="p pill" data-a="cardsave">Save profile</button><button class="pill" data-a="acct">Cancel</button></div><div class="m sm" id="cemsg" style="margin-top:8px"></div></div>
  <input type="file" id="cebn" accept="image/png,image/jpeg,image/webp,image/gif" hidden><input type="file" id="ceav" accept="image/png,image/jpeg,image/webp,image/gif" hidden></div>`;
  cePrev();ceMark()}
-async function ceCrop(kind,src){const ban=kind==='b',out=await cropOpen(src,ban?{aspect:9/4,outW:1260,outH:560,maxLen:900000,title:'Crop your banner'}:{aspect:1,outW:320,outH:320,round:true,maxLen:140000,title:'Crop your profile picture'});
+async function ceCrop(kind,src){const ban=kind==='b',out=await cropOpen(src,ban?{aspect:3,outW:1500,outH:500,maxLen:900000,title:'Crop your banner'}:{aspect:1,outW:320,outH:320,round:true,maxLen:140000,title:'Crop your profile picture'});
  if(!out||!CE)return;if(ban){CE.banner=out;CE.bSrc=src}else{CE.avatar=out;CE.aSrc=src}ceMark();cePrev()}
-async function ceFile(file,kind){const gif=/gif$/i.test(file.type);if(gif&&file.size>(kind==='b'?2e6:350e3)){ceSay('That GIF is too big. Banner GIFs can be up to 2 MB and profile picture GIFs up to 350 KB.');return}if(!gif&&file.size>12*1024*1024){ceSay('Please choose an image under 12 MB.');return}let src;try{src=await readSrc(file)}catch(e){ceSay('Could not read that image.');return}ceSay('');await ceCrop(kind,src)}
+async function ceFile(file,kind){const gif=/gif$/i.test(file.type);if(gif&&file.size>(kind==='b'?2e6:1e6)){ceSay('That GIF is too big. Banner GIFs can be up to 2 MB and profile picture GIFs up to 1 MB.');return}if(!gif&&file.size>12*1024*1024){ceSay('Please choose an image under 12 MB.');return}let src;try{src=await readSrc(file)}catch(e){ceSay('Could not read that image.');return}ceSay('');await ceCrop(kind,src)}
 async function saveCardEdit(){
  if(!CE||!FB.user||!FB.ready)return;const{Db}=FB.m,uid=FB.user.uid;ceSay('Saving…');
  try{const g=CE.c.goalOn?goalTotal():0,since=CE.c.since||Date.parse(FB.user.metadata&&FB.user.metadata.creationTime)||Date.now(),status=CE.c.status.trim().slice(0,60);
   const card={bio:CE.c.bio.trim().slice(0,160),accent:CE.c.accent,since,badges:CE.c.badges.join(',')};
   if(status){card.status=status;card.statusAt=CE.c.statusAt||Date.now()}
-  if(CE.c.grad!=null)card.grad=CE.c.grad;if(g)card.goal=g;
+  if(CE.c.grad!=null)card.grad=CE.c.grad;if(ringOf(CE.c.ring))card.ring=CE.c.ring;if(g)card.goal=g;
   await Db.set(dbr('profiles/'+uid+'/card'),card);
   if(CE.banner&&CE.banner!==FB.banner){if(CE.banner.length>2800000)throw new Error('That banner image is too large. Try a different one.');await Db.set(dbr('banners/'+uid),CE.banner)}
   else if(!CE.banner&&FB.banner)await Db.remove(dbr('banners/'+uid));
-  if(CE.avatar){if(CE.avatar.length>600000)throw new Error('That profile picture is too large. Try a smaller one.');await Db.set(dbr('profiles/'+uid+'/avatar'),CE.avatar);FB.avatar=CE.avatar;fbUI()}
+  if(CE.avatar){if(CE.avatar.length>1400000)throw new Error('That profile picture is too large. Try a smaller one.');await Db.set(dbr('profiles/'+uid+'/avatar'),CE.avatar);FB.avatar=CE.avatar;fbUI()}
   FB.card=card;FB.banner=CE.banner;FB.cardLoaded=uid;socialTick(true);showAccount('Profile saved.')}
  catch(e){ceSay((e&&e.message&&!e.code?e.message:dbErr(e))+' If this says permission denied, the Firebase rules (banners / profiles) need the latest update.')}}
 document.addEventListener('input',e=>{const t=e.target;if(!CE||!t)return;
@@ -2465,15 +2572,46 @@ document.addEventListener('click',ev=>{const b=ev.target.closest('[data-a]');if(
  else if(a==='cebrm'){CE.banner='';CE.bSrc='';ceMark();cePrev()}
  else if(a==='ceaup')document.getElementById('ceav').click();
  else if(a==='ceacrop'){const s=CE.aSrc||CE.avatar||(FB.avatar&&FB.avatar.startsWith('data:')?FB.avatar:'');if(s)ceCrop('a',s)}
+ else if(a==='cering'){CE.c.ring=b.dataset.r||'';ceMark();cePrev()}
  else if(a==='ceacc'){CE.c.accent=b.dataset.c;ceMark();cePrev()}
  else if(a==='cesug'){const i=document.getElementById('cest');CE.c.status=b.dataset.t;CE.c.statusAt=CE.c.status===CE.orig.status&&CE.orig.statusAt?CE.orig.statusAt:Date.now();if(i)i.value=CE.c.status;ceMark();cePrev()}
  else if(a==='cestclr'){const i=document.getElementById('cest');CE.c.status='';CE.c.statusAt=0;if(i)i.value='';ceMark();cePrev()}
  else if(a==='cebadge'){const id=b.dataset.b,i=CE.c.badges.indexOf(id);if(i>=0)CE.c.badges.splice(i,1);else if(CE.c.badges.length<6)CE.c.badges.push(id);else ceSay('You can show up to 6 badges. Remove one first.');ceMark();cePrev()}});
 
+/* ===== Friend chat: chats/<uidA_uidB sorted>/<pushId> = {f:senderUid, t:serverTime, x:text} ===== */
+const CHMAX=500,chPair=(a,b)=>a<b?a+'_'+b:b+'_'+a;
+const CH={id:'',uid:'',n:'',un:null,rows:[]};
+function chStop(){if(CH.un){try{CH.un()}catch(e){}CH.un=null}}
+function chRender(first){const l=document.getElementById('chlist');if(!l)return;const me=FB.user.uid,near=first||l.scrollHeight-l.scrollTop-l.clientHeight<80;
+ l.innerHTML=CH.rows.length?CH.rows.map(([id,m])=>`<div class="chm${m.f===me?' me':''}">${esc(m.x)}<small>${esc(relT(m.t))}${m.f===me?`<button class="chx" data-a="chatdel" data-id="${esc(id)}">delete</button>`:''}</small></div>`).join(''):'<p class="m sm" style="margin:auto;text-align:center">No messages yet. Say hi 👋</p>';
+ if(near)l.scrollTop=l.scrollHeight}
+async function showChat(uid,name){
+ clearInterval(S.tick);S.done=true;S.authpage=false;document.body.dataset.q='';window.scrollTo(0,0);chStop();
+ if(!FB.user||!FB.ready){showFriends('Sign in to chat.');return}
+ if(!FB.fr&&FB.un){try{await frLoad()}catch(e){}}
+ if(!(FB.fr&&FB.fr.friends&&FB.fr.friends[uid])){app.innerHTML='<div class="card c left"><h1>Chat</h1><p class="m">You can only chat with friends. Add them first.</p><div class="btns"><button class="pill" data-a="home">Home</button></div></div>';return}
+ const{Db}=FB.m;CH.id=chPair(FB.user.uid,uid);CH.uid=uid;CH.n=name||(FB.fr.friends[uid]||{}).u||'friend';CH.rows=[];
+ app.innerHTML=`<div class="card c left chwrap"><div class="chhd"><h1>Chat with @${esc(CH.n)}</h1><button class="s" data-a="chatprof">Profile</button><button class="s" data-a="home">Home</button></div><div id="chlist"><p class="m sm" style="margin:auto">Loading…</p></div><div class="chrow"><textarea id="chin" maxlength="${CHMAX}" rows="1" placeholder="Message @${esc(CH.n)}…"></textarea><button class="p pill" data-a="chatsend">Send</button></div><div class="uerr" id="cherr"></div><p class="m sm" style="margin:0">Only you and @${esc(CH.n)} can read this. Messages are text only.</p></div>`;
+ try{CH.un=Db.onValue(Db.query(dbr('chats/'+CH.id),Db.orderByKey(),Db.limitToLast(100)),snap=>{
+   if(!document.getElementById('chlist')){chStop();return}
+   const rows=[];snap.forEach(c=>{const v=c.val();if(v&&typeof v.x==='string')rows.push([c.key,v])});CH.rows=rows;chRender(!CH.shown);CH.shown=1},
+  e=>{const l=document.getElementById('chlist');if(l)l.innerHTML=`<p class="uerr" style="margin:auto">${esc(dbErr(e))}</p>`})}catch(e){}
+ CH.shown=0;const i=document.getElementById('chin');if(i)i.focus()}
+async function chSend(){const i=document.getElementById('chin'),err=document.getElementById('cherr');if(!i||!FB.user||!FB.ready)return;
+ const x=i.value.replace(/\r/g,'').replace(/\n{3,}/g,'\n\n').trim();if(!x)return;if(err)err.textContent='';
+ try{const{Db}=FB.m;i.value='';await Db.push(dbr('chats/'+CH.id),{f:FB.user.uid,t:Db.serverTimestamp(),x:x.slice(0,CHMAX)})}
+ catch(e){i.value=x;if(err)err.textContent=dbErr(e)+' (Chat needs the new "chats" rules.)'}}
+document.addEventListener('click',async ev=>{const b=ev.target.closest('[data-a]');if(!b)return;const a=b.dataset.a;
+ if(a==='chat'){if(document.getElementById('frm'))frClose();const m=$('#pm');if(m)m.hidden=true;showChat(b.dataset.id,b.dataset.n)}
+ else if(a==='chatsend')chSend();
+ else if(a==='chatprof')showPeek(CH.uid,CH.n);
+ else if(a==='chatdel'){try{await FB.m.Db.remove(dbr('chats/'+CH.id+'/'+b.dataset.id))}catch(e){const er=document.getElementById('cherr');if(er)er.textContent=dbErr(e)}}});
+document.addEventListener('keydown',ev=>{const t=ev.target;if(t&&t.id==='chin'&&ev.key==='Enter'&&!ev.shiftKey){ev.preventDefault();chSend()}});
+
 /* ===== Community: text-only posts, likes, announcements (posts/<id> = {uid,u,t,text,ann?,likes:{uid:true}}) ===== */
-const CM={last:0,map:{},busy:{}},CMMAX=500;
+const CM={last:0,map:{},busy:{},cm:{},open:{},draft:{},cbusy:{}},CMMAX=500,CCMAX=300;
 function cmPostHTML(id,p){const me=FB.user&&FB.user.uid,lk=p.likes||{},n=Object.keys(lk).length,on=!!(me&&lk[me]),canDel=!!me&&(p.uid===me||isDevAccount(me)),dev=isDevAccount(p.uid);
- return `<div class="cmpost${p.ann?' ann':''}" data-pid="${esc(id)}"><div class="cmh">${frAv(p.u)}<div class="cmn"><b class="cmname ${dev?'dev-username':''}" data-a="viewp" data-id="${esc(p.uid)}" data-n="${esc(p.u||'')}">@${esc(p.u||'unknown')}</b>${devFlair(p.u,p.uid)}${p.ann?'<span class="cmtag">📢 Announcement</span>':''}<div class="m sm">${esc(relT(p.t))}</div></div></div><p class="cmt">${esc(p.text)}</p><div class="cmf"><button class="cmlike${on?' on':''}" data-a="cmlike" data-id="${esc(id)}" aria-pressed="${on}" title="${on?'Unlike':'Like'}"><span>${on?'♥':'♡'}</span> ${n}</button>${canDel?`<button class="s cmdel" data-a="cmdel" data-id="${esc(id)}">Delete</button>`:''}</div></div>`}
+ return `<div class="cmpost${p.ann?' ann':''}" data-pid="${esc(id)}"><div class="cmh">${frAv(p.u)}<div class="cmn"><b class="cmname ${dev?'dev-username':''}" data-a="viewp" data-id="${esc(p.uid)}" data-n="${esc(p.u||'')}">@${esc(p.u||'unknown')}</b>${devFlair(p.u,p.uid)}${p.ann?'<span class="cmtag">📢 Announcement</span>':''}<div class="m sm">${esc(relT(p.t))}</div></div></div><p class="cmt">${esc(p.text)}</p><div class="cmf"><button class="cmlike${on?' on':''}" data-a="cmlike" data-id="${esc(id)}" aria-pressed="${on}" title="${on?'Unlike':'Like'}"><span>${on?'♥':'♡'}</span> ${n}</button><button class="cmlike cmcb" data-a="cmcm" data-id="${esc(id)}" title="Comments">💬 ${CM.cm[id]?CM.cm[id].length:''}</button>${canDel?`<button class="s cmdel" data-a="cmdel" data-id="${esc(id)}">Delete</button>`:''}</div>${CM.open[id]?cmCommentsHTML(id):''}</div>`}
 function cmParse(snap){const out=[];snap.forEach(c=>{const v=c.val();if(v&&typeof v==='object'&&typeof v.text==='string'&&v.uid)out.push([c.key,v])});return out.sort((a,b)=>a[0]<b[0]?1:-1)}
 function cmRegister(list){list.forEach(([id,p])=>{CM.map[id]=p})}
 function cmListHTML(list,empty){return list.length?list.map(([id,p])=>cmPostHTML(id,p)).join(''):`<p class="m sm" style="margin:10px 0 0">${empty}</p>`}
@@ -2492,7 +2630,7 @@ async function cmRefresh(){const f=document.getElementById('cmfeed'),a=document.
   const feed=cmParse(fs).filter(([,p])=>!p.ann),ann=as?cmParse(as).filter(([,p])=>p.ann):[];
   CM.map={};cmRegister(feed);cmRegister(ann);
   if(a)a.innerHTML=ann.length?'<h2 class="cmh2">📢 Announcements</h2>'+cmListHTML(ann,''):'';
-  f.innerHTML='<h2 class="cmh2">Latest posts</h2>'+cmListHTML(feed,'No posts yet. Be the first to share something!')}
+  f.innerHTML='<h2 class="cmh2">Latest posts</h2>'+cmListHTML(feed,'No posts yet. Be the first to share something!');cmLoadAll(feed.concat(ann))}
  catch(e){f.innerHTML=`<p class="uerr" style="margin-top:14px">${esc(dbErr(e))}</p>`}}
 async function cmPost(){const ta=document.getElementById('cmtxt'),err=document.getElementById('cmerr'),btn=document.getElementById('cmbtn');if(!ta||!FB.user||!FB.ready)return;
  const say=t=>{if(err)err.textContent=t||''};
@@ -2514,11 +2652,11 @@ async function cmLike(id){const p=CM.map[id];if(!p||!FB.user||!FB.ready||CM.busy
 async function cmDel(b){const id=b.dataset.id;
  if(!b.dataset.armed){b.dataset.armed='1';b.textContent='Really delete?';b.classList.add('armed');setTimeout(()=>{if(b.isConnected){delete b.dataset.armed;b.textContent='Delete';b.classList.remove('armed')}},3000);return}
  b.disabled=true;
- try{await FB.m.Db.remove(dbr('posts/'+id));delete CM.map[id];cmRepaint(id)}
+ try{try{await FB.m.Db.remove(dbr('comments/'+id))}catch(e){}await FB.m.Db.remove(dbr('posts/'+id));delete CM.map[id];delete CM.cm[id];delete CM.open[id];cmRepaint(id)}
  catch(e){b.disabled=false;alert(dbErr(e))}}
 async function cmProfilePosts(uid,mine){const box=document.getElementById('ppostlist');if(!box||!FB.user||!FB.ready)return;const{Db}=FB.m;
  try{const snap=await Db.get(Db.query(dbr('posts'),Db.orderByChild('uid'),Db.equalTo(uid),Db.limitToLast(20)));
-  const list=cmParse(snap);cmRegister(list);const b2=document.getElementById('ppostlist');if(!b2)return;
+  const list=cmParse(snap);cmRegister(list);setTimeout(()=>cmLoadAll(list),0);const b2=document.getElementById('ppostlist');if(!b2)return;
   b2.innerHTML=list.length?list.map(([id,p])=>cmPostHTML(id,p)).join(''):`<p class="m sm" style="margin:0">${mine?'You have not posted yet.':'No posts yet.'}</p>${mine?'<button class="s" data-a="community" style="margin-top:8px">Write a post</button>':''}`}
  catch(e){const b2=document.getElementById('ppostlist');if(b2)b2.innerHTML=`<p class="m sm" style="margin:0">Could not load posts: ${esc(dbErr(e))}</p>`}}
 document.addEventListener('click',ev=>{const b=ev.target.closest('[data-a]');if(!b)return;const a=b.dataset.a;
@@ -2529,6 +2667,42 @@ document.addEventListener('click',ev=>{const b=ev.target.closest('[data-a]');if(
  else if(a==='cmdel')cmDel(b)});
 document.addEventListener('input',e=>{const t=e.target;if(t&&t.id==='cmtxt'){const c=document.getElementById('cmcnt');if(c)c.textContent=t.value.length+'/'+CMMAX}});
 document.addEventListener('change',e=>{const t=e.target;if(t&&t.id==='cmannbox'){const b=document.getElementById('cmbtn');if(b)b.textContent=t.checked?'Post announcement':'Post'}});
+
+/* ===== Comments: comments/<postId>/<pushId> = {uid,u,t,text} ===== */
+function cmCommentsHTML(id){
+ const rows=CM.cm[id],me=FB.user&&FB.user.uid,p=CM.map[id];
+ const list=rows===undefined?'<p class="m sm" style="margin:6px 0 0">Loading…</p>':rows.length?rows.map(([cid,c])=>{const can=!!me&&(c.uid===me||(p&&p.uid===me)||isDevAccount(me));
+  return `<div class="cmc"><div class="cmch"><b class="cmname ${isDevAccount(c.uid)?'dev-username':''}" data-a="viewp" data-id="${esc(c.uid)}" data-n="${esc(c.u||'')}">@${esc(c.u||'unknown')}</b><span class="m sm">${esc(relT(c.t))}</span>${can?`<button class="cmcx" data-a="cmcdel" data-id="${esc(id)}" data-c="${esc(cid)}">delete</button>`:''}</div><p class="cmct">${esc(c.text)}</p></div>`}).join(''):'<p class="m sm" style="margin:6px 0 0">No comments yet. Be the first!</p>';
+ const composer=FB.un?`<div class="cmcrow"><input type="text" class="cmcin" data-id="${esc(id)}" maxlength="${CCMAX}" placeholder="Add a comment…" autocomplete="off" value="${esc(CM.draft[id]||'')}"><button class="p s" data-a="cmcpost" data-id="${esc(id)}">Post</button></div><div class="uerr cmcerr"></div>`:'<p class="m sm" style="margin:8px 0 0">Pick a username to comment.</p>';
+ return `<div class="cmcs">${list}${composer}</div>`}
+async function cmLoadC(id){if(!FB.user||!FB.ready)return;
+ try{const{Db}=FB.m,sn=await Db.get(Db.query(dbr('comments/'+id),Db.orderByKey(),Db.limitToLast(100))),rows=[];sn.forEach(c=>{const v=c.val();if(v&&typeof v.text==='string')rows.push([c.key,v])});CM.cm[id]=rows}
+ catch(e){if(CM.cm[id]===undefined)CM.cm[id]=[]}
+ cmRepaint(id)}
+function cmLoadAll(list){(list||[]).forEach(([id])=>{cmLoadC(id)})}
+async function cmCPost(b){const id=b.dataset.id,row=b.closest('.cmcs'),inp=row&&row.querySelector('.cmcin'),err=row&&row.querySelector('.cmcerr');if(!inp||!FB.user||!FB.ready)return;
+ const say=t=>{if(err)err.textContent=t||''},text=inp.value.replace(/\s+/g,' ').trim();
+ if(!FB.un){say('Pick a username first.');return}if(!text||CM.cbusy[id])return;
+ if(Date.now()-(CM.clast||0)<2500){say('Slow down a little.');return}
+ CM.cbusy[id]=1;b.disabled=true;say('');
+ try{const{Db}=FB.m,r=Db.push(dbr('comments/'+id));await Db.set(r,{uid:FB.user.uid,u:FB.un,t:Db.serverTimestamp(),text:text.slice(0,CCMAX)});CM.clast=Date.now();CM.draft[id]='';await cmLoadC(id);
+  const i=document.querySelector('.cmpost[data-pid="'+id+'"] .cmcin');if(i)i.focus()}
+ catch(e){say(dbErr(e)+' (Comments need the new "comments" rules.)');b.disabled=false}
+ CM.cbusy[id]=0}
+document.addEventListener('click',async ev=>{const b=ev.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,id=b.dataset.id;
+ if(a==='cmcm'){CM.open[id]=!CM.open[id];cmRepaint(id);if(CM.open[id]){if(CM.cm[id]===undefined)cmLoadC(id);const i=document.querySelector('.cmpost[data-pid="'+id+'"] .cmcin');if(i)i.focus()}}
+ else if(a==='cmcpost')cmCPost(b);
+ else if(a==='cmcdel'){if(!b.dataset.armed){b.dataset.armed='1';b.textContent='sure?';b.classList.add('armed');setTimeout(()=>{if(b.isConnected){delete b.dataset.armed;b.textContent='delete';b.classList.remove('armed')}},3000);return}
+  try{await FB.m.Db.remove(dbr('comments/'+id+'/'+b.dataset.c));await cmLoadC(id)}catch(e){alert(dbErr(e))}}});
+document.addEventListener('input',e=>{const t=e.target;if(t&&t.classList&&t.classList.contains('cmcin'))CM.draft[t.dataset.id]=t.value});
+document.addEventListener('keydown',e=>{const t=e.target;if(t&&t.classList&&t.classList.contains('cmcin')&&e.key==='Enter'){e.preventDefault();const b=t.closest('.cmcs').querySelector('[data-a=cmcpost]');if(b)cmCPost(b)}});
+
+/* ===== Tap a profile picture to see it full screen; tap again to close ===== */
+function pfvClose(){const o=document.getElementById('pfv');if(o)o.remove()}
+document.addEventListener('click',e=>{if(document.getElementById('pfv'))return;const av=e.target.closest&&e.target.closest('.pcard .pavw');if(!av)return;
+ const o=document.createElement('div');o.id='pfv';o.onclick=pfvClose;const c=av.cloneNode(true),k=Math.min(innerWidth,innerHeight)*.8,sc=k/Math.max(40,av.offsetWidth);
+ c.style.margin='0';c.style.transform='scale('+sc+')';o.append(c);document.body.append(o)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')pfvClose()});
 
 /* ===== Home button: always closes whatever is open and returns to the home screen ===== */
 document.addEventListener('click',ev=>{const h=ev.target.closest('[data-a="home"]');if(!h)return;ev.stopImmediatePropagation();ev.preventDefault();
