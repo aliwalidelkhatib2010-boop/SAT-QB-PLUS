@@ -243,7 +243,7 @@ img.pva{object-fit:cover}
 .dm3{position:relative;height:34px;margin:6px 0 0}
 .dmbar{position:absolute;left:11px;right:11px;top:13px;height:8px;border-radius:99px;overflow:hidden;display:flex}
 .dmbar i{display:block;height:100%}.dmbar .de{background:#2eb85c}.dmbar .dmm{background:#f5a623}.dmbar .dh{background:#e53935}
-.dm3 input[type=range]{position:absolute;left:0;top:0;width:100%;height:34px;margin:0;padding:0;border:0;background:none;-webkit-appearance:none;appearance:none;pointer-events:none}
+.dm3 input[type=range],.set .dm3 input[type=range]{position:absolute;left:0;top:0;width:100%!important;max-width:none!important;height:34px;margin:0;padding:0;border:0;background:none;-webkit-appearance:none;appearance:none;pointer-events:none;cursor:default}
 .dm3 input[type=range]::-webkit-slider-runnable-track{background:none;height:34px}
 .dm3 input[type=range]::-moz-range-track{background:none;height:34px}
 .dm3 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;pointer-events:auto;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid #555;margin-top:6px;cursor:grab;box-shadow:0 1px 4px #0005}
@@ -264,7 +264,10 @@ img.pva{object-fit:cover}
 .cegrid{display:flex;flex-wrap:wrap;gap:8px}
 .cesw{width:46px;height:30px;border-radius:8px;border:2px solid var(--bd);cursor:pointer;padding:0;color:var(--mut)}.cesw.on{border-color:var(--tx);box-shadow:0 0 0 2px var(--card) inset}
 .ceacc{width:32px;height:32px;border-radius:50%;border:3px solid transparent;cursor:pointer;padding:0}.ceacc.on{border-color:var(--tx);box-shadow:0 0 0 2px var(--card) inset}
-.cechip{border:1.5px solid var(--bd);border-radius:999px;padding:5px 12px;cursor:pointer;background:var(--card)}.cechip.on{background:var(--hd);border-color:var(--ac)}
+.cechip{border:1.5px solid var(--bd);border-radius:999px;padding:5px 12px;cursor:pointer;background:var(--card)}.cechip.on{background:var(--hd);border-color:var(--ac);font-weight:600}
+.cechip.lock{opacity:.55;cursor:not-allowed;display:inline-flex;flex-direction:column;align-items:flex-start;text-align:left;gap:2px}.cechip small{font-size:.72rem;color:var(--mut)}
+.pdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;vertical-align:middle}.pst small{margin-left:8px;color:var(--mut);font-size:.75rem}
+#cepv{margin-bottom:0}
 textarea.ceta{font:inherit;color:inherit;background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;width:100%;box-sizing:border-box;min-height:84px;resize:vertical;text-align:left}
 .dev-flair{display:inline-flex;align-items:center;gap:3px;margin-left:5px;padding:2px 7px;border-radius:999px;vertical-align:middle;font-size:.68em;font-weight:900;letter-spacing:.025em;color:#17100a;background:linear-gradient(110deg,#fff0a8,#f5c34d 48%,#fff2b8);border:1px solid #d39b21;box-shadow:0 0 0 1px #f5c34d33,0 2px 8px #e7b63b33;white-space:nowrap}.dev-flair .dev-star{font-size:1.05em}.podium-name .dev-flair{margin-top:3px}.rank-user-text .dev-flair{font-size:.65em}.dev-username{color:#e4b83f!important;text-shadow:0 0 12px #e4b83f44}
 .friends-pop{position:fixed;z-index:190;width:min(520px,calc(100vw - 24px));max-height:calc(100vh - 100px);overflow:auto;background:transparent;padding:0}.friends-pop .frcard{width:100%!important;max-height:calc(100vh - 100px);overflow:auto;box-shadow:0 12px 40px #0005}.frcard{width:min(520px,100%)!important;max-height:85vh;overflow:auto}
@@ -1093,7 +1096,7 @@ const dmVals=()=>{let e=dmHasEasy()?dmClamp(ls('satdmeasy'),0):0,h=dmClamp(ls('s
 const dmText=(e,h)=>(dmHasEasy()?`Easy ${e}% · `:'')+`Medium ${100-e-h}% · Hard ${h}%`;
 const dmLine=()=>{const[e,,h]=dmVals();return dmText(e,h)};
 const dmBox=()=>{const[e,m,h]=dmVals(),on=dmOn(),he=dmHasEasy();
- return `<label class="tgl" style="color:var(--tx);align-items:flex-start"><input type="checkbox" id="dmon" ${on?'checked':''} style="margin-top:5px"><span><b>Mix the difficulty for me</b><br><span class="m sm">Off gives you a normal random mix of Easy, Medium and Hard.</span></span></label><div class="dmbox${on?'':' off'}" id="dmbox"><div class="dmlab"><span>${he?'Easier':''}</span><span>Harder</span></div><div class="dm3"><div class="dmbar" id="dmbar"><i class="de" style="width:${e}%"></i><i class="dmm" style="width:${m}%"></i><i class="dh" style="width:${h}%"></i></div>${he?`<input type="range" id="dme" min="0" max="100" step="5" value="${e}" aria-label="End of the Easy section">`:''}<input type="range" id="dmh" min="0" max="100" step="5" value="${100-h}" aria-label="Start of the Hard section"></div><div class="dmout" id="dmv">${dmText(e,h)}</div>${he?'<div class="m sm" style="text-align:center">Green is Easy, yellow is Medium, red is Hard. Drag the two handles.</div>':'<div class="m sm" style="text-align:center">Your question bank has no Easy questions, so this is just Medium and Hard.</div>'}</div>`};
+ return `<label class="tgl" style="color:var(--tx);align-items:flex-start"><input type="checkbox" id="dmon" ${on?'checked':''} style="margin-top:5px"><span><b>Mix the difficulty for me</b><br><span class="m sm">Off gives you a normal random mix of Easy, Medium and Hard.</span></span></label><div class="dmbox${on?'':' off'}" id="dmbox"><div class="dmlab"><span>${he?'Easier':'More Medium'}</span><span>${he?'Harder':'More Hard'}</span></div><div class="dm3"><div class="dmbar" id="dmbar"><i class="de" style="width:${e}%"></i><i class="dmm" style="width:${m}%"></i><i class="dh" style="width:${h}%"></i></div>${he?`<input type="range" id="dme" min="0" max="100" step="5" value="${e}" aria-label="End of the Easy section">`:''}<input type="range" id="dmh" min="0" max="100" step="5" value="${100-h}" aria-label="Start of the Hard section"></div><div class="dmout" id="dmv">${dmText(e,h)}</div>${he?'<div class="m sm" style="text-align:center">Green is Easy, yellow is Medium, red is Hard. Drag the two handles.</div>':'<div class="m sm" style="text-align:center">Your question bank has no Easy questions, so this is just Medium and Hard.</div>'}</div>`};
 function dmPick(set,n){const[pe,,ph]=dmVals(),E=shuf(set.filter(q=>q.diff==='Easy')),M=shuf(set.filter(q=>q.diff==='Medium')),H=shuf(set.filter(q=>q.diff==='Hard')),O=shuf(set.filter(q=>q.diff!=='Easy'&&q.diff!=='Medium'&&q.diff!=='Hard'));
  n=Math.min(n,set.length);const we=Math.round(n*pe/100),wh=Math.round(n*ph/100),ne=Math.min(we,E.length),nh=Math.min(wh,H.length),nm=Math.min(Math.max(0,n-we-wh),M.length);
  let out=[...E.slice(0,ne),...H.slice(0,nh),...M.slice(0,nm)];
@@ -2218,7 +2221,7 @@ async function showPeek(uid,name){
  if(!mine&&!isFr&&FB.un)acts.push(`<button class="p pill" data-a="fadd" data-id="${esc(uid)}" data-n="${esc(uname)}">Add friend</button>`);
  if(mine){acts.push('<button class="p pill" data-a="cardedit">Edit profile</button>');acts.push('<button class="pill" data-a="socialsettings">Sharing settings</button>')}
  if(isDev&&!mine)acts.push(`<button class="pill" data-a="devuser" data-id="${esc(uid)}">Developer details</button>`);
- app.innerHTML=`<div class="acct" style="margin-top:2vh">${pCard({uname,title:'@'+esc(uname),flair:devFlair(uname,uid),dev:uname.toLowerCase()==='a',av:av||(mine&&FB.user.photoURL)||'',card:card||null,banner:bn||'',sub:mine?'This is you':isFr?'Friends ✓':'',badges:pBadges(st,false),extra:`<div class="pstats">${body}</div><div class="pacts">${acts.join('')}<button class="pill" data-a="pvback">Back</button></div><div class="m sm" id="fmsg" style="margin-top:8px"></div>`})}</div>`}
+ app.innerHTML=`<div class="acct" style="margin-top:2vh">${pCard({uname,title:'@'+esc(uname),flair:devFlair(uname,uid),dev:uname.toLowerCase()==='a',av:av||(mine&&FB.user.photoURL)||'',card:card||null,banner:bn||'',sub:mine?'This is you':isFr?'Friends ✓':'',badges:pBadgeList(card,st),extra:`<div class="pstats">${body}</div><div class="pacts">${acts.join('')}<button class="pill" data-a="pvback">Back</button></div><div class="m sm" id="fmsg" style="margin-top:8px"></div>`})}</div>`}
 
 /* ---- developer panel ---- */
 const DEV={rows:[]};
@@ -2273,86 +2276,146 @@ document.addEventListener('click',async ev=>{const b=ev.target.closest('[data-a]
  else if(a==='devuser'){if(!app.querySelector('#devl'))FB.pvFrom='dev';showDevUser(b.dataset.id)}
  else if(a==='devback')showDev()});
 
-/* ===== profile cards: banner, bio, picture, accent, status, tags, badges ===== */
+/* ===== profile cards: banner, bio, picture, accent, 24-hour status, chosen badges, crop tool ===== */
 const PGRAD=['#667eea,#764ba2','#f6d365,#fda085','#2193b0,#6dd5ed','#11998e,#38ef7d','#cc2b5e,#753a88','#232526,#515355','#ff9a9e,#fecfef','#00c6ff,#0072ff'];
 const PACC=['#4f7cff','#e53935','#ff9800','#2eb85c','#9c27b0','#00bcd4','#ff4081','#8d6e63'];
-const PTAGS=[['early','🌅','Early bird'],['owl','🦉','Night owl'],['grind','💪','Grinder'],['math','➗','Math nerd'],['words','📚','Word nerd'],['coffee','☕','Coffee-powered'],['chill','😌','Chill studier'],['comp','🏆','Competitive']];
-const PEMO=['😀','😎','🤓','🔥','💪','📚','🎯','😴','☕','🚀','🧠','🎧'];
+/* [id, emoji, label, earned?, how to earn, group] */
+const PBADGES=[
+ ['s3','🔥','3-day streak',s=>s.streak>=3,'Practice 3 days in a row','streak'],
+ ['s7','⚡','7-day streak',s=>s.streak>=7,'Practice 7 days in a row','streak'],
+ ['s30','👑','30-day streak',s=>s.streak>=30,'Practice 30 days in a row','streak'],
+ ['q100','💯','100 solved',s=>s.answered>=100,'Answer 100 questions','solved'],
+ ['q500','🚀','500 solved',s=>s.answered>=500,'Answer 500 questions','solved'],
+ ['q1000','🏆','1000 solved',s=>s.answered>=1000,'Answer 1000 questions','solved'],
+ ['days10','📅','Consistent',s=>s.days>=10,'Practice on 10 different days','days'],
+ ['days30','🗓️','Regular',s=>s.days>=30,'Practice on 30 different days','days'],
+ ['sharp','🎯','Sharpshooter',s=>s.answered>=50&&s.accuracy>=80,'80% accuracy over 50+ questions','acc'],
+ ['brain','🧠','Big brain',s=>s.answered>=100&&s.accuracy>=90,'90% accuracy over 100+ questions','acc']];
+const pnum=v=>Number(v)||0;
+const pEarned=st=>{const s=st?{streak:pnum(st.streak),answered:pnum(st.answered),accuracy:pnum(st.accuracy),days:pnum(st.days)}:{streak:0,answered:0,accuracy:0,days:0};return PBADGES.filter(b=>b[3](s)).map(b=>b[0])};
+function autoBadges(st){const e=pEarned(st),out=[];['streak','solved','days','acc'].forEach(g=>{const l=PBADGES.filter(b=>b[5]===g&&e.includes(b[0]));if(l.length)out.push(l[l.length-1][0])});return out}
+function pBadgeList(card,st){const ids=card&&typeof card.badges==='string'?card.badges.split(',').filter(Boolean):autoBadges(st);
+ return PBADGES.filter(b=>ids.includes(b[0])).map(b=>b[1]+' '+b[2])}
 const goalTotal=()=>(Number(ls('sattge'))||0)+(Number(ls('sattgm'))||0);
+const stActive=c=>!!(c&&c.status&&c.statusAt&&Date.now()-c.statusAt<864e5);
 function pBanner(c,b){c=c||{};const a=PACC.includes(c.accent)?c.accent:PACC[0];
  if(b)return`background:url('${esc(b)}') center/cover`;
  return`background:linear-gradient(135deg,${PGRAD[c.grad]||a+','+a+'88'})`}
-function pBadges(st,dev){const o=[];if(dev)o.push('🛠️ Developer');if(!st)return o;
- const s=Number(st.streak)||0,n=Number(st.answered)||0,ac=Number(st.accuracy)||0,d=Number(st.days)||0;
- if(s>=30)o.push('👑 30-day streak');else if(s>=7)o.push('⚡ 7-day streak');else if(s>=3)o.push('🔥 3-day streak');
- if(n>=1000)o.push('🏆 1000 solved');else if(n>=500)o.push('🚀 500 solved');else if(n>=100)o.push('💯 100 solved');
- if(n>=50&&ac>=80)o.push('🎯 Sharpshooter');if(d>=10)o.push('📅 Consistent');return o}
 function pCard(o){const c=o.card||{},a=PACC.includes(c.accent)?c.accent:PACC[0];
- const tags=(c.tags||[]).map(id=>PTAGS.find(t=>t[0]===id)).filter(Boolean).map(t=>`<span class="ptag" style="border-color:${a};color:${a}">${t[1]} ${t[2]}</span>`).join('');
- const bd=(o.badges||[]).map(t=>`<span class="pbdg">${t}</span>`).join('');
- const st=(c.status||c.emoji)?`<div class="pst" style="background:${a}26">${esc(c.emoji||'')} ${esc(c.status||'')}</div>`:'';
+ const bd=(o.badges||[]).map(t=>`<span class="pbdg">${esc(t)}</span>`).join('');
+ const st=stActive(c)?`<div class="pst" style="background:${a}26"><i class="pdot" style="background:${a}"></i>${esc(c.status)}<small>${esc(relT(c.statusAt))}</small></div>`:'';
  const bio=c.bio?`<p class="pbio">${esc(c.bio).replace(/\n/g,'<br>')}</p>`:'';
  const avh=o.av?`<img class="pavx" style="box-shadow:0 0 0 3px ${a}" src="${esc(o.av)}" alt="">`:`<span class="pavx" style="box-shadow:0 0 0 3px ${a}">${esc((o.uname||'?')[0].toUpperCase())}</span>`;
- const meta=[c.goal?'🎯 Aiming for '+esc(c.goal):'',c.since?'Joined '+new Date(c.since).toLocaleDateString([],{month:'short',year:'numeric'}):''].filter(Boolean).join(' · ');
- return`<div class="pcard"><div class="pbn" style="${pBanner(c,o.banner)}"></div><div class="pbd"><div class="pavw">${avh}</div><div class="pnm"><h1 class="${o.dev?'dev-username':''}">${o.title}</h1>${o.flair||''}</div>${o.sub?`<div class="m sm">${o.sub}</div>`:''}${st}${bio}${tags?`<div class="ptags">${tags}</div>`:''}${bd?`<div class="pbdgs">${bd}</div>`:''}${meta?`<div class="m sm" style="margin-top:8px">${meta}</div>`:''}${o.extra||''}</div></div>`}
+ const meta=[c.goal?'Aiming for '+esc(c.goal):'',c.since?'Joined '+new Date(c.since).toLocaleDateString([],{month:'short',year:'numeric'}):''].filter(Boolean).join(' · ');
+ return`<div class="pcard"><div class="pbn" style="${pBanner(c,o.banner)}"></div><div class="pbd"><div class="pavw">${avh}</div><div class="pnm"><h1 class="${o.dev?'dev-username':''}">${o.title}</h1>${o.flair||''}</div>${o.sub?`<div class="m sm">${o.sub}</div>`:''}${st}${bio}${bd?`<div class="pbdgs">${bd}</div>`:''}${meta?`<div class="m sm" style="margin-top:8px">${meta}</div>`:''}${o.extra||''}</div></div>`}
 function myCardHTML(u){const n=nameOf().trim(),prov=(u.providerData||[]).map(p=>p.providerId==='google.com'?'Google':p.providerId==='password'?'Email':p.providerId).join(', ');
- return pCard({uname:FB.un||n||'?',title:esc(FB.un?'@'+FB.un:(n||'Your account')),flair:FB.un?devFlair(FB.un,u.uid):'',dev:!!FB.un&&FB.un.toLowerCase()==='a',av:FB.avatar||u.photoURL||'',card:FB.card,banner:FB.banner,sub:esc(u.email||'')+(prov?' · '+esc(prov):''),badges:pBadges(myStatsFull(),false),
+ return pCard({uname:FB.un||n||'?',title:esc(FB.un?'@'+FB.un:(n||'Your account')),flair:FB.un?devFlair(FB.un,u.uid):'',dev:!!FB.un&&FB.un.toLowerCase()==='a',av:FB.avatar||u.photoURL||'',card:FB.card,banner:FB.banner,sub:esc(u.email||'')+(prov?' · '+esc(prov):''),badges:pBadgeList(FB.card,myStatsFull()),
   extra:`<div class="pacts"><button class="p pill" data-a="cardedit">Edit profile</button><button class="pill" data-a="socialsettings">Sharing</button>${FB.un?`<button class="pill" data-a="viewp" data-id="${esc(u.uid)}" data-n="${esc(FB.un)}">View as others</button>`:''}</div>`})}
 async function loadMyCard(force){if(!FB.user||!FB.ready)return false;const uid=FB.user.uid;if(FB.cardLoaded===uid&&!force)return false;FB.cardLoaded=uid;
  try{const{Db}=FB.m,[c,b]=await Promise.all([Db.get(dbr('profiles/'+uid+'/card')),Db.get(dbr('banners/'+uid)).catch(()=>null)]);FB.card=c.exists()?c.val():null;FB.banner=b&&b.exists()?b.val():'';return true}catch(e){FB.cardLoaded=null;return false}}
 {const _sa=showAccount;showAccount=function(msg){_sa(msg);if(FB.user&&FB.ready&&FB.cardLoaded!==FB.user.uid)loadMyCard().then(ch=>{const el=app.querySelector('.acct>.pcard');if(ch&&el)el.outerHTML=myCardHTML(FB.user)})}}
 
+/* ---- image crop tool (banner = wide, picture = square) ---- */
+function readSrc(file){return new Promise((res,rej)=>{const im=new Image(),u=URL.createObjectURL(file);
+ im.onload=()=>{const r=Math.min(1,1600/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*r);c.height=Math.round(im.height*r);const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);res(c.toDataURL('image/jpeg',.9))};
+ im.onerror=()=>{URL.revokeObjectURL(u);rej(new Error('bad image'))};im.src=u})}
+function cropOpen(src,o){return new Promise(res=>{const old=document.getElementById('crp');if(old)old.remove();
+ const im=new Image();im.onerror=()=>res(null);
+ im.onload=()=>{const W=Math.max(180,Math.min(o.round?320:560,window.innerWidth-80)),H=Math.round(W/o.aspect),iw=im.width,ih=im.height,base=Math.max(W/iw,H/ih);
+  let z=1,cx=iw/2,cy=ih/2;const sc=()=>base*z;
+  const d=document.createElement('div');d.id='crp';d.className='unm';d.style.zIndex=80;
+  d.innerHTML=`<div class="card" style="width:min(${W+44}px,100%);align-items:center"><h2 style="align-self:flex-start">${esc(o.title)}</h2><canvas id="crpc" width="${W}" height="${H}" style="width:${W}px;height:${H}px;max-width:100%;touch-action:none;cursor:grab;border-radius:12px;background:#000"></canvas><label class="m sm" style="display:flex;gap:10px;align-items:center;width:100%">Zoom<input type="range" id="crpz" min="100" max="400" value="100" style="flex:1"></label><p class="m sm" style="margin:0;align-self:flex-start">Drag to move. Use the slider, scroll or pinch to zoom.${o.round?' The circle is what people will see.':''}</p><div class="btns" style="align-self:stretch"><button class="p pill" id="crpok">Apply</button><button class="pill" id="crpno">Cancel</button></div></div>`;
+  document.body.appendChild(d);
+  const cv=d.querySelector('#crpc'),ctx=cv.getContext('2d'),zs=d.querySelector('#crpz');
+  const clamp=()=>{const hw=W/(2*sc()),hh=H/(2*sc());cx=Math.min(Math.max(cx,hw),iw-hw);cy=Math.min(Math.max(cy,hh),ih-hh)};
+  const draw=()=>{clamp();const hw=W/(2*sc()),hh=H/(2*sc());ctx.clearRect(0,0,W,H);ctx.drawImage(im,cx-hw,cy-hh,2*hw,2*hh,0,0,W,H);
+   if(o.round){ctx.save();ctx.fillStyle='rgba(0,0,0,.55)';ctx.beginPath();ctx.rect(0,0,W,H);ctx.arc(W/2,H/2,W/2-2,0,Math.PI*2,true);ctx.fill('evenodd');ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(W/2,H/2,W/2-2,0,Math.PI*2);ctx.stroke();ctx.restore()}};
+  const setZ=v=>{z=Math.min(4,Math.max(1,v));zs.value=Math.round(z*100);draw()};
+  const pts=new Map();let last=0;
+  cv.onpointerdown=e=>{try{cv.setPointerCapture(e.pointerId)}catch(_){}pts.set(e.pointerId,[e.clientX,e.clientY]);last=0;cv.style.cursor='grabbing'};
+  cv.onpointermove=e=>{if(!pts.has(e.pointerId))return;const p=pts.get(e.pointerId);if(pts.size===1){cx-=(e.clientX-p[0])/sc();cy-=(e.clientY-p[1])/sc()}pts.set(e.pointerId,[e.clientX,e.clientY]);
+   if(pts.size===2){const[a,b]=[...pts.values()],dd=Math.hypot(a[0]-b[0],a[1]-b[1]);if(last)setZ(z*dd/last);last=dd}draw()};
+  cv.onpointerup=cv.onpointercancel=e=>{pts.delete(e.pointerId);last=0;cv.style.cursor='grab'};
+  cv.onwheel=e=>{e.preventDefault();setZ(z*(e.deltaY<0?1.08:1/1.08))};
+  zs.oninput=()=>setZ(+zs.value/100);
+  d.querySelector('#crpno').onclick=()=>{d.remove();res(null)};
+  d.querySelector('#crpok').onclick=()=>{clamp();const hw=W/(2*sc()),hh=H/(2*sc()),oc=document.createElement('canvas');oc.width=o.outW;oc.height=o.outH;const x=oc.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,o.outW,o.outH);x.drawImage(im,cx-hw,cy-hh,2*hw,2*hh,0,0,o.outW,o.outH);d.remove();res(oc.toDataURL('image/jpeg',.82))};
+  draw()};
+ im.src=src})}
+
 /* ---- profile editor ---- */
 let CE=null;
-function ceImg(file,w,h,cb){const im=new Image(),url=URL.createObjectURL(file);im.onload=()=>{const c=document.createElement('canvas'),x=c.getContext('2d');c.width=w;c.height=h;const r=Math.max(w/im.width,h/im.height),sw=w/r,sh=h/r;x.drawImage(im,(im.width-sw)/2,(im.height-sh)/2,sw,sh,0,0,w,h);cb(c.toDataURL('image/jpeg',.74));URL.revokeObjectURL(url)};im.onerror=()=>URL.revokeObjectURL(url);im.src=url}
-function cePrev(){const o=document.getElementById('cepv');if(!o||!CE)return;const u=FB.user,c={...CE.c,goal:CE.c.goalOn?goalTotal():0};
- o.innerHTML=pCard({uname:FB.un||'?',title:esc(FB.un?'@'+FB.un:(nameOf().trim()||'You')),flair:FB.un?devFlair(FB.un,u.uid):'',dev:!!FB.un&&FB.un.toLowerCase()==='a',av:CE.avatar||FB.avatar||u.photoURL||'',card:c,banner:CE.banner,badges:pBadges(myStatsFull(),false)})}
+const ST_SUG=['Studying right now','Taking a break','Practice test today','Cramming for the test','Test day soon','Back tomorrow'];
+function ceSay(t){const m=document.getElementById('cemsg');if(m)m.textContent=t||''}
+function cePrev(){const o=document.getElementById('cepv');if(!o||!CE)return;const u=FB.user,c={...CE.c,goal:CE.c.goalOn?goalTotal():0,badges:CE.c.badges.join(',')};
+ o.innerHTML=pCard({uname:FB.un||'?',title:esc(FB.un?'@'+FB.un:(nameOf().trim()||'You')),flair:FB.un?devFlair(FB.un,u.uid):'',dev:!!FB.un&&FB.un.toLowerCase()==='a',av:CE.avatar||FB.avatar||u.photoURL||'',card:c,banner:CE.banner,badges:pBadgeList(c,myStatsFull())})}
 function ceMark(){document.querySelectorAll('[data-a=cegrad]').forEach(b=>b.classList.toggle('on',!CE.banner&&+b.dataset.i===CE.c.grad));
  document.querySelectorAll('[data-a=ceacc]').forEach(b=>b.classList.toggle('on',b.dataset.c===CE.c.accent));
- document.querySelectorAll('[data-a=ceemo]').forEach(b=>b.classList.toggle('on',(b.dataset.e||'')===(CE.c.emoji||'')));
- document.querySelectorAll('[data-a=cetag]').forEach(b=>b.classList.toggle('on',CE.c.tags.includes(b.dataset.t)));
- const bc=document.getElementById('cebc');if(bc)bc.textContent=CE.c.bio.length+'/160'}
+ document.querySelectorAll('[data-a=cebadge]').forEach(b=>b.classList.toggle('on',CE.c.badges.includes(b.dataset.b)));
+ const bc=document.getElementById('cebc');if(bc)bc.textContent=CE.c.bio.length+'/160';
+ const hasB=!!CE.banner;['cebcrop','cebrm'].forEach(a=>{const e=document.querySelector('[data-a='+a+']');if(e)e.hidden=!hasB});
+ const hasA=!!(CE.aSrc||CE.avatar||(FB.avatar&&FB.avatar.startsWith('data:')));const e2=document.querySelector('[data-a=ceacrop]');if(e2)e2.hidden=!hasA;
+ const sl=document.getElementById('cestl');if(sl)sl.textContent=CE.c.status&&CE.c.statusAt?'Posted '+relT(CE.c.statusAt)+' · disappears in '+Math.max(1,Math.ceil((CE.c.statusAt+864e5-Date.now())/36e5))+' h':'Disappears 24 hours after you post it.';
+ const bs=document.getElementById('cebsel');if(bs)bs.textContent=CE.c.badges.length+' of 6 shown'}
 async function showCardEdit(){
  if(!FB.user||!FB.ready){showAccount();return}
  clearInterval(S.tick);S.done=true;S.authpage=false;document.body.dataset.q='';window.scrollTo(0,0);
- await loadMyCard();const c=FB.card||{};
- CE={c:{bio:c.bio||'',status:c.status||'',emoji:c.emoji||'',accent:PACC.includes(c.accent)?c.accent:PACC[0],grad:c.grad!=null?c.grad:null,tags:(c.tags||[]).slice(0,3),goalOn:!!c.goal,since:c.since||0},banner:FB.banner||'',avatar:''};
+ await loadMyCard();const c=FB.card||{},ok=stActive(c),mine=myStatsFull(),earned=pEarned(mine);
+ const bl=typeof c.badges==='string'?c.badges.split(',').filter(x=>PBADGES.some(b=>b[0]===x)):autoBadges(mine);
+ CE={c:{bio:c.bio||'',status:ok?c.status:'',statusAt:ok?c.statusAt:0,accent:PACC.includes(c.accent)?c.accent:PACC[0],grad:c.grad!=null?c.grad:null,badges:bl.slice(0,6),goalOn:!!c.goal,since:c.since||0},banner:FB.banner||'',bSrc:'',avatar:'',aSrc:'',orig:{status:ok?c.status:'',statusAt:ok?c.statusAt:0}};
  const gt=goalTotal();
- app.innerHTML=`<div class="acct"><div id="cepv"></div><div class="card"><h2>Edit your profile</h2><p class="m sm" style="margin:0">This is what other people see when they open your profile. Your stats still follow your sharing settings.</p>
- <div class="cefld"><b>Banner</b><div class="cegrid"><button class="cesw" data-a="cegrad" data-i="-1" style="background:var(--hd)" title="Match accent color">∅</button>${PGRAD.map((g,i)=>`<button class="cesw" data-a="cegrad" data-i="${i}" style="background:linear-gradient(135deg,${g})"></button>`).join('')}</div><div class="m sm">Or use your own image (it is cropped to a wide banner):</div><input type="file" id="cebn" accept="image/png,image/jpeg,image/webp,image/gif"><div><button class="s" data-a="cebrm">Remove banner image</button></div></div>
- <div class="cefld"><b>Profile picture</b><input type="file" id="ceav" accept="image/png,image/jpeg,image/webp,image/gif"></div>
- <div class="cefld"><b>Status</b><div class="cegrid"><button class="cechip" data-a="ceemo" data-e="">None</button>${PEMO.map(e=>`<button class="cechip" data-a="ceemo" data-e="${e}">${e}</button>`).join('')}</div><input type="text" id="cest" maxlength="40" placeholder="What are you up to? e.g. grinding for March" value="${esc(CE.c.status)}" style="text-align:left"></div>
- <div class="cefld"><b>Bio <span class="m sm" id="cebc"></span></b><textarea class="ceta" id="cebio" maxlength="160" placeholder="Tell people about yourself…">${esc(CE.c.bio)}</textarea></div>
- <div class="cefld"><b>Accent color</b><div class="cegrid">${PACC.map(a=>`<button class="ceacc" data-a="ceacc" data-c="${a}" style="background:${a}"></button>`).join('')}</div></div>
- <div class="cefld"><b>Vibe (pick up to 3)</b><div class="cegrid">${PTAGS.map(t=>`<button class="cechip" data-a="cetag" data-t="${t[0]}">${t[1]} ${t[2]}</button>`).join('')}</div></div>
- ${gt?`<label class="tgl cefld" style="flex-direction:row;align-items:center;gap:10px"><input type="checkbox" id="cegoal" ${CE.c.goalOn?'checked':''}><span>Show my target score (${gt}) on my profile</span></label>`:''}
- <div class="btns" style="margin-top:18px"><button class="p pill" data-a="cardsave">Save profile</button><button class="pill" data-a="acct">Cancel</button></div><div class="m sm" id="cemsg"></div></div></div>`;
+ app.innerHTML=`<div class="acct"><div id="cepv"></div>
+ <div class="card"><h2>Banner</h2><p class="m sm" style="margin:0">Pick a color style or upload your own image, then crop it to fit.</p>
+  <div class="cegrid" style="margin-top:10px"><button class="cesw" data-a="cegrad" data-i="-1" style="background:var(--hd)" title="Match my accent color">Auto</button>${PGRAD.map((g,i)=>`<button class="cesw" data-a="cegrad" data-i="${i}" style="background:linear-gradient(135deg,${g})"></button>`).join('')}</div>
+  <div class="pacts"><button class="s" data-a="cebup">Upload image</button><button class="s" data-a="cebcrop" hidden>Adjust crop</button><button class="s" data-a="cebrm" hidden>Remove image</button></div></div>
+ <div class="card"><h2>Profile picture</h2><p class="m sm" style="margin:0">Upload a photo, then drag and zoom to choose what shows in the circle.</p>
+  <div class="pacts"><button class="s" data-a="ceaup">Upload photo</button><button class="s" data-a="ceacrop" hidden>Adjust crop</button></div></div>
+ <div class="card"><h2>Status</h2><p class="m sm" style="margin:0" id="cestl"></p>
+  <input type="text" id="cest" maxlength="60" placeholder="What are you up to right now?" value="${esc(CE.c.status)}" style="text-align:left;margin-top:10px">
+  <div class="cegrid" style="margin-top:10px">${ST_SUG.map(t=>`<button class="cechip" data-a="cesug" data-t="${esc(t)}">${esc(t)}</button>`).join('')}<button class="cechip" data-a="cestclr">Clear</button></div></div>
+ <div class="card"><h2>About you</h2><div class="m sm" style="margin:0 0 8px"><span id="cebc"></span></div><textarea class="ceta" id="cebio" maxlength="160" placeholder="Tell people about yourself…">${esc(CE.c.bio)}</textarea>
+  ${gt?`<label class="tgl" style="margin-top:12px;display:flex;gap:10px;align-items:center"><input type="checkbox" id="cegoal" ${CE.c.goalOn?'checked':''}><span>Show my target score (${gt})</span></label>`:''}</div>
+ <div class="card"><h2>Accent color</h2><p class="m sm" style="margin:0">Colors your picture ring and status.</p><div class="cegrid" style="margin-top:10px">${PACC.map(a=>`<button class="ceacc" data-a="ceacc" data-c="${a}" style="background:${a}"></button>`).join('')}</div></div>
+ <div class="card"><h2>Badges</h2><p class="m sm" style="margin:0">Choose up to 6 earned badges to show on your profile (<span id="cebsel"></span>). Locked ones unlock as you practice.</p>
+  <div class="cegrid" style="margin-top:10px">${PBADGES.map(b=>earned.includes(b[0])?`<button class="cechip" data-a="cebadge" data-b="${b[0]}">${b[1]} ${b[2]}</button>`:`<button class="cechip lock" disabled title="${esc(b[4])}">🔒 ${b[2]}<small>${esc(b[4])}</small></button>`).join('')}</div></div>
+ <div class="card"><div class="btns"><button class="p pill" data-a="cardsave">Save profile</button><button class="pill" data-a="acct">Cancel</button></div><div class="m sm" id="cemsg" style="margin-top:8px"></div></div>
+ <input type="file" id="cebn" accept="image/png,image/jpeg,image/webp,image/gif" hidden><input type="file" id="ceav" accept="image/png,image/jpeg,image/webp,image/gif" hidden></div>`;
  cePrev();ceMark()}
-async function saveCardEdit(){const msg=document.getElementById('cemsg'),say=t=>{if(msg)msg.textContent=t};
- if(!CE||!FB.user||!FB.ready)return;const{Db}=FB.m,uid=FB.user.uid;say('Saving…');
- try{const g=CE.c.goalOn?goalTotal():0,since=CE.c.since||Date.parse(FB.user.metadata&&FB.user.metadata.creationTime)||Date.now();
-  const card={bio:CE.c.bio.trim().slice(0,160),status:CE.c.status.trim().slice(0,40),emoji:CE.c.emoji||'',accent:CE.c.accent,since};
-  if(CE.c.tags.length)card.tags=CE.c.tags;if(CE.c.grad!=null)card.grad=CE.c.grad;if(g)card.goal=g;
+async function ceCrop(kind,src){const ban=kind==='b',out=await cropOpen(src,ban?{aspect:3,outW:720,outH:240,title:'Crop your banner'}:{aspect:1,outW:256,outH:256,round:true,title:'Crop your profile picture'});
+ if(!out||!CE)return;if(ban){CE.banner=out;CE.bSrc=src}else{CE.avatar=out;CE.aSrc=src}ceMark();cePrev()}
+async function ceFile(file,kind){if(file.size>12*1024*1024){ceSay('Please choose an image under 12 MB.');return}let src;try{src=await readSrc(file)}catch(e){ceSay('Could not read that image.');return}ceSay('');await ceCrop(kind,src)}
+async function saveCardEdit(){
+ if(!CE||!FB.user||!FB.ready)return;const{Db}=FB.m,uid=FB.user.uid;ceSay('Saving…');
+ try{const g=CE.c.goalOn?goalTotal():0,since=CE.c.since||Date.parse(FB.user.metadata&&FB.user.metadata.creationTime)||Date.now(),status=CE.c.status.trim().slice(0,60);
+  const card={bio:CE.c.bio.trim().slice(0,160),accent:CE.c.accent,since,badges:CE.c.badges.join(',')};
+  if(status){card.status=status;card.statusAt=CE.c.statusAt||Date.now()}
+  if(CE.c.grad!=null)card.grad=CE.c.grad;if(g)card.goal=g;
   await Db.set(dbr('profiles/'+uid+'/card'),card);
   if(CE.banner&&CE.banner!==FB.banner){if(CE.banner.length>140000)throw new Error('That banner image is too large. Try a different one.');await Db.set(dbr('banners/'+uid),CE.banner)}
   else if(!CE.banner&&FB.banner)await Db.remove(dbr('banners/'+uid));
   if(CE.avatar){await Db.set(dbr('profiles/'+uid+'/avatar'),CE.avatar);FB.avatar=CE.avatar;fbUI()}
   FB.card=card;FB.banner=CE.banner;FB.cardLoaded=uid;socialTick(true);showAccount('Profile saved.')}
- catch(e){say((e&&e.message&&!e.code?e.message:dbErr(e))+' If this says permission denied, add the new rules (banners) in Firebase.')}}
-document.addEventListener('input',e=>{const t=e.target;if(!CE||!t)return;if(t.id==='cebio'){CE.c.bio=t.value;ceMark();cePrev()}else if(t.id==='cest'){CE.c.status=t.value;cePrev()}});
+ catch(e){ceSay((e&&e.message&&!e.code?e.message:dbErr(e))+' If this says permission denied, add the new rules (banners) in Firebase.')}}
+document.addEventListener('input',e=>{const t=e.target;if(!CE||!t)return;
+ if(t.id==='cebio'){CE.c.bio=t.value;ceMark();cePrev()}
+ else if(t.id==='cest'){const v=t.value;CE.c.status=v;CE.c.statusAt=!v.trim()?0:(v.trim()===CE.orig.status&&CE.orig.statusAt?CE.orig.statusAt:Date.now());ceMark();cePrev()}});
 document.addEventListener('change',e=>{const t=e.target;if(!CE||!t)return;
  if(t.id==='cegoal'){CE.c.goalOn=t.checked;cePrev()}
- else if(t.id==='cebn'&&t.files&&t.files[0]){const f=t.files[0];if(f.size>8*1024*1024){const m=$('#cemsg');if(m)m.textContent='Please choose an image under 8 MB.';return}ceImg(f,720,240,d=>{CE.banner=d;ceMark();cePrev()})}
- else if(t.id==='ceav'&&t.files&&t.files[0]){const f=t.files[0];if(f.size>8*1024*1024){const m=$('#cemsg');if(m)m.textContent='Please choose an image under 8 MB.';return}ceImg(f,256,256,d=>{CE.avatar=d;cePrev()})}});
+ else if((t.id==='cebn'||t.id==='ceav')&&t.files&&t.files[0]){const f=t.files[0];t.value='';ceFile(f,t.id==='cebn'?'b':'a')}});
 document.addEventListener('click',ev=>{const b=ev.target.closest('[data-a]');if(!b)return;const a=b.dataset.a;
  if(a==='cardedit')showCardEdit();
  else if(a==='cardsave')saveCardEdit();
  else if(!CE||!document.getElementById('cepv'))return;
- else if(a==='cegrad'){CE.c.grad=+b.dataset.i<0?null:+b.dataset.i;CE.banner='';ceMark();cePrev()}
- else if(a==='cebrm'){CE.banner='';ceMark();cePrev()}
+ else if(a==='cegrad'){CE.c.grad=+b.dataset.i<0?null:+b.dataset.i;CE.banner='';CE.bSrc='';ceMark();cePrev()}
+ else if(a==='cebup')document.getElementById('cebn').click();
+ else if(a==='cebcrop'){const s=CE.bSrc||CE.banner;if(s)ceCrop('b',s)}
+ else if(a==='cebrm'){CE.banner='';CE.bSrc='';ceMark();cePrev()}
+ else if(a==='ceaup')document.getElementById('ceav').click();
+ else if(a==='ceacrop'){const s=CE.aSrc||CE.avatar||(FB.avatar&&FB.avatar.startsWith('data:')?FB.avatar:'');if(s)ceCrop('a',s)}
  else if(a==='ceacc'){CE.c.accent=b.dataset.c;ceMark();cePrev()}
- else if(a==='ceemo'){CE.c.emoji=b.dataset.e||'';ceMark();cePrev()}
- else if(a==='cetag'){const t=b.dataset.t,i=CE.c.tags.indexOf(t);if(i>=0)CE.c.tags.splice(i,1);else if(CE.c.tags.length<3)CE.c.tags.push(t);ceMark();cePrev()}});
+ else if(a==='cesug'){const i=document.getElementById('cest');CE.c.status=b.dataset.t;CE.c.statusAt=CE.c.status===CE.orig.status&&CE.orig.statusAt?CE.orig.statusAt:Date.now();if(i)i.value=CE.c.status;ceMark();cePrev()}
+ else if(a==='cestclr'){const i=document.getElementById('cest');CE.c.status='';CE.c.statusAt=0;if(i)i.value='';ceMark();cePrev()}
+ else if(a==='cebadge'){const id=b.dataset.b,i=CE.c.badges.indexOf(id);if(i>=0)CE.c.badges.splice(i,1);else if(CE.c.badges.length<6)CE.c.badges.push(id);else ceSay('You can show up to 6 badges. Remove one first.');ceMark();cePrev()}});
 
 fbInit();
 document.getElementById('gbtn').innerHTML=GSVG+' Sign in';
