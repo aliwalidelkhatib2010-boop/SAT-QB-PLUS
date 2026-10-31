@@ -2935,7 +2935,7 @@ document.addEventListener('click',async ev=>{const b=ev.target.closest('[data-a]
  else if(a==='ntx'){const t=b.closest('.ntt');if(t)t.remove()}
  else if(a==='ntopen'){const k=b.dataset.k,u=b.dataset.uid,n=b.dataset.n;b.remove();if(k==='ann'){const m=$('#pm');if(m)m.hidden=true;showCommunity()}else if(u)showChat(u,n)}
  else if(a==='donate'){if(DONATE_URL){window.open(DONATE_URL,'_blank','noopener');return}
-  const o=document.createElement('div');o.id='dnm';o.innerHTML='<div class="card"><h2>Support SAT Practice ♥</h2><p class="m">Donations aren’t open yet. A link will appear here soon. Thank you for wanting to help!</p><button class="p pill" data-a="dnclose">Close</button></div>';o.addEventListener('click',e=>{if(e.target===o)o.remove()});document.body.append(o)}
+  const o=document.createElement('div');o.id='dnm';o.innerHTML='<div class="card"><h2>Support SAT Practice :)</h2><p class="m">Donations aren’t open yet. A link will appear here soon. Thank you for wanting to help!</p><button class="p pill" data-a="dnclose">Close</button></div>';o.addEventListener('click',e=>{if(e.target===o)o.remove()});document.body.append(o)}
  else if(a==='dnclose'){const o=document.getElementById('dnm');if(o)o.remove()}});
 const DONATE_URL='';
 
