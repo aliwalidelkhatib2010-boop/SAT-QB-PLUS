@@ -771,7 +771,7 @@ body[data-ld="1"] :is([data-a=begin],[data-a=fullsetup],[data-a=setup],[data-a=g
 .cmcrow{display:flex;gap:8px;margin-top:8px}.cmcin{flex:1;min-width:0;box-sizing:border-box;padding:9px 12px;border:1px solid var(--bd);border-radius:999px;background:var(--bg);color:inherit;font:inherit;text-align:left}
 
 /* ===== v6: pixel rings, comment sheet, pop-ups, online, donate, phone layout ===== */
-.pavw.rg{padding:26px!important;margin:-26px!important;display:block}
+.pavw.rg{padding:14px!important;margin:-14px!important;display:block}
 .pavw.rg::before,.pavw.rg::after,.rgdot::before,.rgdot::after{content:none!important;display:none!important}
 .rgsvg{position:absolute;left:0;top:0;width:100%;height:100%;z-index:2;pointer-events:none;overflow:visible}
 .rgs{transform-origin:18px 18px;animation:rgrot 12s steps(60) infinite}
@@ -2549,22 +2549,22 @@ const RGS={
  wave:['..WW....','.WLLW.WW','WLLLLWLLW','LLLLLLLLL']
 };
 const PRINGS=[
- {id:'ocean',label:'Ocean',cat:'Beach',band:[12,15],pal:['#2b7cd3','#4ea3f0','#9fdcff','#4ea3f0'],n:18,sk:.7,wv:.8,ol:'#17407f',spin:12,items:[['shell',210,13.8,'b'],['star',300,14,'b','#f4802b',.4],['wave',165,14.2,'b','',.6],['bubble',35,14.6,'f','',.2],['bubble',70,14.8,'f','',.9],['dot',335,15,'t','#ffffff',.3],['dot',110,15.4,'t','#9fdcff',1],['shellS',255,14,'b','',.8]]},
- {id:'sunset',label:'Sunset',cat:'Beach',band:[12,15],pal:['#ff7e5f','#feb47b','#ffd89b','#feb47b'],n:16,sk:.6,wv:.6,ol:'#a8325e',spin:14,items:[['sun',22,14,'b'],['cloud',250,14.2,'f'],['palm',150,14,'b','',.5],['dot',300,15.4,'t','#ffd23f',.5],['dot',200,15.6,'t','#ffffff',1],['star',335,14.6,'t','#ffd23f',.9]]},
+ {id:'ocean',label:'Ocean',cat:'Beach',band:[12,15],pal:['#2b7cd3','#4ea3f0','#9fdcff','#4ea3f0'],n:18,sk:.7,wv:.8,ol:'#17407f',spin:0,arcs:[[15,105],[195,285]],items:[['shell',210,13.8,'b'],['star',300,14,'b','#f4802b',.4],['wave',165,14.2,'b','',.6],['bubble',35,14.6,'f','',.2],['bubble',70,14.8,'f','',.9],['dot',335,15,'t','#ffffff',.3],['dot',110,15.4,'t','#9fdcff',1],['shellS',255,14,'b','',.8]]},
+ {id:'sunset',label:'Sunset',cat:'Beach',band:[12,15],pal:['#ff7e5f','#feb47b','#ffd89b','#feb47b'],n:16,sk:.6,wv:.6,ol:'#a8325e',spin:0,arcs:[[270,90]],items:[['sun',22,14,'b'],['cloud',250,14.2,'f'],['palm',150,14,'b','',.5],['dot',300,15.4,'t','#ffd23f',.5],['dot',200,15.6,'t','#ffffff',1],['star',335,14.6,'t','#ffd23f',.9]]},
  {id:'vinyl',label:'Vinyl',cat:'Music',band:[12,15],pal:['#3b2f66','#5a4a99','#3b2f66','#ff5c8a'],n:30,ol:'#150f26',spin:6,items:[['note',25,14,'b','#9a5bff'],['note1',150,14.6,'f','#ff8fc8',.5],['note',262,14,'b','#2fd6c8',.9],['vinyl',205,14.4,'b','',.3],['dot',335,15,'t','#ffffff'],['dot',100,15.4,'t','#e8344e',.6]]},
  {id:'disco',label:'Disco',cat:'Music',band:[12,15],pal:['#ff3d81','#ffd23f','#3ec46d','#2fd6c8','#3a8bff','#9a5bff'],n:24,ol:'#2a2438',spin:3,items:[['spark',20,14.6,'t','#ffffff'],['spark',110,14.6,'t','#ffffff',.4],['star',200,14.2,'t','#ffd23f',.8],['spark',290,14.6,'t','#ffffff',1.2],['note1',335,14.4,'b','#ffffff'],['dot',65,15.6,'t','#ffd23f',.2]]},
- {id:'notebook',label:'Notebook',cat:'School',band:[12,15],pal:['#ffffff','#cfe3ff','#ffffff','#ffd1d9'],n:24,ol:'#3a8bff',spin:0,items:[['pencil',45,14,'b'],['apple',325,14.2,'b','',.5],['book',215,14,'f','#e8344e'],['dot',130,15.4,'t','#ffd23f'],['dot',270,15.4,'t','#3a8bff',.7]]},
+ {id:'notebook',label:'Notebook',cat:'School',band:[12,15],pal:['#ffffff','#cfe3ff','#ffffff','#ffd1d9'],n:24,ol:'#3a8bff',spin:0,arcs:[[285,15],[105,195]],items:[['pencil',45,14,'b'],['apple',325,14.2,'b','',.5],['book',215,14,'f','#e8344e'],['dot',130,15.4,'t','#ffd23f'],['dot',270,15.4,'t','#3a8bff',.7]]},
  {id:'grad',label:'Graduation',cat:'School',band:[12,15],pal:['#ffd23f','#fff2b3'],n:12,ol:'#8a5a00',spin:14,items:[['cap',0,14,'b'],['star',120,14.4,'t','#ffd23f'],['star',240,14.4,'t','#ffd23f',.8],['dot',300,15.4,'t','#ffffff',.4],['dot',60,15.4,'t','#ffffff',.9]]},
  {id:'math',label:'Math',cat:'Math & SAT',band:[12,15],pal:['#3a8bff','#9fdcff'],n:20,ol:'#16305c',spin:20,items:[['pi',25,14,'b','#ffd23f'],['sigma',145,14.2,'f','#ff8fc8',.4],['inf',255,14,'b','#2fd6c8',.8],['dot',335,15.4,'t','#ffffff'],['dot',95,15.6,'t','#ffd23f',.6]]},
  {id:'sat',label:'Test day',cat:'Math & SAT',band:[12,15],pal:['#2f6bff','#ffd04a'],n:12,ol:'#112a6b',spin:8,items:[['pencil',35,14,'b'],['star',150,14.4,'t','#ffd23f'],['spark',250,14.6,'t','#ffffff',.5],['star',330,14.4,'t','#ffd23f',1],['dot',95,15.6,'t','#ffffff',.3]]},
  {id:'perfect',label:'Perfect 1600',cat:'Math & SAT',band:[12,15],pal:['#ffd700','#fff6b0','#d4a017','#fff6b0'],n:24,ol:'#6b4600',spin:5,items:[['star',0,14.2,'t','#ffd23f'],['star',90,14.2,'t','#fff6b0',.4],['star',180,14.2,'t','#ffd23f',.8],['star',270,14.2,'t','#fff6b0',1.2],['spark',45,15,'t','#ffffff',.2],['spark',225,15,'t','#ffffff',.6]]},
  {id:'vocab',label:'Vocab',cat:'English',band:[12,15],pal:['#f4802b','#ffd23f'],n:16,sk:.5,ol:'#7a3208',spin:10,items:[['A',28,14.4,'b','#ffffff'],['a',150,14.6,'f','#ffffff',.5],['quote',262,14.6,'b','#ffd23f',.9],['book',335,14.2,'f','#e8344e',.3],['dot',95,15.6,'t','#ffffff',.7]]},
- {id:'books',label:'Bookworm',cat:'English',band:[12,15],pal:['#8a5a2b','#b07a3f','#d9a860'],n:18,ol:'#3f250d',spin:0,items:[['book',350,14,'b','#e8344e'],['book',120,14,'b','#3a8bff',.5],['book',232,14,'b','#3ec46d',.9],['dot',45,15.4,'t','#ffd23f'],['dot',180,15.6,'t','#ffd23f',.6]]},
- {id:'sakura',label:'Sakura',cat:'More',band:[12,15],pal:['#ffb3d1','#ff8fc8','#ffd1e3'],n:12,ol:'#b73b74',spin:0,items:[['petal',20,14.8,'d','#ffb3d1'],['petal',100,14.8,'d','#ff8fc8',.7],['petal',190,14.8,'d','#ffb3d1',1.4],['petal',270,14.8,'d','#ff8fc8',2.1],['petal',320,14.8,'d','#ffd1e3',.3],['dot',150,15.6,'t','#ffffff']]},
+ {id:'books',label:'Bookworm',cat:'English',band:[12,15],pal:['#8a5a2b','#b07a3f','#d9a860'],n:18,ol:'#3f250d',spin:0,arcs:[[90,270]],items:[['book',350,14,'b','#e8344e'],['book',120,14,'b','#3a8bff',.5],['book',232,14,'b','#3ec46d',.9],['dot',45,15.4,'t','#ffd23f'],['dot',180,15.6,'t','#ffd23f',.6]]},
+ {id:'sakura',label:'Sakura',cat:'More',band:[12,15],pal:['#ffb3d1','#ff8fc8','#ffd1e3'],n:12,ol:'#b73b74',spin:0,arcs:[[15,105],[195,285]],items:[['petal',20,14.8,'d','#ffb3d1'],['petal',100,14.8,'d','#ff8fc8',.7],['petal',190,14.8,'d','#ffb3d1',1.4],['petal',270,14.8,'d','#ff8fc8',2.1],['petal',320,14.8,'d','#ffd1e3',.3],['dot',150,15.6,'t','#ffffff']]},
  {id:'space',label:'Space',cat:'More',band:[12,15],pal:['#2a1a5e','#4b2f9e','#1b1040'],n:18,ol:'#0a0418',spin:18,items:[['planet',30,14,'b'],['moon',205,14.2,'f'],['star',120,14.6,'t','#ffffff'],['star',280,14.6,'t','#ffd23f',.6],['dot',340,15.6,'t','#9fdcff',1.1],['dot',160,15.8,'t','#ffffff',.3]]},
  {id:'flame',label:'Flame',cat:'More',band:[12,15],pal:['#e8344e','#f4802b','#ffd23f'],n:14,sk:.8,ol:'#6b0f1d',spin:3,items:[['flame',20,14,'b'],['flame',200,14,'b','',.5],['dot',110,15.4,'t','#ffd23f'],['dot',290,15.4,'t','#ffffff',.7]]},
- {id:'winter',label:'Winter',cat:'More',band:[12,15],pal:['#9fdcff','#ffffff','#cfeaff'],n:16,ol:'#3573bd',spin:16,items:[['snow',25,14.2,'b','#ffffff'],['snow',150,14.4,'f','#cfeaff',.5],['snow',265,14.2,'b','#ffffff',.9],['dot',335,15.4,'t','#9fdcff']]},
- {id:'hearts',label:'Hearts',cat:'More',band:[12,15],pal:['#ff5c8a','#ffb3c7'],n:12,ol:'#7d1736',spin:10,items:[['heart',28,14,'b','#e8344e'],['heart',150,14.2,'f','#ff8fc8',.5],['heart',265,14,'b','#e8344e',.9],['dot',335,15.4,'t','#ffffff']]}
+ {id:'winter',label:'Winter',cat:'More',band:[12,15],pal:['#9fdcff','#ffffff','#cfeaff'],n:16,ol:'#3573bd',spin:0,arcs:[[15,105],[195,285]],items:[['snow',25,14.2,'b','#ffffff'],['snow',150,14.4,'f','#cfeaff',.5],['snow',265,14.2,'b','#ffffff',.9],['dot',335,15.4,'t','#9fdcff']]},
+ {id:'hearts',label:'Hearts',cat:'More',band:[12,15],pal:['#ff5c8a','#ffb3c7'],n:12,ol:'#7d1736',spin:0,arcs:[[285,15],[105,195]],items:[['heart',28,14,'b','#e8344e'],['heart',150,14.2,'f','#ff8fc8',.5],['heart',265,14,'b','#e8344e',.9],['dot',335,15.4,'t','#ffffff']]}
 ];
 const ringOf=id=>PRINGS.find(r=>r.id===id)||null;
 const RGN=36,RGM=RGN/2;
@@ -2573,9 +2573,11 @@ function rgRuns(cells){const by={},byc={};cells.forEach(([x,y,c])=>{(by[y]=by[y]
  Object.keys(by).map(Number).sort((a,b)=>a-b).forEach(y=>{const r=by[y].sort((a,b)=>a[0]-b[0]);let i=0;while(i<r.length){let j=i;while(j+1<r.length&&r[j+1][0]===r[j][0]+1&&r[j+1][1]===r[i][1])j++;const w=j-i+1;(byc[r[i][1]]=byc[r[i][1]]||[]).push(`M${r[i][0]} ${y}h${w}v1h-${w}z`);i=j+1}});
  return Object.keys(byc).map(c=>`<path fill="${c}" d="${byc[c].join('')}"/>`).join('')}
 function rgSprite(name,col){const g=RGS[name],cells=[];if(!g)return'';g.forEach((row,y)=>{for(let x=0;x<row.length;x++){const ch=row[x];if(ch==='.'||ch===' ')continue;const f=ch==='#'?col:RGC[ch];if(f)cells.push([x,y,f])}});return rgRuns(cells)}
+const rgIn=(a,s,e)=>s<=e?(a>=s&&a<=e):(a>=s||a<=e);
 function rgBand(d){const[r0,r1]=d.band,pal=d.pal,n=d.n||12,sk=d.sk||0,wv=d.wv||0,cells=[];
  for(let y=0;y<RGN;y++)for(let x=0;x<RGN;x++){const dx=x+.5-RGM,dy=y+.5-RGM,r=Math.hypot(dx,dy);if(r<r0||r>=r1)continue;
   let a=Math.atan2(dx,-dy);if(a<0)a+=2*Math.PI;
+  if(d.arcs&&!d.arcs.some(([s,e])=>rgIn(a*180/Math.PI,s,e)))continue;
   let i=Math.floor(a/(2*Math.PI)*n+(r-r0)*sk+wv*Math.sin(a*5));i=((i%pal.length)+pal.length)%pal.length;
   let c=pal[i];if(r>=r1-1)c=d.ol;else if(r<r0+1)c=rgMix(c,.38);
   cells.push([x,y,c])}
@@ -2584,7 +2586,7 @@ function rgSVG(id,disc){const d=ringOf(id);if(!d)return'';
  let o=`<svg class="rgsvg" viewBox="0 0 ${RGN} ${RGN}" shape-rendering="crispEdges" aria-hidden="true">`;
  if(disc)o+=`<circle cx="${RGM}" cy="${RGM}" r="11.5" fill="currentColor" opacity=".18"/>`;
  o+=`<g class="${d.spin?'rgs':''}"${d.spin?` style="animation-duration:${d.spin}s"`:''}>${rgBand(d)}</g>`;
- d.items.forEach(it=>{const[name,ang,r,an,col,dl]=it,g=RGS[name];if(!g)return;const w=g[0].length,h=g.length,rad=ang*Math.PI/180,
+ d.items.forEach(it=>{const[name,ang,r,an,col,dl]=it,g=RGS[name];if(!g)return;if(d.arcs&&!d.arcs.some(([s,e])=>rgIn((ang+360)%360,s-18,e+18)))return;const w=g[0].length,h=g.length,rad=ang*Math.PI/180,
   cx=RGM+r*Math.sin(rad),cy=RGM-r*Math.cos(rad),x=Math.max(0,Math.min(RGN-w,Math.round(cx-w/2))),y=Math.max(0,Math.min(RGN-h,Math.round(cy-h/2)));
   o+=`<g class="rg${an}" style="animation-delay:${dl||0}s;transform-origin:${x+w/2}px ${y+h/2}px"><g transform="translate(${x} ${y})">${rgSprite(name,col||'#ffffff')}</g></g>`});
  return o+'</svg>'}
@@ -2935,7 +2937,7 @@ document.addEventListener('click',async ev=>{const b=ev.target.closest('[data-a]
  else if(a==='ntx'){const t=b.closest('.ntt');if(t)t.remove()}
  else if(a==='ntopen'){const k=b.dataset.k,u=b.dataset.uid,n=b.dataset.n;b.remove();if(k==='ann'){const m=$('#pm');if(m)m.hidden=true;showCommunity()}else if(u)showChat(u,n)}
  else if(a==='donate'){if(DONATE_URL){window.open(DONATE_URL,'_blank','noopener');return}
-  const o=document.createElement('div');o.id='dnm';o.innerHTML='<div class="card"><h2>Support SAT Practice :)</h2><p class="m">Donations aren’t open yet. A link will appear here soon. Thank you for wanting to help!</p><button class="p pill" data-a="dnclose">Close</button></div>';o.addEventListener('click',e=>{if(e.target===o)o.remove()});document.body.append(o)}
+  const o=document.createElement('div');o.id='dnm';o.innerHTML='<div class="card"><h2>Support SAT Practice ♥</h2><p class="m">Donations aren’t open yet. A link will appear here soon. Thank you for wanting to help!</p><button class="p pill" data-a="dnclose">Close</button></div>';o.addEventListener('click',e=>{if(e.target===o)o.remove()});document.body.append(o)}
  else if(a==='dnclose'){const o=document.getElementById('dnm');if(o)o.remove()}});
 const DONATE_URL='';
 
