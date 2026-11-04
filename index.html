@@ -371,6 +371,11 @@ body.bgpick .set{transform:translateX(-130%);opacity:0;pointer-events:none}
 .set .ddb{flex:none;border:1px solid var(--bd);border-radius:10px;padding:7px 14px;font-weight:600;white-space:nowrap}
 #bgpanel{position:fixed;top:0;right:0;bottom:0;width:min(300px,86vw);z-index:60;background:var(--card);color:var(--tx);border-left:1px solid var(--bd);box-shadow:-10px 0 40px #0004;padding:18px 16px;display:flex;flex-direction:column;gap:6px;overflow:auto;animation:bgin .3s ease}
 @keyframes bgin{from{transform:translateX(100%)}to{transform:none}}
+#bgprev{position:fixed;top:0;left:0;bottom:0;right:min(300px,86vw);z-index:5;display:flex;align-items:center;justify-content:center;pointer-events:none;overflow:hidden;animation:bgpin .35s ease}
+#bgprev .ttl{margin:0 auto;padding:0 12px;width:100%;transform-origin:center}
+@keyframes bgpin{from{opacity:0}to{opacity:1}}
+@keyframes bgup{from{transform:translateY(100%)}to{transform:none}}
+@media(max-width:700px){#bgpanel{top:auto;left:0;width:auto;max-height:46vh;border-left:0;border-top:1px solid var(--bd);border-radius:16px 16px 0 0;box-shadow:0 -10px 40px #0004;animation:bgup .3s ease}#bgprev{right:0;bottom:46vh}#bgprev .ttl h1{font-size:1.9rem}}
 #bgpanel h2{margin:0 0 4px;font-size:1.1rem}
 #bgpanel .gl{font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ac);font-weight:700;margin:12px 0 2px}
 #bgpanel button.opt{text-align:left;border:1px solid var(--bd);background:transparent;color:var(--tx);border-radius:10px;padding:9px 12px;font-size:.95rem;cursor:pointer}
@@ -3170,11 +3175,24 @@ const ORIG=new Set(['graph','math','circuit','gears','off']);
 /* first visit: everyone gets a random theme (not 'Match my ring' or 'None'); they can change it any time in Settings */
 try{if(!ls('satbg')){const pool=['graph','math','circuit','gears','sakura','ocean','space'];ls('satbg',pool[Math.floor(Math.random()*pool.length)])}}catch(_){}
 const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
-const lookCfg=()=>{let bg=ls('satbg')||'graph',ac=ls('sataccent')||'blue';if(!BGS[bg]||!ALLOWED.has(bg))bg='graph';if(!PAL[ac])ac='blue';let op=parseInt(ls('satbgo'),10);if(!(op>=5&&op<=100))op=100;let tn=parseInt(ls('satbgh'),10);if(!(tn>=0&&tn<=360))tn=0;return{bg,acc:ac,op,tint:tn,pix:ls('satpix')==='1',live:ls('satlive')==null?!reduce:ls('satlive')==='1'}};
+const lookCfg=()=>{let bg=ls('satbg')||'graph',ac=ls('sataccent')||'blue';if(!BGS[bg]||!ALLOWED.has(bg))bg='graph';if(!PAL[ac])ac='blue';let op=parseInt(ls('satbgo'),10);if(!(op>=5&&op<=100))op=100;let tn=parseInt(ls('satbgt'),10);if(!(tn>=0&&tn<360))tn=null;return{bg,acc:ac,op,tint:tn,pix:ls('satpix')==='1',live:ls('satlive')==null?!reduce:ls('satlive')==='1'}};
 window.lookCfg=lookCfg;
 const dark=()=>R.dataset.theme?R.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;
 const cv=document.createElement('canvas');cv.id='bgc';cv.setAttribute('aria-hidden','true');document.body.prepend(cv);
 const g=cv.getContext('2d');
+/* tint = a real recolour: every colour a theme draws has its hue moved, so the slider colour IS the theme colour (no filter laid over the top) */
+let TSH=0;const TC=new Map(),nc=document.createElement('canvas').getContext('2d');
+const BASEH={sakura:335,bloomtree:335,ocean:210,sunset:18,winter:205,space:265,flame:22,hearts:345,vinyl:275,notebook:215,disco:300,grad:45,classroom:150,sat:225,perfect:45,vocab:25,books:200,story:40,tree:130};
+function tintCol(c){if(!TSH||typeof c!=='string')return c;const k=TSH+'|'+c,hit=TC.get(k);if(hit!==undefined)return hit;
+ nc.fillStyle='#010203';nc.fillStyle=c;const v=nc.fillStyle;if(v==='#010203'&&c.replace(/\s/g,'').toLowerCase()!=='#010203'){TC.set(k,c);return c}
+ let R,G,B,A=1;if(v[0]==='#'){const n=parseInt(v.slice(1),16);R=n>>16;G=n>>8&255;B=n&255}else{const q=v.match(/[\d.]+/g);R=+q[0];G=+q[1];B=+q[2];if(q[3]!==undefined)A=+q[3]}
+ const r=R/255,gg=G/255,b=B/255,mx=Math.max(r,gg,b),mn=Math.min(r,gg,b),d=mx-mn,l=(mx+mn)/2;let out=v;
+ if(d>.001){const sat=d/(1-Math.abs(2*l-1));let h=mx===r?((gg-b)/d+6)%6:mx===gg?(b-r)/d+2:(r-gg)/d+4;h=(h*60+TSH)%360;
+  const f=n=>{const a=(n+h/30)%12;return Math.round(255*(l-sat*Math.min(l,1-l)*Math.max(-1,Math.min(a-3,9-a,1))))};out='rgba('+f(0)+','+f(8)+','+f(4)+','+A+')'}
+ if(TC.size>4000)TC.clear();TC.set(k,out);return out}
+['fillStyle','strokeStyle','shadowColor'].forEach(k=>{const d=Object.getOwnPropertyDescriptor(CanvasRenderingContext2D.prototype,k);
+ Object.defineProperty(g,k,{configurable:true,get(){return d.get.call(g)},set(v){d.set.call(g,tintCol(v))}})});
+['createLinearGradient','createRadialGradient'].forEach(m=>{const o=g[m].bind(g);g[m]=function(){const gr=o.apply(null,arguments),a=gr.addColorStop.bind(gr);gr.addColorStop=(p,c)=>a(p,tintCol(c));return gr}});
 let W=0,H=0,col={ac:'#324fbe',mut:'#5f6368',bd:'#cfd3dc'},scene=null,raf=0,tt=4,last=0,lastDraw=0,cur={};
 function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 function accent(){const k=lookCfg().acc,p=PAL[k];if(k==='blue'){['--ac','--ban'].forEach(v=>R.style.removeProperty(v))}else{R.style.setProperty('--ac',dark()?p[1]:p[0]);R.style.setProperty('--ban',p[2])}}
@@ -3287,7 +3305,7 @@ const NEWSC={
  sakura:FALL({k:['petal','petal','blos'],c:['#ff8fc8','#ffb3d1','#ffd1e3','#ffffff'],l:['#ff9ec9','#f78fb8','#ffb3d1'],sz:[10,22],v:[16,36],sw:30,dx:25,rot:1.1,fl:1,d:19000,w:['#ffb3d1',.18],x(){g.strokeStyle='#6b4423';g.globalAlpha=.4;g.lineWidth=7;g.lineCap='round';g.beginPath();g.moveTo(W+10,H*.04);g.bezierCurveTo(W*.85,H*.1,W*.8,H*.02,W*.62,H*.1);g.moveTo(W*.8,H*.06);g.lineTo(W*.76,H*.14);g.stroke();[[.93,.06],[.85,.07],[.78,.05],[.7,.07],[.64,.1],[.76,.13]].forEach(q=>blossom(W*q[0],H*q[1],11))}}),
  tree:FALL({k:['leaf'],c:['#2f9e4f','#3ec46d','#27863f','#7bbf3a','#b7791f'],sz:[14,28],v:[16,34],sw:30,rot:1.3,fl:1,d:24000,w:['#2f9e4f',.14],x(){g.fillStyle='#ffd23f';g.globalAlpha=.07;for(let i=0;i<3;i++){const x=W*(.15+i*.3);g.beginPath();g.moveTo(x,0);g.lineTo(x+W*.08,0);g.lineTo(x+W*.3,H);g.lineTo(x+W*.12,H);g.fill()}}}),
  space:FALL({k:['dot','dot','star','spark'],c:['#ffffff','#ffd23f','#9fdcff'],l:['#6a4fd0','#8a6be8','#4b2f9e'],sz:[3,12],v:[0,2],tw:1,d:9000,w:['#4b2f9e',.2],x(t,D){const R0=Math.min(W,H)*.08,px=W*.86,py=H*.27;g.globalAlpha=.3;g.fillStyle='#9a5bff';g.beginPath();g.arc(px,py,R0,0,7);g.fill();g.globalAlpha=.5;g.strokeStyle='#9a5bff';g.lineWidth=2;g.beginPath();g.ellipse(px,py,R0*1.8,R0*.45,-.35,0,7);g.stroke();g.globalAlpha=.25;g.fillStyle=D?'#fff':'#6a4fd0';g.beginPath();g.arc(W*.1,H*.72,R0*.55,0,7);g.fill();const s=(t%10)/10;if(s<.12){const u=s/.12,x=W*.9-u*W*.6,y=H*.05+u*H*.35;g.globalAlpha=1-u;g.strokeStyle=D?'#fff':'#6a4fd0';g.lineWidth=2;g.beginPath();g.moveTo(x,y);g.lineTo(x+70,y-46);g.stroke()}}}),
- flame:FALL({k:['dot'],c:['#e8344e','#f4802b','#ffd23f'],sz:[3,9],v:[30,80],up:1,sw:20,tw:1,d:14000,w:['#f4802b',.2],x(t){for(const[c1,k,al]of[['#f4802b',1,.2],['#ffd23f',.55,.18]]){g.beginPath();g.moveTo(0,H);for(let x=0;x<=W+20;x+=20)g.lineTo(x,H-k*(40+28*Math.sin(t*3+x*.05)+18*Math.sin(t*5.3+x*.11)));g.lineTo(W,H);g.closePath();g.globalAlpha=al;g.fillStyle=c1;g.fill()}}}),
+ flame:FALL({k:['dot'],c:['#e8344e','#f4802b','#ffd23f'],sz:[3,9],v:[30,80],up:1,sw:20,tw:1,d:14000,w:['#f4802b',.2],x(t){const u=Math.max(260,H*.34);for(const[c1,k,al]of[['#e8344e',1.25,.2],['#f4802b',.95,.24],['#ffd23f',.55,.22]]){g.beginPath();g.moveTo(0,H);for(let x=0;x<=W+14;x+=14)g.lineTo(x,H-k*u*(.55+.26*Math.sin(t*3+x*.05)+.17*Math.sin(t*5.3+x*.11)+.1*Math.sin(t*8.1+x*.23)));g.lineTo(W,H);g.closePath();g.globalAlpha=al;g.fillStyle=c1;g.fill()}}}),
  winter:FALL({k:['snow','snow','dot'],c:['#ffffff','#cfeaff'],l:['#6fb1ea','#4f94d6','#8ec5f2'],sz:[8,22],v:[18,44],sw:26,rot:.5,d:22000,w:['#9fdcff',.18],x(t,D){wave(H*.93,14,220,0,0,D?'#9fdcff':'#cfeaff',D?.12:.35);wave(H*.98,10,160,0,1,D?'#cfeaff':'#9fdcff',D?.1:.3)}}),
  hearts:FALL({k:['heart'],c:['#ff5c8a','#e8344e','#ff8fc8'],sz:[12,32],v:[16,40],up:1,sw:24,d:30000,w:['#ff5c8a',.14]})
 };
@@ -3301,7 +3319,7 @@ function loop(now){raf=requestAnimationFrame(loop);if(document.hidden||document.
  if(now-lastDraw<32)return;tt+=Math.min(.1,(now-last)/1000);last=now;lastDraw=now;paint()}
 function apply(rebuild){cancelAnimationFrame(raf);raf=0;cur=lookCfg();if(cv.classList.contains('pix')!==cur.pix){size()}accent();colors();const rk=cur.bg==='ring'?ringBg():cur.bg;cur.rid=rk;const ns=SC[rk]||null;
  if(ns!==scene||rebuild){scene=ns;if(scene)scene.build()}
- cv.style.display=scene?'':'none';cv.style.opacity=cur.op/100;cv.style.filter=(!ORIG.has(rk)&&cur.tint)?'hue-rotate('+cur.tint+'deg)':'';paint();
+ cv.style.display=scene?'':'none';cv.style.opacity=cur.op/100;cv.style.filter='';TSH=(!ORIG.has(rk)&&cur.tint!=null)?(((cur.tint-(BASEH[rk]!=null?BASEH[rk]:210))%360)+360)%360:0;paint();
  if(scene&&cur.live){last=lastDraw=performance.now();raf=requestAnimationFrame(loop)}}
 window.applyLook=()=>apply(false);
 setInterval(()=>{try{if(typeof FB!=='undefined'&&FB.card&&FB.card.ring!=null)localStorage.setItem('satringc',FB.card.ring||'');if(lookCfg().bg==='ring'&&ringBg()!==cur.rid)apply(false)}catch(_){}},3000);
@@ -3316,21 +3334,31 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-md],[data-
  else if(b.dataset.sw){ls('sataccent',b.dataset.sw);mark('[data-sw]','sw',b.dataset.sw)}
  else{ls('satbg',b.dataset.bg);mark('[data-bg]','bg',b.dataset.bg)}
  apply(false)});
-document.addEventListener('input',e=>{if(e.target.id==='stbgh'){ls('satbgh',e.target.value);apply(false)}if(e.target.id==='stbgo'){const v=+e.target.value;ls('satbgo',String(v));cv.style.opacity=v/100;cur.op=v;const o=document.getElementById('stbgov');if(o)o.textContent=v+'%'}});
+document.addEventListener('input',e=>{if(e.target.id==='stbgh'){ls('satbgt',String(Math.min(359,+e.target.value)));apply(false)}if(e.target.id==='stbgo'){const v=+e.target.value;ls('satbgo',String(v));cv.style.opacity=v/100;cur.op=v;const o=document.getElementById('stbgov');if(o)o.textContent=v+'%'}});
 /* background picker: settings slide off, a slim list stays so the live background is fully visible */
-function bgClose(){document.body.classList.remove('bgpick');const p=document.getElementById('bgpanel');if(p)p.remove();const n=document.getElementById('bgddn');if(n)n.textContent=BGS[lookCfg().bg]}
+function bgClose(){document.body.classList.remove('bgpick');const p=document.getElementById('bgpanel');if(p)p.remove();const pv=document.getElementById('bgprev');if(pv)pv.remove();const n=document.getElementById('bgddn');if(n)n.textContent=BGS[lookCfg().bg]}
 function tintVis(){const t=document.getElementById('tintbox');if(t)t.hidden=ORIG.has(cur.rid||lookCfg().bg)}
+function tintSync(){const sl=document.getElementById('stbgh');if(!sl)return;const L=lookCfg(),k=cur.rid||L.bg;sl.value=L.tint!=null?L.tint:(BASEH[k]!=null?BASEH[k]:210)}
+/* live homescreen shown beside the picker so you see the real layout, buttons and scores on top of the theme */
+function bgPrevHTML(){let h='';try{const has=S.qs.length,g2=prog(0),nm=nameOf(),tg=has?tgHTML():'',cn=has?S.qs.length:'1,200',pc=has?g2.p:38;
+ h='<div class="ttl"><div class="logo">SAT</div><h1>'+(nm?'Hey, '+hi():'SAT Practice')+'</h1><p class="m">'+(nm?'Ready to practice?':'Bluebook-style practice from your own question bank.')+'</p>'+cdHTML()+
+  '<div class="stat"><div><b>'+cn+'</b><span>questions</span></div><div><b>'+pc+'%</b><span>completed</span></div></div>'+(tg?'<div class="tgbox">'+tg+'</div>':'')+
+  '<div class="btns"><button class="p pill big">'+(has?'Start practicing':'Upload question bank')+'</button>'+(has?'<button class="pill big">Full practice test</button>':'')+vcBtn()+'</div></div>'}catch(e){h=''}
+ return h.replace(/ data-(a|vc|hint|bgdd)="[^"]*"/g,'').replace(/ id="[^"]*"/g,'')}
+function bgPrevFit(){const v=document.getElementById('bgprev'),t=v&&v.firstElementChild;if(!t)return;t.style.transform='';const s=Math.min(1,(v.clientHeight-24)/t.offsetHeight,(v.clientWidth-16)/t.offsetWidth);if(s<1)t.style.transform='scale('+Math.max(.4,s)+')'}
+addEventListener('resize',bgPrevFit);
 function bgOpen(){if(document.getElementById('bgpanel'))return;const L=lookCfg(),p=document.createElement('div');p.id='bgpanel';
  const open=window.LOOK_BGG.find(([n,ks])=>ks.includes(L.bg))||window.LOOK_BGG[0];
  p.innerHTML='<h2>Background theme</h2>'+window.LOOK_BGG.map(([n,ks])=>'<details class="cat"'+(n===open[0]?' open':'')+'><summary>'+n+'</summary>'+ks.map(k=>'<button type="button" class="opt'+(L.bg===k?' on':'')+'" data-bgp="'+k+'">'+BGS[k]+'</button>').join('')+'</details>').join('')+
  '<label class="pxr"><span><b>Pixelated</b></span><input type="checkbox" class="swt" id="bgpx" '+(L.pix?'checked':'')+'></label>'+
  '<div class="gl">Opacity</div><span class="rng"><input type="range" id="stbgo" min="5" max="100" step="5" value="'+L.op+'" aria-label="Background opacity"><output id="stbgov">'+L.op+'%</output></span>'+
- '<div id="tintbox"><div class="gl">Tint</div><input type="range" id="stbgh" class="hue" min="0" max="360" step="5" value="'+L.tint+'" aria-label="Background tint"><div class="m sm" style="margin-top:4px">Shifts the colours of this theme. Not used on the originals.</div></div>'+
+ '<div id="tintbox"><div class="gl">Colour</div><input type="range" id="stbgh" class="hue" min="0" max="359" step="1" value="'+(L.tint!=null?L.tint:(BASEH[cur.rid||L.bg]!=null?BASEH[cur.rid||L.bg]:210))+'" aria-label="Background colour"><div class="m sm" style="margin-top:4px">Recolours the whole theme to the colour you pick. Not used on the originals.</div><button type="button" class="opt" id="tintreset" style="margin-top:8px">Original colours</button></div>'+
  '<button type="button" class="p done" id="bgdone">Done</button>';
- document.body.append(p);document.body.classList.add('bgpick');tintVis();window.scrollTo(0,0)}
+ document.body.append(p);const pv=document.createElement('div');pv.id='bgprev';pv.setAttribute('aria-hidden','true');pv.setAttribute('inert','');pv.innerHTML=bgPrevHTML();document.body.append(pv);document.body.classList.add('bgpick');tintVis();window.scrollTo(0,0);setTimeout(bgPrevFit,0);setTimeout(bgPrevFit,350)}
 document.addEventListener('click',e=>{const t=e.target;
  if(t.closest('[data-bgdd]')){e.preventDefault();bgOpen();return}
- const o=t.closest('[data-bgp]');if(o){ls('satbg',o.dataset.bgp);document.querySelectorAll('#bgpanel .opt').forEach(x=>x.classList.toggle('on',x===o));apply(false);tintVis();return}
+ const o=t.closest('[data-bgp]');if(o){ls('satbg',o.dataset.bgp);document.querySelectorAll('#bgpanel .opt').forEach(x=>x.classList.toggle('on',x===o));apply(false);tintVis();tintSync();return}
+ if(t.closest('#tintreset')){ls('satbgt',null);apply(false);tintSync();return}
  if(t.closest('#bgdone'))bgClose()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')bgClose();if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('[data-bgdd]')){e.preventDefault();bgOpen()}});
 document.addEventListener('change',e=>{if(e.target.id==='stpix'||e.target.id==='bgpx'){const v=e.target.checked;ls('satpix',v?'1':'0');['stpix','bgpx'].forEach(i=>{const x=document.getElementById(i);if(x)x.checked=v});size();apply(false)}});
