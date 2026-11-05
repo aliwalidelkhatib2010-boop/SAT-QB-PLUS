@@ -368,24 +368,50 @@ input[type=date]{font:inherit;color:inherit;background:var(--card);border:1px so
 #bgc.pix{image-rendering:pixelated;image-rendering:crisp-edges;image-rendering:pixelated}
 .set{transition:transform .35s ease,opacity .3s ease}
 body.bgpick .set{transform:translateX(-130%);opacity:0;pointer-events:none}
-.set .ddb{flex:none;border:1px solid var(--bd);border-radius:10px;padding:7px 14px;font-weight:600;white-space:nowrap}
-#bgpanel{position:fixed;top:0;right:0;bottom:0;width:min(300px,86vw);z-index:60;background:var(--card);color:var(--tx);border-left:1px solid var(--bd);box-shadow:-10px 0 40px #0004;padding:18px 16px;display:flex;flex-direction:column;gap:6px;overflow:auto;animation:bgin .3s ease}
+.set .ddb{flex:none;border:1px solid var(--bd);border-radius:10px;padding:6px 12px;font-weight:600;font-size:.9rem;white-space:nowrap;max-width:48%;overflow:hidden;text-overflow:ellipsis}
+.set .row.bgdd{padding:10px 0;align-items:center;gap:10px}.set .row.bgdd .t .m{font-size:.78rem;line-height:1.3}
+.set .row+.row.bgdd,.set .sec+.row.bgdd{margin-top:0}
+#bgpanel{position:fixed;top:0;right:0;bottom:0;width:min(330px,88vw);z-index:60;background:var(--card);color:var(--tx);border-left:1px solid var(--bd);box-shadow:-10px 0 40px #0004;padding:16px;display:flex;flex-direction:column;gap:14px;overflow:auto;overscroll-behavior:contain;animation:bgin .3s ease}
+#bgpanel>*{flex:none}
 @keyframes bgin{from{transform:translateX(100%)}to{transform:none}}
-#bgprev{position:fixed;top:0;left:0;bottom:0;right:min(300px,86vw);z-index:5;display:flex;align-items:center;justify-content:center;pointer-events:none;overflow:hidden;animation:bgpin .35s ease}
+#bgprev{position:fixed;top:0;left:0;bottom:0;right:min(330px,88vw);z-index:5;display:flex;align-items:center;justify-content:center;pointer-events:none;overflow:hidden;animation:bgpin .35s ease}
 #bgprev .ttl{margin:0 auto;padding:0 12px;width:100%;transform-origin:center}
 @keyframes bgpin{from{opacity:0}to{opacity:1}}
 @keyframes bgup{from{transform:translateY(100%)}to{transform:none}}
-@media(max-width:700px){#bgpanel{top:auto;left:0;width:auto;max-height:46vh;border-left:0;border-top:1px solid var(--bd);border-radius:16px 16px 0 0;box-shadow:0 -10px 40px #0004;animation:bgup .3s ease}#bgprev{right:0;bottom:46vh}#bgprev .ttl h1{font-size:1.9rem}}
-#bgpanel h2{margin:0 0 4px;font-size:1.1rem}
-#bgpanel .gl{font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ac);font-weight:700;margin:12px 0 2px}
-#bgpanel button.opt{text-align:left;border:1px solid var(--bd);background:transparent;color:var(--tx);border-radius:10px;padding:9px 12px;font-size:.95rem;cursor:pointer}
+#bgpanel .bgh{display:flex;align-items:center;justify-content:space-between;gap:12px}
+#bgpanel h2{margin:0;font-size:1.1rem}
+#bgpanel .bgh .done{margin:0;padding:8px 22px;min-height:40px}
+#bgpanel .bgtabs{display:flex;gap:8px}
+#bgpanel .bgtabs button{flex:1;min-height:40px;border:1px solid var(--bd);background:transparent;color:var(--tx);border-radius:99px;padding:8px 10px;font-size:.84rem;font-weight:600;cursor:pointer;white-space:nowrap}
+#bgpanel .bgtabs button.on{background:var(--tx);border-color:var(--tx);color:var(--bg)}
+#bgpanel .bgopts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#bgpanel .bgopts[hidden]{display:none}
+#bgpanel button.opt{text-align:left;min-height:44px;border:1px solid var(--bd);background:transparent;color:var(--tx);border-radius:12px;padding:10px 14px;font-size:.93rem;cursor:pointer}
 #bgpanel button.opt.on{background:var(--ac);border-color:var(--ac);color:var(--bg);font-weight:600}
-#bgpanel .pxr{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid var(--bd)}
-#bgpanel .seg{display:flex;flex-wrap:wrap;gap:8px}#bgpanel .rng{display:flex;align-items:center;gap:10px}#bgpanel .rng input{flex:1}
-#bgpanel .swc{width:34px;height:34px;border-radius:50%;padding:0;border:2px solid transparent;cursor:pointer}#bgpanel .swc.on{box-shadow:0 0 0 3px var(--card),0 0 0 5px var(--tx);background-clip:padding-box}
-#bgpanel details.cat{border-top:1px solid var(--bd);padding:6px 0;display:flex;flex-direction:column;gap:6px}#bgpanel details.cat>summary{cursor:pointer;font-weight:700;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ac);padding:6px 0;list-style:none}#bgpanel details.cat>summary::after{content:' ▾'}#bgpanel details.cat[open]>summary::after{content:' ▴'}
-#bgpanel input.hue{width:100%;height:12px;border-radius:8px;-webkit-appearance:none;appearance:none;background:linear-gradient(90deg,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)}
-#bgpanel .done{margin-top:auto;position:sticky;bottom:0}
+#bgpanel .bgctl{display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--bd);padding-top:14px}
+#bgpanel .pxr{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer}
+#bgpanel .pxr small{display:block;color:var(--mut);font-size:.76rem;margin-top:2px}
+#bgpanel .bgrow{display:flex;align-items:center;justify-content:space-between;gap:12px}
+#bgpanel .gl{font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ac);font-weight:700;margin:0}
+#bgpanel .rng{display:flex;align-items:center;gap:10px;flex:1;max-width:200px}#bgpanel .rng input{flex:1;min-width:0}
+#bgpanel .rng output{min-width:3.4ch;text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+#bgpanel button.opt.sm{min-height:34px;padding:6px 12px;font-size:.82rem}
+#bgpanel #tintbox{display:flex;flex-direction:column;gap:10px}#bgpanel #tintbox[hidden]{display:none}
+.set .swc{min-height:34px}
+#bgpanel .swc{width:34px;height:34px;min-height:34px;border-radius:50%;padding:0;border:2px solid transparent;cursor:pointer}#bgpanel .swc.on{box-shadow:0 0 0 3px var(--card),0 0 0 5px var(--tx);background-clip:padding-box}
+#bgpanel input.hue{width:100%;height:14px;border-radius:8px;-webkit-appearance:none;appearance:none;background:linear-gradient(90deg,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)}
+/* phones + narrow windows: slim bottom sheet, theme choices in ONE swipeable row so they're always visible */
+@media(max-width:700px){
+ #bgpanel{top:auto;left:0;right:0;width:auto;max-height:54vh;max-height:54dvh;border-left:0;border-top:1px solid var(--bd);border-radius:20px 20px 0 0;box-shadow:0 -10px 40px #0005;animation:bgup .3s ease;padding:8px 16px calc(14px + env(safe-area-inset-bottom,0px));gap:12px}
+ #bgpanel::before{content:'';display:block;width:40px;height:4px;border-radius:4px;background:var(--bd);margin:0 auto 2px}
+ #bgpanel .bgopts{display:flex;overflow-x:auto;gap:10px;margin:0 -16px;padding:2px 16px 6px;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+ #bgpanel .bgopts::-webkit-scrollbar{display:none}
+ #bgpanel .bgopts[hidden]{display:none}
+ #bgpanel .bgopts .opt{flex:none;white-space:nowrap;scroll-snap-align:start;padding:10px 18px;text-align:center}
+ #bgpanel .bgctl{gap:12px;padding-top:12px}
+ #bgprev{right:0;bottom:54vh}
+ #bgprev .ttl h1{font-size:1.9rem}
+}
 #bgc{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
 body[data-q="1"] #bgc{display:none}
 .ogh{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.ogp{font-size:.8rem;font-weight:600;background:var(--hd);border:1px solid var(--bd);border-radius:999px;padding:2px 12px;color:var(--tx)}
@@ -397,7 +423,7 @@ body[data-q="1"] #bgc{display:none}
 .set .row .t{min-width:0;display:flex;flex-direction:column;gap:2px;text-align:left}.set .row .t b{font-weight:600}
 .set .row select{min-width:190px;text-align:left;text-align-last:left;flex:none}
 .set .row.col{flex-direction:column;align-items:stretch;gap:10px;cursor:default}
-.set .seg{display:flex;flex-wrap:wrap;gap:8px}
+.set .seg{display:flex;flex-wrap:wrap;gap:10px}
 .set .seg button{border-radius:10px;padding:7px 15px;font-size:.92rem}
 .set .seg button.on{background:var(--ac);border-color:var(--ac);color:var(--bg);font-weight:600}
 .set .swc{width:34px;height:34px;border-radius:50%;padding:0;border:2px solid transparent}
@@ -708,7 +734,7 @@ button.hintb{box-shadow:0 2px 8px #0003}
  .rankrow{grid-template-columns:26px minmax(0,1fr);padding:9px 0;gap:5px}
  .rank-user{min-width:0;gap:7px}
  .rank-user-text{min-width:0;overflow-wrap:anywhere}
- .btns{gap:7px;flex-wrap:wrap}
+ .btns{gap:12px;flex-wrap:wrap}
  .btns button{max-width:100%;white-space:normal}
 }
 @media(max-width:360px){.podium-place{font-size:1rem}.podium-card .rank-stat{font-size:.6rem}.podium-name{font-size:.62rem}}
@@ -749,6 +775,9 @@ button.hintb{box-shadow:0 2px 8px #0003}
 
 /* ===== v3: Twitter/Discord-style banner (3:1) with fade, avatar rings, chat ===== */
 .pcard{position:relative}
+.pbgt{position:absolute;inset:0;background-size:cover;background-position:center;pointer-events:none}.pbgt.pix{image-rendering:pixelated}
+.pcard[data-bgt]>.pbn,.pcard[data-bgt]>.pbd{position:relative;z-index:1}
+.pcard[data-bgt]>.pbd{background:color-mix(in srgb,var(--card) 30%,transparent)}
 .pbn{aspect-ratio:3/1;height:auto;position:relative}
 .pbn::after{content:"";position:absolute;left:0;right:0;bottom:0;height:62%;pointer-events:none;background:linear-gradient(to bottom,transparent 0,color-mix(in srgb,var(--card) 35%,transparent) 45%,color-mix(in srgb,var(--card) 80%,transparent) 80%,var(--card) 100%)}
 .phead{position:relative;z-index:1}
@@ -959,7 +988,7 @@ body[data-ld="1"] :is([data-a=begin],[data-a=fullsetup],[data-a=setup],[data-a=g
  .ttl .tgbox .bar{height:5px!important;margin:0!important}
  .ttl .tgbox .bar+.m.sm{font-size:.68rem;line-height:1.45;opacity:.7;margin:0!important}
  .ttl .tgbox>.m.sm{font-size:.66rem;opacity:.55;padding:2px 0 8px;border-top:1px solid color-mix(in srgb,var(--bd) 60%,transparent)}
- .ttl .btns{gap:8px}
+ .ttl .btns{gap:12px}
  .ttl .btns .pill.big{padding:12px 22px;font-size:.98rem}
  .ttl>p.m.sm{font-size:.68rem!important;opacity:.55!important}
 }
@@ -1458,7 +1487,7 @@ function showSettings(){clearInterval(S.tick);S.done=true;document.body.dataset.
  ${tg('stoled',ls('satoled')==='1','OLED black','Makes dark mode pure black instead of dark grey. Saves battery on OLED screens and looks deeper at night.')}
  <div class="row col"><span class="t"><b>Accent colour</b><span class="m sm">Changes buttons, highlights and the animated backgrounds.</span></span><div class="seg">${Object.keys(P).map(k=>`<button type="button" class="swc ${L.acc===k?'on':''}" data-sw="${k}" title="${P[k][3]}" aria-label="${P[k][3]}" style="background:${P[k][0]}"></button>`).join('')}</div></div>
  <div class="sec">Background</div>
- <div class="row bgdd" data-bgdd="1" role="button" tabindex="0"><span class="t"><b>Background theme</b><span class="m sm">Tap to choose theme, opacity and colours. The settings slide away so you can see the background.</span></span><span class="ddb"><span id="bgddn">${B[L.bg]}</span> ▾</span></div>
+ <div class="row bgdd" data-bgdd="1" role="button" tabindex="0"><span class="t"><b>Background theme</b><span class="m sm">Pick a theme and preview it live.</span></span><span class="ddb"><span id="bgddn">${B[L.bg]}</span> ▾</span></div>
  ${tg('stpix',L.pix,'Pixelated','Gives every background theme a chunky pixel-art look.')}
  ${tg('stlive',L.live,'Live animation','Turn off to freeze the background on a still picture (also saves battery).')}
  <div class="sec">Social</div>
@@ -2754,7 +2783,8 @@ function pCard(o){const c=o.card||{},a=PACC.includes(c.accent)?c.accent:PACC[0];
  const bio=c.bio?`<p class="pbio">${esc(c.bio).replace(/\n/g,'<br>')}</p>`:'';
  const avh=o.av?`<span class="pavx" style="${bgStyle(o.av,1)}"></span>`:`<span class="pavx">${esc((o.uname||'?')[0].toUpperCase())}</span>`;
  const meta=[c.goal?'Aiming for '+esc(c.goal):'',c.since?'Joined '+new Date(c.since).toLocaleDateString([],{month:'short',year:'numeric'}):''].filter(Boolean).join(' · ');
- return`<div class="pcard"${fxAttr(c.fx)}><div class="pbn" style="${pBanner(c,o.banner)}"></div><div class="pbd"><div class="phead"><div class="pavw${rg.cls}">${avh}${rg.svg}</div>${o.self?`<span class="ponl ponself${o.online?'':' off'}"><i></i>${o.online?'Online':'Appearing offline'}</span>`:(o.online?'<span class="ponl"><i></i>Online</span>':'')}${st}</div><div class="pnm"><h1 class="${o.dev?'dev-username':''}">${o.title}</h1>${o.flair||''}</div>${o.sub?`<div class="m sm">${o.sub}</div>`:''}${bio}${bd?`<div class="pbdgs">${bd}</div>`:''}${meta?`<div class="m sm" style="margin-top:8px">${meta}</div>`:''}${o.extra||''}</div></div>`}
+ const bt=(typeof c.bgt==='string'&&window.bgSnap)?window.bgSnap(c.bgt,600,600):'';
+ return`<div class="pcard"${fxAttr(c.fx)}${bt?' data-bgt="1"':''}>${bt?`<div class="pbgt${c.bgt.split('|')[2]==='1'?' pix':''}" style="background-image:url(\'${bt}\')"></div>`:''}<div class="pbn" style="${pBanner(c,o.banner)}"></div><div class="pbd"><div class="phead"><div class="pavw${rg.cls}">${avh}${rg.svg}</div>${o.self?`<span class="ponl ponself${o.online?'':' off'}"><i></i>${o.online?'Online':'Appearing offline'}</span>`:(o.online?'<span class="ponl"><i></i>Online</span>':'')}${st}</div><div class="pnm"><h1 class="${o.dev?'dev-username':''}">${o.title}</h1>${o.flair||''}</div>${o.sub?`<div class="m sm">${o.sub}</div>`:''}${bio}${bd?`<div class="pbdgs">${bd}</div>`:''}${meta?`<div class="m sm" style="margin-top:8px">${meta}</div>`:''}${o.extra||''}</div></div>`}
 function myCardHTML(u){const n=nameOf().trim(),prov=(u.providerData||[]).map(p=>p.providerId==='google.com'?'Google':p.providerId==='password'?'Email':p.providerId).join(', ');
  return pCard({uname:FB.un||n||'?',self:!!FB.un,online:ls('satshowon')!=='0',title:esc(FB.un?'@'+FB.un:(n||'Your account')),flair:FB.un?devFlair(FB.un,u.uid):'',dev:!!FB.un&&FB.un.toLowerCase()==='a',av:FB.avatar||u.photoURL||'',card:FB.card,banner:FB.banner,sub:esc(u.email||'')+(prov?' · '+esc(prov):''),badges:pBadgeList(FB.card,myStatsFull()),
   extra:`<div class="pacts"><button class="p pill" data-a="cardedit">Edit profile</button><button class="pill" data-a="socialsettings">Sharing</button>${FB.un?`<button class="pill" data-a="viewp" data-as="1" data-id="${esc(u.uid)}" data-n="${esc(FB.un)}">View as others</button>`:''}</div>${FB.un?`<label class="ntopt" style="margin-top:12px"><input type="checkbox" id="ntshow"${ls('satshowon')!=='0'?' checked':''}> Appear online to others</label>`:''}`})}
@@ -2833,6 +2863,7 @@ setTimeout(()=>{if(ls('satfxhome')==='1'&&ls('satfxtype'))fxBurst(ls('satfxtype'
 /* ---- profile editor ---- */
 let CE=null;
 const ST_SUG=['Studying right now','Taking a break','Practice test today','Cramming for the test','Test day soon','Back tomorrow'];
+document.addEventListener('change',e=>{if(!CE||e.target.id!=='cebgt')return;const on=e.target.checked,v=on&&window.bgEnc?window.bgEnc():'';if(on&&!v){e.target.checked=false;CE.c.bgt='';ceSay('Pick a background theme in Settings first.')}else{CE.c.bgt=v;ceSay('')}cePrev()});
 function ceSay(t){const m=document.getElementById('cemsg');if(m)m.textContent=t||''}
 function cePrev(){const o=document.getElementById('cepv');if(!o||!CE)return;const u=FB.user,c={...CE.c,goal:CE.c.goalOn?goalTotal():0,badges:CE.c.badges.join(',')};
  o.innerHTML=pCard({uname:FB.un||'?',title:esc(FB.un?'@'+FB.un:(nameOf().trim()||'You')),flair:FB.un?devFlair(FB.un,u.uid):'',dev:!!FB.un&&FB.un.toLowerCase()==='a',av:CE.avatar||FB.avatar||u.photoURL||'',card:c,banner:CE.banner,badges:pBadgeList(c,myStatsFull())})}
@@ -2851,7 +2882,7 @@ async function showCardEdit(){
  clearInterval(S.tick);S.done=true;S.authpage=false;document.body.dataset.q='';window.scrollTo(0,0);
  await loadMyCard();const c=FB.card||{},ok=stActive(c),mine=myStatsFull(),earned=pEarned(mine);
  const bl=typeof c.badges==='string'?c.badges.split(',').filter(x=>PBADGES.some(b=>b[0]===x)):autoBadges(mine);
- CE={c:{bio:c.bio||'',status:ok?c.status:'',statusAt:ok?c.statusAt:0,accent:PACC.includes(c.accent)?c.accent:PACC[0],grad:c.grad!=null?c.grad:null,badges:bl.slice(0,6),goalOn:!!c.goal,since:c.since||0,ring:ringOf(c.ring)?c.ring:'',fx:FXT_IDS.includes(c.fx)?c.fx:''},banner:FB.banner||'',bSrc:'',avatar:'',aSrc:'',orig:{status:ok?c.status:'',statusAt:ok?c.statusAt:0}};
+ CE={c:{bio:c.bio||'',status:ok?c.status:'',statusAt:ok?c.statusAt:0,accent:PACC.includes(c.accent)?c.accent:PACC[0],grad:c.grad!=null?c.grad:null,badges:bl.slice(0,6),goalOn:!!c.goal,since:c.since||0,ring:ringOf(c.ring)?c.ring:'',fx:FXT_IDS.includes(c.fx)?c.fx:'',bgt:typeof c.bgt==='string'?c.bgt:''},banner:FB.banner||'',bSrc:'',avatar:'',aSrc:'',orig:{status:ok?c.status:'',statusAt:ok?c.statusAt:0}};
  const gt=goalTotal();
  app.innerHTML=`<div class="acct"><div id="cepv"></div>
  <div class="card"><h2>Banner</h2><p class="m sm" style="margin:0">Pick a color style or upload your own image or GIF. The crop frame is exactly what shows on your profile.</p>
@@ -2865,6 +2896,8 @@ async function showCardEdit(){
  <div class="card"><h2>Profile theme</h2><p class="m sm" style="margin:0">A few pieces fall once when someone opens your profile.</p>
   <div class="cegrid" style="margin-top:10px">${FXT.map(f=>`<button class="cechip" data-a="cefx" data-f="${f.id}">${f.label}</button>`).join('')}</div>
   <label class="ntopt" style="margin-top:12px"><input type="checkbox" id="fxhome"${ls('satfxhome')==='1'?' checked':''}> Also play it on my home screen when I open the website</label></div>
+ <div class="card"><h2>Background theme</h2><p class="m sm" style="margin:0">Show your site background theme (<b>${esc((window.LOOK_BGS||{})[(window.bgEnc&&window.bgEnc()||'|').split('|')[0]]||'none picked yet')}</b>) behind your profile. If Pixelated is on, your profile is pixelated too.</p>
+  <label class="ntopt" style="margin-top:12px"><input type="checkbox" id="cebgt"${CE.c.bgt?' checked':''}> Use my background theme on my profile</label></div>
  <div class="card"><h2>Status</h2><p class="m sm" style="margin:0" id="cestl"></p>
   <input type="text" id="cest" maxlength="60" placeholder="What are you up to right now?" value="${esc(CE.c.status)}" style="text-align:left;margin-top:10px">
   <div class="cegrid" style="margin-top:10px">${ST_SUG.map(t=>`<button class="cechip" data-a="cesug" data-t="${esc(t)}">${esc(t)}</button>`).join('')}<button class="cechip" data-a="cestclr">Clear</button></div></div>
@@ -2885,14 +2918,15 @@ async function saveCardEdit(){
   const card={bio:CE.c.bio.trim().slice(0,160),accent:CE.c.accent,since,badges:CE.c.badges.join(',')};
   if(status){card.status=status;card.statusAt=CE.c.statusAt||Date.now()}
   if(CE.c.grad!=null)card.grad=CE.c.grad;if(ringOf(CE.c.ring))card.ring=CE.c.ring;if(CE.c.fx&&FXT_IDS.includes(CE.c.fx))card.fx=CE.c.fx;if(g)card.goal=g;
+  if(CE.c.bgt){const bv=window.bgEnc?window.bgEnc():'';if(bv)card.bgt=bv.slice(0,40)}
   if(CE.banner){const th=await bannerThumb(CE.banner);if(th)card.bth=th}
   let fontWarn=false;
   try{await Db.set(dbr('profiles/'+uid+'/card'),card)}
-  catch(e0){if(card.fx&&/permission/i.test(String((e0&&(e0.code||e0.message))||''))){delete card.fx;await Db.set(dbr('profiles/'+uid+'/card'),card);fontWarn=true}else throw e0}
+  catch(e0){if((card.fx||card.bgt)&&/permission/i.test(String((e0&&(e0.code||e0.message))||''))){delete card.fx;delete card.bgt;await Db.set(dbr('profiles/'+uid+'/card'),card);fontWarn=true}else throw e0}
   if(CE.banner&&CE.banner!==FB.banner){if(CE.banner.length>2800000)throw new Error('That banner image is too large. Try a different one.');await Db.set(dbr('banners/'+uid),CE.banner)}
   else if(!CE.banner&&FB.banner)await Db.remove(dbr('banners/'+uid));
   if(CE.avatar){if(CE.avatar.length>1400000)throw new Error('That profile picture is too large. Try a smaller one.');await Db.set(dbr('profiles/'+uid+'/avatar'),CE.avatar);FB.avatar=CE.avatar;fbUI()}
-  FB.card=card;FB.banner=CE.banner;FB.cardLoaded=uid;CDC[uid]=card;AVC[uid]=FB.avatar||AVC[uid]||'';ls('satfxtype',card.fx||'');pfpUpdate();socialTick(true);showAccount(fontWarn?'Profile saved, but your theme was not saved: allow an "fx" field in the profile card rules in Firebase, then save again.':'Profile saved.')}
+  FB.card=card;FB.banner=CE.banner;FB.cardLoaded=uid;CDC[uid]=card;AVC[uid]=FB.avatar||AVC[uid]||'';ls('satfxtype',card.fx||'');pfpUpdate();socialTick(true);showAccount(fontWarn?'Profile saved, but your theme or background was not saved: allow "fx" and "bgt" fields in the profile card rules in Firebase, then save again.':'Profile saved.')}
  catch(e){ceSay((e&&e.message&&!e.code?e.message:dbErr(e))+' If this says permission denied, the Firebase rules (banners / profiles) need the latest update.')}}
 document.addEventListener('input',e=>{const t=e.target;if(!CE||!t)return;
  if(t.id==='cebio'){CE.c.bio=t.value;ceMark();cePrev()}
@@ -3192,8 +3226,9 @@ function tintCol(c){if(!TSH||typeof c!=='string')return c;const k=TSH+'|'+c,hit=
  if(TC.size>4000)TC.clear();TC.set(k,out);return out}
 ['fillStyle','strokeStyle','shadowColor'].forEach(k=>{const d=Object.getOwnPropertyDescriptor(CanvasRenderingContext2D.prototype,k);
  Object.defineProperty(g,k,{configurable:true,get(){return d.get.call(g)},set(v){d.set.call(g,tintCol(v))}})});
+{const d=Object.getOwnPropertyDescriptor(CanvasRenderingContext2D.prototype,'lineWidth');Object.defineProperty(g,'lineWidth',{configurable:true,get(){return d.get.call(g)},set(v){d.set.call(g,PXM&&v<PXB*1.4?PXB*1.4:v)}})}
 ['createLinearGradient','createRadialGradient'].forEach(m=>{const o=g[m].bind(g);g[m]=function(){const gr=o.apply(null,arguments),a=gr.addColorStop.bind(gr);gr.addColorStop=(p,c)=>a(p,tintCol(c));return gr}});
-let W=0,H=0,col={ac:'#324fbe',mut:'#5f6368',bd:'#cfd3dc'},scene=null,raf=0,tt=4,last=0,lastDraw=0,cur={};
+let PXM=false,PXB=4,W=0,H=0,col={ac:'#324fbe',mut:'#5f6368',bd:'#cfd3dc'},scene=null,raf=0,tt=4,last=0,lastDraw=0,cur={};
 function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 function accent(){const k=lookCfg().acc,p=PAL[k];if(k==='blue'){['--ac','--ban'].forEach(v=>R.style.removeProperty(v))}else{R.style.setProperty('--ac',dark()?p[1]:p[0]);R.style.setProperty('--ban',p[2])}}
 function colors(){const s=getComputedStyle(R),v=n=>s.getPropertyValue(n).trim();col.ac=v('--ac')||col.ac;col.mut=v('--mut')||col.mut;col.bd=v('--bd')||col.bd}
@@ -3274,7 +3309,7 @@ const SH={petal(s){g.moveTo(0,-s/2);g.quadraticCurveTo(s*.6,-s*.1,0,s/2);g.quadr
 function FALL(c){return{build(){const r=rng(c.z||3),n=Math.max(12,Math.round(W*H/c.d));this.p=Array.from({length:n},(_,i)=>({x:r()*W,y:r()*H,s:c.sz[0]+r()*(c.sz[1]-c.sz[0]),v:c.v[0]+r()*(c.v[1]-c.v[0]),ph:r()*7,f:.4+r()*.9,k:c.k[i%c.k.length],ci:Math.floor(r()*9),w:r()*2-1,a:.4+r()*.4,i}))},
  draw(t){const D=dark(),cs=D?c.c:(c.l||c.c),m=H+80,mw=W+80;c.w&&wash(c.w[0],c.w[1]*(D?1.25:1));c.x&&c.x(t,D);
   this.p.forEach(p=>{const y=((p.y+(c.up?-1:1)*t*p.v)%m+m)%m-40,x=((p.x+(c.dx||0)*t+Math.sin(t*p.f+p.ph)*(c.sw||0))%mw+mw)%mw-40,cl=cs[p.ci%cs.length];
-   g.save();g.translate(x,y);if(c.rot)g.rotate(p.ph+t*p.w*c.rot);if(c.fl)g.scale(Math.cos(t*p.f*1.5+p.ph),1);
+   g.save();g.translate(PXM?Math.round(x/PXB)*PXB:x,PXM?Math.round(y/PXB)*PXB:y);if(c.rot)g.rotate(p.ph+t*p.w*c.rot);if(c.fl)g.scale(Math.cos(t*p.f*1.5+p.ph),1);
    const a=Math.min(1,p.a*(c.tw?.4+.6*Math.abs(Math.sin(t*p.f*1.6+p.ph)):1));g.fillStyle=g.strokeStyle=cl;g.lineWidth=1.4;g.lineCap='round';
    if(p.k==='T'){g.font=`italic ${p.s*1.15}px ${c.ff||'Georgia,serif'}`;g.globalAlpha=a*.8;g.fillText(c.t[p.i%c.t.length],0,0)}
    else{g.beginPath();SH[p.k](p.s);if(p.k!=='snow'){g.globalAlpha=a*(p.k==='bub'?.2:.7);g.fill()}g.globalAlpha=a;g.stroke()}
@@ -3313,17 +3348,28 @@ const ringBg=()=>{let id='';try{id=(typeof FB!=='undefined'&&FB.card&&FB.card.ri
 NEWSC.bloomtree=NEWSC.sakura;
 const SC=Object.assign({graph:GRAPH,math:MATH,circuit:CIRC,gears:GEARS},NEWSC);
 
-function size(){const px=ls('satpix')==='1',d=px?.25:Math.min(devicePixelRatio||1,2);cv.classList.toggle('pix',px);W=innerWidth;H=innerHeight;cv.width=Math.max(1,Math.round(W*d));cv.height=Math.max(1,Math.round(H*d));g.setTransform(d,0,0,d,0,0);if(scene)scene.build()}
-function paint(){g.clearRect(0,0,W,H);if(!scene)return;g.save();scene.draw(tt);g.restore();g.globalAlpha=1}
+/* ---- pixel mode: scene is drawn on a tiny fixed-size grid, then every pixel is snapped to a small palette
+   with ordered (Bayer) dithering for transparency, and sprites move in whole-pixel steps: real pixel art, not a blurred downscale ---- */
+const BAY=[0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5],PQ=new Uint8Array(256);for(let i=0;i<256;i++)PQ[i]=Math.round(Math.round(i/255*5)/5*255);
+function size(){const px=ls('satpix')==='1';PXM=px;W=innerWidth;H=innerHeight;cv.classList.toggle('pix',px);
+ if(px){PXB=Math.max(2,Math.min(3,Math.round(Math.min(W,H)/260)));const cw=Math.ceil(W/PXB),ch=Math.ceil(H/PXB);cv.width=cw;cv.height=ch;cv.style.width=cw*PXB+'px';cv.style.height=ch*PXB+'px';g.setTransform(1/PXB,0,0,1/PXB,0,0);g.imageSmoothingEnabled=false}
+ else{const d=Math.min(devicePixelRatio||1,2);cv.style.width=W+'px';cv.style.height=H+'px';cv.width=Math.max(1,Math.round(W*d));cv.height=Math.max(1,Math.round(H*d));g.setTransform(d,0,0,d,0,0)}
+ if(scene)scene.build()}
+function pixelize(){const w=cv.width,h=cv.height,im=g.getImageData(0,0,w,h),d=im.data;
+ for(let y=0,i=0;y<h;y++){const row=(y&3)<<2;for(let x=0;x<w;x++,i+=4){const a=d[i+3];if(!a)continue;
+  const q=Math.floor(a/255*3+(BAY[row|(x&3)]+.5)/16);if(q<=0){d[i+3]=0;continue}
+  d[i+3]=q>=3?255:q*85;d[i]=PQ[d[i]];d[i+1]=PQ[d[i+1]];d[i+2]=PQ[d[i+2]]}}
+ g.putImageData(im,0,0)}
+function paint(){g.clearRect(0,0,W,H);if(!scene)return;g.save();scene.draw(tt);g.restore();g.globalAlpha=1;if(PXM)pixelize()}
 function loop(now){raf=requestAnimationFrame(loop);if(document.hidden||document.body.dataset.q==='1'){last=now;return}
- if(now-lastDraw<32)return;tt+=Math.min(.1,(now-last)/1000);last=now;lastDraw=now;paint()}
+ if(now-lastDraw<29)return;tt+=Math.min(.1,(now-last)/1000);last=now;lastDraw=now;paint()}
 function apply(rebuild){cancelAnimationFrame(raf);raf=0;cur=lookCfg();if(cv.classList.contains('pix')!==cur.pix){size()}accent();colors();const rk=cur.bg==='ring'?ringBg():cur.bg;cur.rid=rk;const ns=SC[rk]||null;
  if(ns!==scene||rebuild){scene=ns;if(scene)scene.build()}
  cv.style.display=scene?'':'none';cv.style.opacity=cur.op/100;cv.style.filter='';TSH=(!ORIG.has(rk)&&cur.tint!=null)?(((cur.tint-(BASEH[rk]!=null?BASEH[rk]:210))%360)+360)%360:0;paint();
  if(scene&&cur.live){last=lastDraw=performance.now();raf=requestAnimationFrame(loop)}}
 window.applyLook=()=>apply(false);
 setInterval(()=>{try{if(typeof FB!=='undefined'&&FB.card&&FB.card.ring!=null)localStorage.setItem('satringc',FB.card.ring||'');if(lookCfg().bg==='ring'&&ringBg()!==cur.rid)apply(false)}catch(_){}},3000);
-let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{size();paint()},120)});
+let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{/* phone address bar sliding = height-only change: keep the scene as is instead of rebuilding it */if(innerWidth===W&&innerHeight<=H)return;size();paint()},120)});
 matchMedia('(prefers-color-scheme:dark)').addEventListener&&matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>apply(false));
 const _th=window.theme;if(typeof _th==='function')window.theme=function(){const r=_th.apply(this,arguments);apply(false);return r};
 
@@ -3345,17 +3391,22 @@ function bgPrevHTML(){let h='';try{const has=S.qs.length,g2=prog(0),nm=nameOf(),
   '<div class="stat"><div><b>'+cn+'</b><span>questions</span></div><div><b>'+pc+'%</b><span>completed</span></div></div>'+(tg?'<div class="tgbox">'+tg+'</div>':'')+
   '<div class="btns"><button class="p pill big">'+(has?'Start practicing':'Upload question bank')+'</button>'+(has?'<button class="pill big">Full practice test</button>':'')+vcBtn()+'</div></div>'}catch(e){h=''}
  return h.replace(/ data-(a|vc|hint|bgdd)="[^"]*"/g,'').replace(/ id="[^"]*"/g,'')}
-function bgPrevFit(){const v=document.getElementById('bgprev'),t=v&&v.firstElementChild;if(!t)return;t.style.transform='';const s=Math.min(1,(v.clientHeight-24)/t.offsetHeight,(v.clientWidth-16)/t.offsetWidth);if(s<1)t.style.transform='scale('+Math.max(.4,s)+')'}
+function bgPrevFit(){const v=document.getElementById('bgprev'),t=v&&v.firstElementChild;if(!t)return;const sh=document.getElementById('bgpanel');v.style.bottom=(sh&&innerWidth<=700)?sh.offsetHeight+'px':'';t.style.transform='';const s=Math.min(1,(v.clientHeight-24)/t.offsetHeight,(v.clientWidth-16)/t.offsetWidth);if(s<1)t.style.transform='scale('+Math.max(.4,s)+')'}
 addEventListener('resize',bgPrevFit);
 function bgOpen(){if(document.getElementById('bgpanel'))return;const L=lookCfg(),p=document.createElement('div');p.id='bgpanel';
  const open=window.LOOK_BGG.find(([n,ks])=>ks.includes(L.bg))||window.LOOK_BGG[0];
- p.innerHTML='<h2>Background theme</h2>'+window.LOOK_BGG.map(([n,ks])=>'<details class="cat"'+(n===open[0]?' open':'')+'><summary>'+n+'</summary>'+ks.map(k=>'<button type="button" class="opt'+(L.bg===k?' on':'')+'" data-bgp="'+k+'">'+BGS[k]+'</button>').join('')+'</details>').join('')+
- '<label class="pxr"><span><b>Pixelated</b></span><input type="checkbox" class="swt" id="bgpx" '+(L.pix?'checked':'')+'></label>'+
- '<div class="gl">Opacity</div><span class="rng"><input type="range" id="stbgo" min="5" max="100" step="5" value="'+L.op+'" aria-label="Background opacity"><output id="stbgov">'+L.op+'%</output></span>'+
- '<div id="tintbox"><div class="gl">Colour</div><input type="range" id="stbgh" class="hue" min="0" max="359" step="1" value="'+(L.tint!=null?L.tint:(BASEH[cur.rid||L.bg]!=null?BASEH[cur.rid||L.bg]:210))+'" aria-label="Background colour"><div class="m sm" style="margin-top:4px">Recolours the whole theme to the colour you pick. Not used on the originals.</div><button type="button" class="opt" id="tintreset" style="margin-top:8px">Original colours</button></div>'+
- '<button type="button" class="p done" id="bgdone">Done</button>';
+ const G=window.LOOK_BGG,tv=L.tint!=null?L.tint:(BASEH[cur.rid||L.bg]!=null?BASEH[cur.rid||L.bg]:210);
+ p.innerHTML='<div class="bgh"><h2>Background theme</h2><button type="button" class="p pill done" id="bgdone">Done</button></div>'+
+ '<div class="bgtabs" role="tablist">'+G.map(([n])=>'<button type="button" role="tab" data-bgt="'+n+'" class="'+(n===open[0]?'on':'')+'">'+n+'</button>').join('')+'</div>'+
+ G.map(([n,ks])=>'<div class="bgopts" data-bgg="'+n+'"'+(n===open[0]?'':' hidden')+'>'+ks.map(k=>'<button type="button" class="opt'+(L.bg===k?' on':'')+'" data-bgp="'+k+'">'+BGS[k]+'</button>').join('')+'</div>').join('')+
+ '<div class="bgctl">'+
+ '<label class="pxr"><span><b>Pixelated</b><small>Chunky retro pixel art</small></span><input type="checkbox" class="swt" id="bgpx" '+(L.pix?'checked':'')+'></label>'+
+ '<div class="bgrow"><span class="gl">Opacity</span><span class="rng"><input type="range" id="stbgo" min="5" max="100" step="5" value="'+L.op+'" aria-label="Background opacity"><output id="stbgov">'+L.op+'%</output></span></div>'+
+ '<div id="tintbox"><div class="bgrow"><span class="gl">Colour</span><button type="button" class="opt sm" id="tintreset">Original colours</button></div><input type="range" id="stbgh" class="hue" min="0" max="359" step="1" value="'+tv+'" aria-label="Background colour"></div>'+
+ '</div>';
  document.body.append(p);const pv=document.createElement('div');pv.id='bgprev';pv.setAttribute('aria-hidden','true');pv.setAttribute('inert','');pv.innerHTML=bgPrevHTML();document.body.append(pv);document.body.classList.add('bgpick');tintVis();window.scrollTo(0,0);setTimeout(bgPrevFit,0);setTimeout(bgPrevFit,350)}
 document.addEventListener('click',e=>{const t=e.target;
+ const tb=t.closest('[data-bgt]');if(tb){document.querySelectorAll('#bgpanel [data-bgt]').forEach(x=>x.classList.toggle('on',x===tb));document.querySelectorAll('#bgpanel .bgopts').forEach(x=>{x.hidden=x.dataset.bgg!==tb.dataset.bgt});setTimeout(bgPrevFit,0);return}
  if(t.closest('[data-bgdd]')){e.preventDefault();bgOpen();return}
  const o=t.closest('[data-bgp]');if(o){ls('satbg',o.dataset.bgp);document.querySelectorAll('#bgpanel .opt').forEach(x=>x.classList.toggle('on',x===o));apply(false);tintVis();tintSync();return}
  if(t.closest('#tintreset')){ls('satbgt',null);apply(false);tintSync();return}
@@ -3397,6 +3448,20 @@ new MutationObserver(()=>{const a=document.getElementById('stlayE'),b=document.g
 document.addEventListener('change',e=>{if(e.target.id==='stedit'){ls('satedit',e.target.checked?'1':'0');layApply()}});
 document.addEventListener('change',e=>{if(e.target.id==='stlive'){ls('satlive',e.target.checked?'1':'0');apply(false)}});
 try{['satbg','satlive','sataccent','satbgo','satpix','satbgh'].forEach(k=>{if(typeof SYNC!=='undefined'&&!SYNC.includes(k))SYNC.push(k);if(typeof SCAL!=='undefined'&&!SCAL.includes(k))SCAL.push(k)})}catch(_){}
+/* ---- profile backgrounds: encode the current look ("theme|tint|pixel") and draw a cached snapshot of any theme for a profile card ---- */
+const SNAP=new Map();
+window.bgEnc=function(){const L=lookCfg(),k=L.bg==='ring'?ringBg():L.bg;if(!k||k==='off'||!SC[k])return'';return k+'|'+(L.tint!=null?L.tint:'')+'|'+(L.pix?1:0)};
+window.bgSnap=function(enc,w,h){const[a,b,c]=String(enc||'').split('|');if(!a||a==='off'||a==='ring'||!ALLOWED.has(a)||!SC[a])return'';
+ const pix=c==='1',tn=(b===''||b==null)?null:+b,ck=a+'|'+b+'|'+c+'|'+dark()+'|'+w+'x'+h;if(SNAP.has(ck))return SNAP.get(ck);
+ const sv={scene,TSH};let url='';
+ try{PXM=pix;W=w;H=h;PXB=3;
+  if(pix){cv.width=Math.ceil(w/3);cv.height=Math.ceil(h/3);g.setTransform(1/3,0,0,1/3,0,0)}else{cv.width=w;cv.height=h;g.setTransform(1,0,0,1,0,0)}
+  TSH=(!ORIG.has(a)&&tn!=null&&tn>=0&&tn<360)?(((tn-(BASEH[a]!=null?BASEH[a]:210))%360)+360)%360:0;
+  g.clearRect(0,0,w,h);const n=SC[a];n.build();g.save();n.draw(7);g.restore();g.globalAlpha=1;
+  if(pix)pixelize();
+  TSH=0;g.setTransform(1,0,0,1,0,0);g.globalCompositeOperation='destination-over';g.fillStyle=getComputedStyle(R).getPropertyValue('--card').trim()||'#ffffff';g.fillRect(0,0,cv.width,cv.height);g.globalCompositeOperation='source-over';
+  url=cv.toDataURL(pix?'image/png':'image/jpeg',.82)}catch(e){url=''}
+ scene=sv.scene;TSH=sv.TSH;size();paint();if(SNAP.size>24)SNAP.delete(SNAP.keys().next().value);SNAP.set(ck,url);return url};
 size();apply(true);
 })();
 
